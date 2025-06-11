@@ -7,10 +7,11 @@ namespace WebCongViec_v2.Controllers.Admin
 {
     public class NhanSuController : Controller
     {
-
+        private readonly IWebHostEnvironment _env;
         protected NhanSuService nhanSuService;
-        public NhanSuController()
+        public NhanSuController(IWebHostEnvironment env)
         {
+            _env = env;
             this.nhanSuService = new NhanSuService();
         }
 
@@ -81,6 +82,23 @@ namespace WebCongViec_v2.Controllers.Admin
                        return RedirectToAction("NhanSu", "NhanSu", new { message = "Cập nhật không thành công", messageType = "warning" });
 
             return View();
+        }
+
+        public IActionResult DownloadExcel()
+        {
+            string filePath = Path.Combine(_env.WebRootPath, "files", "upload_ns.xlsx");
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound("File không tồn tại.");
+            }
+
+            byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+            string fileName = "upload_ns.xlsx";
+
+            return File(fileBytes,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        fileName);
         }
     }
 }

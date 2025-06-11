@@ -3,7 +3,10 @@
 }
 <div class="py-2 px-3 position-relative" style="background: white; height: 100%; overflow: auto; ">
     <div style="position: absolute; top: 15%; left: 50%; transform: translate(-50%)">
-        <p class="h4 text-center py-2 fw-bold">Thêm DS Nhân Sự</p>
+        <p class="h4 text-center py-2 fw-bold">THÊM DANH SÁCH NHÂN SỰ</p>
+        <div class="text-center">
+            <a class="btn btn-warning mb-2 btn-sm" href="@Url.Action("DownloadExcel", "NhanSu")">Tải mẫu xuống 📥</a>
+        </div>
         <form method="post" enctype="multipart/form-data">
             <div class="input-group mb-3">
                 <input name="file" type="file" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">

@@ -3,9 +3,100 @@
 }
 <div class="position-relative" style="background: white; height: 100%; overflow: auto; ">
     <div class="container-fluid py-2">
-        <p class="text-center h4 fw-bold pt-3"> TRA CỨU THÔNG TIN </p>
+        <p class="text-center h4 fw-bold pt-3"> TRA CỨU NĂNG SUẤT </p>
         <div>
+            <form method="post" class="row g-3 flex-wrap" style="max-width: 1200px; margin: 30px auto; background: #fff; padding-left: 24px; padding-right: 24px; padding-bottom: 24px; border-radius: 12px; box-shadow: 0 2px 8px #0001;">
+                <div class="col-12 col-md-2">
+                    <label for="startDate" class="form-label">Ngày bắt đầu</label>
+                    <input value="@ViewBag.startDate" type="date" class="form-control" id="startDate" name="startDate" lang="vi" required>
+                </div>
+                <div class="col-12 col-md-2">
+                    <label for="endDate" class="form-label">Ngày kết thúc</label>
+                    <input value="@ViewBag.endDate" type="date" class="form-control" id="endDate" name="endDate" lang="vi" required>
+                </div>
+                <div class="col-12 col-md-3">
+                    <label for="job" class="form-label">Công việc</label>
+                    <select class="form-select" id="job" name="jobId" required>
+                        <option value="">-- Chọn công việc --</option>
+                        <option selected="@ViewBag.JobId.ToString().Equals("33")" value="33">Scan A31</option>
+                        <option selected="@ViewBag.JobId.ToString().Equals("31")" value="31">Check scan</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-3">
+                    <label for="type" class="form-label">Loại</label>
+                    <select class="form-select" id="type" name="typeId" required>
+                        <option value="">-- Chọn loại --</option>
+                        <option selected="@ViewBag.TypeId.Equals("NS")" value="NS">NS</option>
+                        <option selected="@ViewBag.TypeId.Equals("CC")" value="CC">CC</option>
+                        <option selected="@ViewBag.TypeId.Equals("ALL")" value="ALL">ALL</option>
 
+                    </select>
+                </div>
+                <div class="col-12 col-md-2">
+                    <label for="type" class="form-label">&nbsp;</label>
+                    <button name="action" value="TraCuu" type="submit" class="form-control btn btn-primary">Tra cứu</button>
+                </div>
+            </form>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col" rowspan="2"><p style="width: 200px">Họ tên</p></th>
+                        @foreach (var item in ViewBag.DataTraCuu.Values)
+                        {
+                            foreach (var i in item.data.Keys)
+                            {
+                                <th scope="col">@i</th>
+                            }
+                            break;
+                        }
+                    </tr>
+                    <tr>
+                        @foreach (var item in ViewBag.DataTraCuu.Values)
+                        {
+                            foreach (var i in item.data.Keys)
+                            {
+                                <th scope="col"><span class="toDay">@i</span></th>
+                            }
+                            break;
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.DataTraCuu.Values)
+                    {
+                        <tr>
+                            <td>@item.name</td>
+                            @foreach (var i in item.data.Values)
+                            {
+                                <td scope="col">
+                                    @(i == 0 ? "-" : i.ToString())
+                                </td>
+                            }
+                        </tr>
+                    }   
+                </tbody>
+            </table>
+            <script>
+                    const spanElements = document.querySelectorAll('span.toDay');
+
+                    spanElements.forEach(span => {
+                        const dateParts = span.textContent.trim().split('/');
+                        if (dateParts.length === 3) {
+                            const [day, month, year] = dateParts.map(Number);
+                            const date = new Date(year, month - 1, day); // Lưu ý: tháng bắt đầu từ 0
+
+                            const daysOfWeek = [
+                                "CN", "T2", "T3",
+                                "T4", "T5", "T6", "T7"
+                            ];
+
+                            const dayOfWeek = daysOfWeek[date.getDay()];
+                            span.textContent = dayOfWeek;
+                        }
+                    });
+
+            </script>
         </div>
     </div>
 </div>

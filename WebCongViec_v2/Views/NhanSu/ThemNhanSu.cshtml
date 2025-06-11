@@ -9,13 +9,13 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">ID</span>
                 </div>
-                <input name="IdNhanSu" type="number" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                <input required name="IdNhanSu" type="number" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Họ tên</span>
                 </div>
-                <input name="HoTenNhanSu" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                <input required name="HoTenNhanSu" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
 
 
@@ -38,25 +38,25 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Mức lương cơ bản 8h</span>
                 </div>
-                <input name="MucLuongCoBan8h" type="number" value="208333" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                <input name="MucLuongCoBan8h" type="text" value="208333,3" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Mức lương dự án 8h</span>
                 </div>
-                <input name="MucLuongDuAn8h" type="number" value="83333" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                <input name="MucLuongDuAn8h" type="text" value="83333,3" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Hệ số OT thường</span>
                 </div>
-                <input name="HeSoOtThuong" type="number" step="0.01" value="1.2" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                <input name="HeSoOtThuong" type="text" value="1,2" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Hệ số CN</span>
                 </div>
-                <input name="HeSoCn" type="number" step="0.01" value="1.4" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                <input name="HeSoCn" type="text" value="1,4" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="text-center">
                 <button name="action" value="create" class="btn btn-outline-success">Xong</button>
