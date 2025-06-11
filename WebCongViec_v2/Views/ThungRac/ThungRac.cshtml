@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Admin - Thùng rác";
+}
+<div class="position-relative" style="background: white; height: 100%; overflow: auto; ">
+    <div class="container-fluid py-2">
+        <p class="text-center h4 fw-bold pt-3"> CÔNG ĐÃ XOÁ </p>
+        <div>
+            <table class="table table-striped table-bordered" style="width:100%" id="DataTableJS">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Ngày thi công</th>
+                        <th>Nhân sự</th>
+                        <th>Công việc</th>
+                        <th>Loại công việc</th>
+                        <th>Nội dung công việc</th>
+                        <th>Thời gian</th>
+                        <th>Khối lượng</th>
+                        <th>Hành Động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.DSCong)
+                    {
+                        <tr style="vertical-align: middle">
+                            <td>@item.IdChamCong</td>
+                            <td>@item.NgayThiCong</td>
+                            <td>@item.IdNhanSuNavigation?.HoTenNhanSu</td>
+                            <td>@item.IdCongViecNavigation?.ValueCongViec</td>
+                            <td>@item.IdLoaiCongViecNavigation?.ValueLoaiCongViec</td>
+                            <td>@item.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td>
+                            <td>@item.ThoiGian</td>
+                            <td>@item.KhoiLuong</td>
+                            <td>
+                                <div>
+                                    <form method="post">
+                                        <div style="width: 0px; height: 0px; opacity: 0%; overflow: hidden">
+                                            <input name="NgayThiCong" type="date" value="@(item.NgayThiCong.Year.ToString() + "-" +item.NgayThiCong.Month.ToString() + "-" +item.NgayThiCong.Day.ToString())" />
+                                            <input type="number" name="IdNhanSu" value="@item.IdNhanSu" />
+                                        </div>
+                                        <button class="text-primary my-2" name="action" value="KhoiPhuc">
+                                            Không phục ngày @item.NgayThiCong của @item.IdNhanSuNavigation?.HoTenNhanSu
+                                        </button>
+                                    </form>
+                                    <form method="post">
+                                        <div style="width: 0px; height: 0px; opacity: 0%; overflow: hidden">
+                                            <input name="NgayThiCong" type="date" value="@(item.NgayThiCong.Year.ToString() + "-" +item.NgayThiCong.Month.ToString() + "-" +item.NgayThiCong.Day.ToString())" />
+                                            <input type="number" name="IdNhanSu" value="@item.IdNhanSu" />
+                                        </div>
+                                        <button class="text-danger my-2" name="action" value="XoaVinhVien">
+                                            Xóa vĩnh viễn @item.NgayThiCong của @item.IdNhanSuNavigation?.HoTenNhanSu
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

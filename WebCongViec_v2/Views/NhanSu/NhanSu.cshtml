@@ -1,0 +1,189 @@
+﻿@{
+    ViewData["Title"] = "Admin - Nhân sự";
+}
+<style>
+    .thongtinnhansu span{
+        font-weight: bold;
+    }
+</style>
+<div class="py-2 px-3 position-relative" style="background: white; height: 100%; overflow: auto; ">
+    <div>
+        <script>
+            function displayTableInfo(data) {
+                const spans = document.querySelectorAll(`#${data} .thongtinnhansu span`);
+
+                let table = '<table border="0"><tr>';
+
+                spans.forEach(span => {
+                    table += `<td style="border: 1px solid black">${"&nbsp;"+span.innerText}</td>`;
+                });
+
+                // Kết thúc dòng và bảng
+                table += '</tr></table>';
+
+                document.querySelector(`#${data}`).innerHTML = table;
+            }
+        </script>
+        <script>
+            const Toast2 = Swal.mixin({
+                Toast2: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (Toast2) => {
+                    Toast2.onmouseenter = Swal.stopTimer;
+                    Toast2.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            function copyTableInfo(id, message) {
+                var tableInfo = document.querySelector(id);
+
+                var tempTextarea = document.createElement("textarea");
+                tempTextarea.style.position = "fixed";  
+                tempTextarea.style.opacity = "0";       
+                tempTextarea.value = tableInfo.outerHTML;
+
+                document.body.appendChild(tempTextarea);
+                tempTextarea.select();                  
+
+                try {
+                    document.execCommand("copy");
+                    Toast.fire({
+                        icon: 'success',
+                        title: message
+                    });
+                } catch (err) {
+                    Toast.fire({
+                        icon: 'warning',
+                        title: 'Không thành công'
+                    });
+                }
+
+                document.body.removeChild(tempTextarea);
+            }
+        </script>
+        <table class="table table-striped table-bordered" id="table-in4-nhansu">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid black">ID </th>
+                    <th style="border: 1px solid black">Họ Tên</th>
+                    <th style="border: 1px solid black">
+                        <div>Thông tin cá nhân</div>
+                        <table border="1" class="tablein4" style="background-color: orangered">
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid black">Số điện thoại</td>
+                                    <td style="border: 1px solid black">Email</td>
+                                    <td style="border: 1px solid black">Ngày sinh</td>
+                                    <td style="border: 1px solid black">Mã số thuế theo CCCD</td>
+                                    <td style="border: 1px solid black">CCCD</td>
+                                    <td style="border: 1px solid black">Ngày cấp</td>
+                                    <td style="border: 1px solid black">Nơi cấp</td>
+                                    <td style="border: 1px solid black">Địa chỉ HKTT</td>
+                                    <td style="border: 1px solid black">Nơi ở hiện tại</td>
+                                    <td style="border: 1px solid black">Part sáng</td>
+                                    <td style="border: 1px solid black">Ngày làm việc đầu tiên</td>
+                                    <td style="border: 1px solid black">Các dự án đã tham gia tại TDS</td>
+                                    <td style="border: 1px solid black">Số tài khoản ngân hàng</td>
+                                    <td style="border: 1px solid black">Ngân hàng</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var nhanSu in ViewBag.DSNhanSu)
+                {
+                    <tr>
+                        <td style="border: 1px solid black">@nhanSu.IdNhanSu</td>
+                        <td style="border: 1px solid black">@nhanSu.HoTenNhanSu</td>
+                        <td>
+                            <div id="tr_@Html.Raw(nhanSu.IdNhanSu)">
+                                @Html.Raw(nhanSu.ThongTinCaNhan)
+                            </div>
+                            <script>
+                                displayTableInfo('tr_@Html.Raw(nhanSu.IdNhanSu)')
+                            </script>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            <button class="btn btn-outline-primary" onclick="copyTableInfo('#table-in4-nhansu', 'Đã coppy')">Coppy</button>
+            @if (!ViewBag.HideInfo.Equals("false"))
+            {
+                <a class="btn btn-outline-primary" href="?hideinfo=false">Hiện thông tin cá nhân</a>
+            }
+            @if (ViewBag.HideInfo.Equals("false"))
+            {
+                <a class="btn btn-outline-primary" href="?hideinfo=true">Ẩn thông tin cá nhân</a>
+            }
+        </div>
+        <table class="table table-striped table-bordered table-show-list" style="width:100%" id="DataTableJS">
+            <thead>
+                <tr>
+                    <th>ID </th>
+                    <th>Họ Tên</th>
+                    <th>FSI/Thời vụ</th>
+                    <th>ML cơ bản 8h</th>
+                    <th>ML dự án 8h</th>
+                    <th>HS OT thường</th>
+                    <th>HS CN</th>
+                    @if (ViewBag.HideInfo.Equals("false"))
+                    {
+                        <th>Thông tin cá nhân</th>
+                    }
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var nhanSu in ViewBag.DSNhanSu)
+                {
+                    <tr>
+                        <td>@nhanSu.IdNhanSu</td>
+                        <td>@nhanSu.HoTenNhanSu <span class="fw-bold">@(ViewBag.Roles[nhanSu.Role].ToString().Equals("") ? "" : " - " + ViewBag.Roles[nhanSu.Role].ToString())</span></td>
+                        <td>@nhanSu.FsiThoiVu</td>
+                        <td>@nhanSu.MucLuongCoBan8h</td>
+                        <td>@nhanSu.MucLuongDuAn8h</td>
+                        <td>@nhanSu.HeSoOtThuong</td>
+                        <td>@nhanSu.HeSoCn</td>
+                        @if (ViewBag.HideInfo.Equals("false"))
+                        {
+                            <td>
+                                <div id="tr_@Html.Raw(nhanSu.IdNhanSu)">
+                                    @Html.Raw(nhanSu.ThongTinCaNhan)
+                                </div>
+                            </td>
+                         }
+                        <td>
+                            <a href="/SuaNhanSu?id=@nhanSu.IdNhanSu">Sửa 📝</a> <text>&nbsp; | &nbsp;</text>
+                            @if (@nhanSu.Role == 3)
+                            {
+                                <a href="?setrole=1&id=@nhanSu.IdNhanSu">Đặt LEADER⭐</a> <text>&nbsp; | &nbsp;</text>
+                                <a href="?setrole=2&id=@nhanSu.IdNhanSu">Đặt SUPPORT🔰</a> <text>&nbsp; | &nbsp;</text>
+                                <a href="?setrole=4&id=@nhanSu.IdNhanSu">KHÓA🚫</a> <text>&nbsp; | &nbsp;</text>
+                            }
+                            else
+                            {
+                                <a href="?setrole=3&id=@nhanSu.IdNhanSu">Bỏ đặt 🚫 &nbsp;</a>
+                            }
+                           @*  @if (@nhanSu.Status == 0)
+                            {
+                                <p class="mt-2 text-danger fw-bold"> Cần cập nhật thông tin cá nhân (<a class="text-primary">Không cần</a>)</p>
+
+                            }
+                            else if (@nhanSu.Status == 1)
+                            {
+                                <p class="mt-2 text-success fw-bold"> Không cần nhật thông tin cá nhân (<a class="text-primary">Cần</a>)</p>
+
+                            } *@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>    
+    </div>
+</div>

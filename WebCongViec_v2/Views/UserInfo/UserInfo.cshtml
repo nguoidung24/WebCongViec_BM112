@@ -1,0 +1,122 @@
+﻿@{
+    Layout = "_LayoutUsers";
+    ViewData["Title"] = "Thông tin cá nhân";
+
+}
+<style>
+    html {
+        background: #63636310;
+    }
+
+    .bg-light {
+        background: #63636308 !important;
+    }
+</style>
+<div class="pt-2 container" style="margin-top: 50px">
+    <div class="position-fixed" style="top: 5px; right: 10px">
+        <a href="/logout?logout=true" class="btn btn-primary">Đăng xuất</a>
+    </div>
+    <div class="position-fixed" style="top: 5px; left: 10px">
+        <a href="/homeusers" class="btn btn-primary">Quay lại</a>
+    </div>
+    <div class="position-fixed h4 fw-bold px-2" style="top: 5px; left: 50%; transform: translateX(-50%);background: #f9f9f9;">
+        @ViewBag.Name
+    </div>
+    <div class="container mt-4">
+        <h2 class="mb-4">Thông Tin Cá Nhân</h2>
+        <form method="post">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="phone" class="form-label">Số điện thoại</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Nhập số điện thoại" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="dob" class="form-label">Ngày sinh</label>
+                    <input type="date" class="form-control" id="dob" name="dob" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="tax-id" class="form-label">Mã số thuế theo CCCD</label>
+                    <input type="text" class="form-control" id="tax-id" name="taxId" placeholder="Nhập mã số thuế" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="cccd" class="form-label">CCCD</label>
+                    <input type="text" class="form-control" id="cccd" name="cccd" placeholder="Nhập số CCCD" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="issue-date" class="form-label">Ngày cấp</label>
+                    <input type="date" class="form-control" id="issue-date" name="issueDate" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="issue-place" class="form-label">Nơi cấp</label>
+                    <input type="text" class="form-control" id="issue-place" name="issuePlace" placeholder="Nhập nơi cấp" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="permanent-address" class="form-label">Địa chỉ HKTT</label>
+                    <input type="text" class="form-control" id="permanent-address" name="permanentAddress" placeholder="Nhập địa chỉ hộ khẩu thường trú" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="current-address" class="form-label">Nơi ở hiện tại</label>
+                    <input type="text" class="form-control" id="current-address" name="currentAddress" placeholder="Nhập nơi ở hiện tại" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="shift" class="form-label">Ca làm việc</label>
+                    <select id="shift" name="shift" class="form-select" required>
+                        <option value="" disabled selected>Chọn ca làm việc</option>
+                        <option value="Part sáng">Part sáng</option>
+                        <option value="Part chiều">Part chiều</option>
+                        <option value="Part tối">Part tối</option>
+                        <option value="Full time">Full time</option>
+                        <option value="Xoay ca">Xoay ca</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="first-work-date" class="form-label">Ngày làm việc đầu tiên</label>
+                    <input type="date" class="form-control" id="first-work-date" name="firstWorkDate" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="projects" class="form-label">Các dự án đã tham gia tại TDS</label>
+                <textarea id="projects" name="projects" class="form-control" rows="3" placeholder="Liệt kê các dự án đã tham gia"></textarea>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="bank-account" class="form-label">Số tài khoản ngân hàng</label>
+                    <input type="text" class="form-control" id="bank-account" name="bankAccount" placeholder="Nhập số tài khoản" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="bank-name" class="form-label">Ngân hàng</label>
+                    <input type="text" class="form-control" id="bank-name" name="bankName" placeholder="Nhập tên ngân hàng" required>
+                </div>
+            </div>
+
+            <button name="btnSubmit" value="ok" type="submit" class="btn btn-primary">Gửi</button>
+        </form>
+
+    </div>
+    <div class="container">
+        <style>
+            .thongtinnhansu span{
+                font-weight: bold;
+            }
+        </style>
+        <span class="fw-bold">Thông tin cá nhân</span>: <p>@Html.Raw(ViewBag.InfoNhanSu)</p>
+    </div>
+</div>

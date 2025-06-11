@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Admin - Thêm nhân sự";
+}
+<div class="py-2 px-3 position-relative" style="background: white; height: 100%; overflow: auto; ">
+    <div style="position: absolute; top: 15%; left: 50%; transform: translate(-50%)">
+        <p class="h4 text-center py-2 fw-bold">Thêm Nhân Sự</p>
+       <form method="post">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">ID</span>
+                </div>
+                <input name="IdNhanSu" type="number" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Họ tên</span>
+                </div>
+                <input name="HoTenNhanSu" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">FSI/Thoi vu</span>
+                </div>
+                <select name="FsiThoiVu" class="form-control">
+                    <option value="Lead">Lead</option>
+                    <option value="Sp">Sp</option>
+                    <option value="TDS">TDS</option>
+                    <option value="Thời vụ">Thời vụ</option>
+                    <option value="OS">OS</option>
+                </select>
+                @* <input name="FsiThoiVu" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"> *@
+            </div>
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Mức lương cơ bản 8h</span>
+                </div>
+                <input name="MucLuongCoBan8h" type="number" value="208333" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Mức lương dự án 8h</span>
+                </div>
+                <input name="MucLuongDuAn8h" type="number" value="83333" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Hệ số OT thường</span>
+                </div>
+                <input name="HeSoOtThuong" type="number" step="0.01" value="1.2" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Hệ số CN</span>
+                </div>
+                <input name="HeSoCn" type="number" step="0.01" value="1.4" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="text-center">
+                <button name="action" value="create" class="btn btn-outline-success">Xong</button>
+            </div>
+       </form>
+    </div>
+</div>

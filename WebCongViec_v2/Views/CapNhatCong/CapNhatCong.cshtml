@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Admin - Cập nhật công";
+}
+<div class="position-relative" style="background: white; height: 100%; overflow: auto; ">
+    <div class="container-fluid ">
+        <p class="text-center h4 fw-bold pt-3">
+            CẬP NHẬT CÔNG
+            @foreach (var c in ViewBag.Cong)
+            {
+                <span> | </span>
+                <span class="text-uppercase text-danger">  @c.IdNhanSuNavigation.HoTenNhanSu</span>
+                <span> | </span>
+                <span>Id @c.IdNhanSu</span>
+                break;
+            }
+        </p>
+        <form action="/CapNhatCong" method="post" class="py-2">
+            <div class="row row-cols-md-1 row-cols-lg-4">
+                <div class="col"></div>
+                <div class="col mt-2">
+                    <input class="form-control border-secondary" type="date" name="NgayThiCong" value="@ViewBag.NgayThiCong"
+                           min="2024-01-01" max="2030-12-31" />
+                </div>
+                <div class="col mt-2">
+                    <input class="form-control border-secondary" type="number" name="IdNhanSu" value="@ViewBag.IdNhanSu" placeholder="ID nhân sự" />
+                </div>
+                <div class="col"></div>
+            </div>
+            <div class="row">
+                <div class="col mt-2 text-center">
+                    <button name="display" value="true" class="btn btn-outline-secondary w-50">Xem</button>
+                </div>
+            </div>
+        </form>
+
+        <div>
+            <table class="table mt-3">
+                <tr>
+                    <th>Ngày thi công</th>
+                    <th>Công việc</th>
+                    <th>Thời gian</th>
+                    <th>Loại</th>
+                    <th>Nội Dung</th>
+                    <th>Khối Lượng</th>
+                    <th style="text-align: center">Hành động</th>
+                </tr>
+                @{
+                    int Count = 1;
+                }
+                @foreach (var c in ViewBag.Cong)
+                {
+                    <tr style="vertical-align: middle">
+                        <td style="height: 60px">@c.NgayThiCong</td>
+
+                        <td style="height: 60px">@c.IdCongViecNavigation.ValueCongViec</td>
+
+                        <td style="height: 60px">@c.ThoiGian</td>
+
+                        <td style="height: 60px">@c.IdLoaiCongViecNavigation.ValueLoaiCongViec</td>
+
+                        <td style="height: 60px">@c.IdNoiDungCongViecNavigation.ValueNoiDungCongViec</td>
+
+                        <td style="height: 60px">@c.KhoiLuong</td>
+                      
+                        @if (Count == 1)
+                        {
+                            <td rowspan="@ViewBag.Cong.Count">
+                                <form method="post" class="row" style="height: calc(60px * @ViewBag.Cong.Count); background: #5112;">
+                                    <div class="col d-flex justify-content-center align-items-center">
+                                        <button class="btn btn-outline-danger">Xóa 🗑</button>
+                                    </div>
+                                    <div style="width: 0px; height: 0px; opacity: 0%">
+                                        <input type="date" name="NgayThiCong" value="@ViewBag.NgayThiCong" />
+                                        <input type="hidden" name="action" value="delete" />
+                                        <input type="number" name="IdNhanSu" value="@ViewBag.IdNhanSu" />
+                                    </div>
+                                </form>
+                            </td>
+                        }
+                    </tr>
+                    Count += 1;
+                }
+                <tr style="vertical-align: middle">
+                    <td style="height: 60px">-</td>
+                    <td style="height: 60px">-</td>
+                    <td style="height: 60px">-</td>
+                    <td style="height: 60px">-</td>
+                    <td style="height: 60px">-</td>
+                    <td style="height: 60px">-</td>
+                    <td style="height: 60px">-</td>
+                    <td style="height: 60px">-</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

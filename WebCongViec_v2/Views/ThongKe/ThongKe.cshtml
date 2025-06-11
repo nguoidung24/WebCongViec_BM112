@@ -1,0 +1,143 @@
+﻿@{
+    ViewData["Title"] = "Admin - Thống kê";
+}
+<div class="py-2 px-3 position-relative" style="background: white; height: 100%; overflow: auto; ">
+    <div class="mt-3">
+        <form method="post" class="row row-cols-md-1 row-cols-lg-3">
+            <div class="col">
+                <input type="date" value="@ViewBag.StartDate" name="StartDate" class="form-control" />
+            </div>
+            <div class="col text-center">
+                <p>Đến Ngày</p>
+                <button name="action" value="display" class="btn btn-outline-success">Xem</button>
+            </div>
+            <div class="col">
+                <input type="date" value="@ViewBag.EndDate" name="EndDate" class="form-control" />
+            </div>
+        </form>
+        <div>
+            <canvas id="myChart" width="400" height="200"/>
+        </div>
+        <table class="table table-striped table-bordered DataTableJS-ThongKe" style="width:100%">
+            <thead style="background: #00a1ff">
+                <tr>
+                    <th>Ngày Thi Công </th>
+                    @foreach (var item in ViewBag.DSNoiDungCV)
+                    {
+                        <th>@item.ValueNoiDungCongViec</th>
+                    }
+                </tr>
+            </thead>
+          
+            <tbody>
+                @foreach (var group in ViewBag.ThongKe)
+                {
+                    <tr>
+                        <td>@group.Key.ToShortDateString()</td>
+                        @foreach (var chamCong in group.Value)
+                        {
+                            <td>@chamCong.tongKhoiLuong</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+
+            <tfoot style="background: yellow; color: red">
+                <tr>
+                    <th>Tổng </th>
+                    @foreach (var item in ViewBag.DSNoiDungCV)
+                    {
+                        <th>@item.ValueNoiDungCongViec</th>
+                    }
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<script>
+   
+    const rawData = {
+        // "2024-01-01": { "cong_viec_1": 1, "cong_viec_2": 2, "cong_viec_3": 3 },
+        // "2024-01-02": { "cong_viec_1": 2, "cong_viec_2": 5, "cong_viec_3": 4 },
+        // "2024-01-03": { "cong_viec_1": 7, "cong_viec_2": 6, "cong_viec_3": 4 }
+        @foreach (var group in ViewBag.ThongKe)
+        {
+                <text>"@group.Key.ToShortDateString()": { </text>
+                @foreach (var chamCong in group.Value)
+                {
+                    <text>"@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(ViewBag.DSNoiDungCVTypeKeyValue[chamCong.idNoiDungCongViec.ToString()]))"  : @chamCong.tongKhoiLuong,</text>
+                }
+                <text> }, </text>
+        }
+    };
+
+    const labels = Object.keys(rawData);
+    const congViecs = Object.keys(rawData[labels[0]]);
+
+    const generateColor = (index, total) => {
+        const step = 360 / total; 
+        const hue = (index * step) % 360;
+        return `hsl(${hue}, 70%, 50%)`;
+    };
+
+    const datasets = congViecs.map((congViec, index) => ({
+        label: congViec,
+        data: labels.map(label => rawData[label][congViec]), 
+        backgroundColor: generateColor(index, congViecs.length),
+        borderColor: generateColor(index, congViecs.length), 
+        fill: false,
+        borderWidth: 1,
+        pointRadius: 6,
+        pointBackgroundColor: generateColor(index, congViecs.length), 
+        pointBorderColor: '#fff', 
+        pointBorderWidth: 2 
+    }));
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: datasets 
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                labels: {
+                    font: {
+                        family: 'Arial', 
+                        size: 14
+                    }
+                },
+           
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            // Tùy chỉnh hiển thị trong tooltip
+                            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Dates'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Values'
+                    }
+                }
+            }
+        }
+    });
+</script>

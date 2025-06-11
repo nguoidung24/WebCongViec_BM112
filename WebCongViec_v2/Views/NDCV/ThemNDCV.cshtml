@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Admin - Thêm dung công việc";
+}
+<div class="py-2 px-3 position-relative" style="background: white; height: 100%; overflow: auto; ">
+    <div style="position: absolute; top: 15%; left: 50%; transform: translate(-50%)">
+        <p class="h4 text-center py-2 fw-bold">Thêm Nội Dung Công Việc</p>
+        <form method="post">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Tên nội dung</span>
+                </div>
+                <input value="" name="ValueNoiDungCongViec" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Định mức 8h</span>
+                </div>
+                <input value="0" name="DinhMuc8h" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Đơn vị</span>
+                </div>
+                <input value="" name="DonVi" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="text-center">
+                <a href="/NDCV" class="btn btn-outline-primary">Quay lại</a>
+                <button name="action" value="create" class="btn btn-outline-success">Xong</button>
+            </div>
+        </form>
+    </div>
+</div>

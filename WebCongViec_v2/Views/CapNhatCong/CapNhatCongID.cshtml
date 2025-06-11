@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Admin - Cập nhật công";
+}
+<div class="position-relative" style="background: white; height: 100%; overflow: auto; ">
+    <div class="container-fluid py-2">
+        <p class="text-center fw-bold  py-3 h4">Cập Nhật Chấm Công</p>
+        <div class="row row-cols-md-1 row-cols-lg-2">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Công việc</span>
+                    </div>
+                    <input type="text" disabled value="@ViewBag.Cong.IdCongViecNavigation.ValueCongViec" class="form-control" aria-label="____________"/>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Khối lượng</span>
+                    </div>
+                    <input type="text" value="@ViewBag.Cong.KhoiLuong" class="form-control" aria-label="____________"/>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Thời gian</span>
+                    </div>
+                    <input type="text" value="@ViewBag.Cong.ThoiGian" class="form-control" aria-label="____________"/>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Loại</span>
+                    </div>
+                    <input type="text" value="@ViewBag.Cong.IdLoaiCongViec" class="form-control" aria-label="____________"/>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Nội dung</span>
+                    </div>
+                    <input type="text" value="@ViewBag.Cong.IdNoiDungCongViec" class="form-control" aria-label="____________"/>
+                </div>
+
+            </div>
+            <div class="col">
+                <p>Ngày thi công: <span class="fw-bold"> @ViewBag.Cong.NgayThiCong</span></p>
+                <p>ID nhân sự: <span class="fw-bold">@ViewBag.Cong.IdNhanSu</span> </p>
+                <p>Họ tên nhân sự: <span class="fw-bold" "> @ViewBag.Cong.IdNhanSuNavigation.HoTenNhanSu</span></p>
+                <button class="btn btn-outline-success">Xong</button>
+            </div>
+        </div>
+    </div>
+</div>

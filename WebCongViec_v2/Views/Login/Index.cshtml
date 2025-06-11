@@ -1,0 +1,107 @@
+﻿@{
+    Layout = null;
+}
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login </title>
+    <link href="~/css/login_site.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/js/animejs.min.js"></script>
+</head>
+<body style="">
+    <div class="content" style=" display: flex; justify-content: center; align-items: center;  width: 100vw; height: 100vh; ">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="~/images/image-login.jpg" alt="Image" id="image-login" class="img-fluid">
+                </div>
+                <div class="col-md-6 contents ">
+                    <div class="row justify-content-center" style="padding-top: 50px">
+                        <div class="col-md-8">
+                            <div class="mb-4">
+                                <h3 class="animate-charcter mb-2" style="font-family: Arial, Helvetica, sans-serif">@ViewBag.AppName</h3>
+                                <p class="mb-4 text-secondary mb-2">Đăng nhập - Phần Mềm Chấm Công</p>
+                            </div>
+                            <form method="post">
+                                <div class="form-group first">
+                                    <label for="username">Tài khoản: </label>
+                                    <input name="id" type="text" class="form-control mt-2 form-input" placeholder="Nhập tài khoản" id="username">
+
+                                </div>
+                                <div class="form-group last my-2">
+                                    <label for="password" >Mật khẩu: </label>
+                                    <input name="password" type="password" class="form-control mt-2 form-input" placeholder="********" id="password">
+                                </div>
+                                <button type="submit" class="btn-login">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    Đăng nhập 🔑
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        anime({
+            targets: '.contents ',
+            translateY: [550,0],
+            duration: 1000,
+
+        });
+        anime({
+            targets: '#image-login ',
+            translateY: [-550,0],
+            duration: 1000,
+        });
+        anime({
+            delay:1000,
+            targets: 'input, button, label',
+            scale: ['0%', '100%'],
+        });
+       
+    </script>
+</body>
+</html>
+@* 
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - www.codingnepalweb.com -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Login Page | CodingNepal</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="~/css/login_site.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container flex">
+        <div class="facebook-page flex">
+            <div class="text">
+                <h1>facebook</h1>
+                <p>Connect with friends and the world </p>
+                <p> around you on Facebook.</p>
+            </div>
+            <form method="post">
+                <input name="id" type="text" placeholder="Account" required>
+                <input name="password" type="password" placeholder="Password" required>
+                <div class="link">
+                    <button type="submit" class="login">Login</button>
+                    <a href="#" class="forgot">Forgot password?</a>
+                </div>
+                <hr>
+                <div class="button">
+                    <a href="#">Create new account</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html> *@

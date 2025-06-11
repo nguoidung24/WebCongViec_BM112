@@ -1,0 +1,54 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Admin - Chấm Công";
+
+}
+
+<div class="pt-2 bg-white" style="width: 100%; min-height: 100%">
+    <div class="container-fluid">
+        <div class="row">
+            <form method="post" class="col d-flex gap-2">
+                <select class="form-control" name="Id">
+                    @foreach (var ns in ViewBag.DSNhanSu.Keys)
+                    {
+                        <option value="@ns">@ns - @ViewBag.DSNhanSu[ns]</option>
+                    }
+                </select>
+                <input type="date" class="form-control" name="Data" value="" />
+                <button name="action" value="create" class="btn btn-success">Ok</button>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col">
+
+                <p class="text-danger">(*Danh sách chờ chấm công bù*)</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Họ Tên</th>
+                        <th>Ngày</th>
+                            <td>Hành động</td>
+                    </tr>
+                    @foreach (var d in ViewBag.DSChamCongLai)
+                    {
+                        <tr>
+                            <td>@d.Id.ToString().Split("_cham_cong_lai_")[1].ToString() - @ViewBag.DSNhanSu[@d.Id.ToString().Split("_cham_cong_lai_")[1].ToString()]</td>
+                            <td>@d.Data</td>
+                            <td>
+                                <form method="post" class="">
+                                    <input type="hidden" value="@d.Id" name="Id" />
+                                    <input type="hidden" value="@d.Data" name="Data" />
+                                    <button name="action" value="delete" class="btn btn-danger">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

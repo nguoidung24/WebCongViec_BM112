@@ -1,0 +1,185 @@
+﻿@{
+    Layout = "_LayoutUsers";
+    ViewData["Title"] = "Chấm Công";
+
+}
+<style>
+    html{
+            background: #63636310;
+    }
+    .bg-light{
+        background: #63636308 !important;
+    }
+</style>
+<div class="pt-2 container" style="margin-top: 50px">
+     <div class="position-fixed" style="top: 5px; right: 10px">
+        <a href="/logout?logout=true" class="btn btn-primary">Đăng xuất</a>
+    </div>
+    <div class="position-fixed" style="top: 5px; left: 10px">
+        <a href="/homeusers" class="btn btn-primary">Quay lại</a>
+    </div>
+    <div class="h4 fw-bold" style="text-align:center">
+        @ViewBag.Name
+    </div>
+    <p class="text-center fw-bold fs-3 mt-2 mb-3 text-uppercase">Chấm Công</p>
+    <p class="text-center fw-bold fs-6 mt-2 mb-3">Chấm Công ngày: <span class="text-danger">@ViewBag.DisplayToDay</span></p>
+    <div>
+        <div class="px-3">
+            <form onsubmit="confirmSubmit(event)" method="post">
+                <div class="row">
+                    <div class="col">
+                        @{
+                            int a = 0;
+                            int count = 1;
+                            ViewBag.Req = "required";
+                        }
+                        @foreach (var cv in ViewBag.DanhSachCongViec)
+                        {
+                            ViewBag.BGColor = "bg-light";
+                            if (a != 0)
+                            {
+                                ViewBag.Req = "";
+                            }
+                            if (a % 2 != 0)
+                            {
+                                ViewBag.BGColor = "";
+                            }
+                            var id = "InputGroup" + count.ToString();
+                            <div id="@id" class="row @ViewBag.BGColor row-cols-1 row-cols-md-5 py-2">
+                                <div class="col">
+                                    <label for="" class="form-label">Công việc:</label>
+                                    <input type="hidden" value="@cv.IdCongViec" name="@count.ToString()IdCongViec" required class="form-control" style="width: 100%" id="" placeholder="">
+                                    <label  class="form-control" style="width: 100%; font-weight: bold; background: #63636363"> @cv.ValueCongViec</label>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Thời gian:</label>
+                                    <input type="number" @ViewBag.Req min="1" max="8" value="" name="@count.ToString()ThoiGian" class="form-control" style="width: 100%">
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Loại:</label>
+                                    <select @ViewBag.Req name="@count.ToString()IdLoaiCongViec" class="form-select">
+                                        @foreach (var loaiCongViec in ViewBag.DanhSachLoaiCongViec)
+                                        {
+                                            <option value="@loaiCongViec.IdLoaiCongViec">@loaiCongViec.ValueLoaiCongViec</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Nội dung:</label>
+                                    <select @ViewBag.Req name="@count.ToString()IdNoiDungCongViec" class="form-select">
+                                        @foreach (var ndcv in ViewBag.DanhSachNoiDung)
+                                        {
+                                            <option value="@ndcv.IdNoiDungCongViec">@ndcv.ValueNoiDungCongViec</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="" class="form-label">Khối lượng:</label>
+                                    <input @ViewBag.Req type="number" name="@count.ToString()KhoiLuong" class="form-control" style="width: 100%">
+                                </div>
+                            </div>
+                            a++;
+                            count++;
+                        }
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col text-center">
+                        <div class="">
+                            <label for="" class="form-label" style="opacity: 0%; display: inline-block; width: 100%;">Hoàn thành chấm công:</label>
+                            <input type="hidden" name="NgayThiCong" value="@ViewBag.ToDay" />
+                            <button type="button" class="btn btn-outline-success" onclick="checkInputs()">Hoàn thành chấm công</button>
+                            <input type="submit" name="isChamCong" value="Chấm công" style=" height: 0px; width: 0px; opacity: 0; " id="guiChamCong" placeholder="">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="mt-3">
+                <p class="text-danger fst-italic">(*)Hướng dẫn chấm công:</p>
+                <div class="text-danger fst-italic">
+                    <iframe style="width: 100%; height: 600px" src="~/huong_dan_cham_cong.pdf#zoom=FitH&toolbar=0"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkInputs() {
+            for (let i = 1; i < 99; i++) {
+                const allInputsAndSelects = document.querySelectorAll(`#InputGroup${i} input, #InputGroup${i} select`);
+
+                const inputsAndSelectsArray = Array.from(allInputsAndSelects);
+
+                const firstInputIndex = inputsAndSelectsArray.findIndex(el => el.tagName.toLowerCase() === 'input');
+
+                if (firstInputIndex !== -1) {
+                    inputsAndSelectsArray.splice(firstInputIndex, 1);
+                }
+
+                const hasValue = (element) => {
+                    if (element.tagName.toLowerCase() === 'select') {
+                        return element.value !== '0';
+                    }
+                    return element.value.trim() !== '';
+                };
+
+                const allHaveData = inputsAndSelectsArray.every(hasValue);
+
+                const noneHaveData = inputsAndSelectsArray.every(element => !hasValue(element));
+
+                if (allHaveData) {
+                } else if (noneHaveData) {
+                } else {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: 'warning',
+                        title: 'Nhập thông tin chưa đầy đủ'
+                    });
+                    return console.log("Các trường không đồng bộ (có trường có dữ liệu, có trường không).");
+                }
+
+            }
+
+            document.getElementById("guiChamCong").click();
+            return;
+        }
+        function confirmSubmit(event) {
+            alert("Hãy kiểm tra thông tin kỹ trước khi gửi!, SAI SÓT VỀ CÔNG CHỈ XỬ LÝ TRONG NGÀY ⚠");
+            if (!confirm("Bạn có chắc chắn chấm công chứ, SAI SÓT VỀ CÔNG CHỈ XỬ LÝ TRONG NGÀY ⚠")) {
+                event.preventDefault(); // Ngăn không cho gửi form
+            }
+        }
+    </script>
+
+    @if (ViewBag.message != null)
+    {
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: '@ViewBag.typeMessage',
+                title: '@ViewBag.message'
+            });
+        </script>
+    }
+</div>
+

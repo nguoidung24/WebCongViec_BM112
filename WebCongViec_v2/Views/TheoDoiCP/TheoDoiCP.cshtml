@@ -1,0 +1,220 @@
+﻿@{
+    ViewData["Title"] = "Admin - Báo Cáo Tổng Hợp";
+}
+
+<style>
+    table {
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+    padding-left: 8px;
+    text-align: left;
+    border: 1px solid black;
+    height: 35px;
+    }
+
+    th {
+    background-color: #4CAF50;
+    color: white;
+    }
+
+    tr:nth-child(even):not(.total-row) {
+    background-color: #f9f9f9;
+    }
+
+    tr:hover:not(.total-row) {
+    background-color: #f1f1f1;
+    }
+
+    .total-row {
+    background-color: lightskyblue;
+    }
+
+    .index-col{
+    color: black;
+    }
+</style>
+
+<div style="background-color: white; min-height: 100vh" class="position-relative pb-4 p-3">
+    <p class="text-center h5 fw-bold p-3">THEO DÕI CHI PHÍ</p>
+
+    <table style="width: 100%">
+        <thead>
+            <tr>
+                <th style="text-align: center" colspan="5">BẢNG KHẤU HAO MÁY SCAN</th>
+            </tr>
+            <tr>
+                <th>Kích thước</th>
+                <th>VND/ngày</th>
+                <th>Tên máy</th>
+                <th>Gồm Công Việc</th>
+                <th>Tổng khấu hao (VND)</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in ViewBag.khauHaoMayScan)
+            {
+                <tr>
+                    <td>@item["kichThuoc"]</td>
+                    <td> @(@item["VND"].Equals("") ? "": double.Parse(item["VND"]).ToString("N0"))</td>
+                    <td>@item["tenMay"]</td>
+                    <td>@item["congViec"]</td>
+                    <td>@item["tongKhauHao"]</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <form method="post">
+        <button name="anHangTrong" value="@(ViewBag.AnHangTrong.ToString().Equals("0") ? "1" : "0")" class="btn btn-outline-success mt-3">
+            @(ViewBag.AnHangTrong.ToString().Equals("0") ? "Hiện thêm hàng trống" : "Ẩn hàng trống")
+        </button>
+    </form>
+    <form method="post" class="mt-3">
+        <button class="btn btn-success" name="action" value="updateDuToan">
+            Lưu
+        </button>
+        <table style="width: 100%; margin-top: 8px">
+            <thead>
+                <tr>
+                    <th style="text-align: center; height: 65px; font-size: 18px" colspan="9">BẢNG DỰ TOÁN CHI PHÍ</th>
+                </tr>
+                <tr>
+                    <th>STT</th>
+                    <th>Nội dung</th>
+                    <th>Ngày</th>
+                    <th>Dự toán</th>
+                    <th>Tạm ứng</th>
+                    <th>Đã chi</th>
+                    <th>Chi quá dự toán</th>
+                    <th>Chi quá tạm ứng</th>
+                    <th>Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr style="font-weight:bold; color: red; background-color: wheat">
+                    <td>TỔNG TOÀN BỘ ⤵️</td>
+                    <td></td>
+                    <td></td>
+                    <td class="right"><span id="_tongDuToan"></span></td>
+                    <td class="right"><span id="_tongTamUng"></span></td>
+                    <td class="right"><span id="_tongDaChi"></span></td>
+                    <td class="right"><span id="ChiQuaDuToan"></span></td>
+                    <td class="right"><span id="ChiQuaTamUng"></span></td>
+                    <td></td>
+                </tr>
+                @{
+                    int count = 1;
+                    double _tongDuToan = 0;
+                    double _tongTamUng = 0;
+                    double _tongDaChi = 0;
+                }
+
+                @foreach (var duToan in ViewBag.duToanChiPhi)
+                {
+
+                    double tong = 0;
+                    double tong_da_chi = 0;
+                    double tong_tam_ung = 0;
+
+                    int count2 = 1;
+
+                    foreach(var d in duToan.Keys)
+                    {
+                        if (duToan[d].NoiDungCua.Equals("0"))
+                        {
+                            <tr style="font-weight:bold; background-color: lightgoldenrodyellow">
+                                <td class="index-col">@count</td>
+                                <td>@duToan[d].NoiDung</td>
+                                <td style="color: blue">
+                                    @if (duToan[d].GhiChu.Equals("Khấu hao máy scan") || duToan[d].GhiChu.Equals("Lương nhân sự"))
+                                    {
+                                        <text>Từ đầu đến hiện tại</text>
+                                    }
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td style="color: blue">
+                                    @if (duToan[d].GhiChu.Equals("Khấu hao máy scan") || duToan[d].GhiChu.Equals("Lương nhân sự"))
+                                    {
+                                        <text>@duToan[d].DaChi.ToString("N0")</text>
+                                    }
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td>@duToan[d].GhiChu</td>
+                            </tr>
+
+                        }
+                        else{
+                            if (ViewBag.AnHangTrong.ToString().Equals("0") ? duToan[d].DuToan != 0 : true)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td>@(count).@(count2)</td>
+                                    <td></td>
+                                    <td title="Dự toán">
+                                        <input name="@(duToan[d].Id)_DuToan" value="@(duToan[d].DuToan != 0 ? duToan[d].DuToan.ToString("N0") : "")" type="text" placeholder="-" style="border: none; background-color: transparent; width: 100%; height: 100%" />
+                                    </td>
+                                    <td title="Tạm ứng">
+                                        <input name="@(duToan[d].Id)_TamUng" value="@(duToan[d].TamUng != 0 ? duToan[d].TamUng.ToString("N0") : "")" type="text" placeholder="-" style="border: none; background-color: transparent; width: 100%; height: 100%" />
+                                    </td>
+                                    <td title="Đã chi">
+                                        <input name="@(duToan[d].Id)_DaChi" value="@(duToan[d].DaChi != 0 ? duToan[d].DaChi.ToString("N0") : "")" type="text" placeholder="-" style="border: none; background-color: transparent; width: 100%; height: 100%" />
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <input name="@(duToan[d].Id)_GhiChu" value="@duToan[d].GhiChu" type="text" placeholder="" style="border: none; background-color: transparent; width: 100%; height: 100%" />
+                                    </td>
+                                </tr>
+                                count2 = count2 + 1;
+                            }
+                        }
+
+                        tong = tong + double.Parse(duToan[d].DuToan.ToString());
+                        tong_da_chi = tong_da_chi + double.Parse(duToan[d].DaChi.ToString());
+                        tong_tam_ung = tong_tam_ung + double.Parse(duToan[d].TamUng.ToString());
+                    }
+                    _tongDuToan = _tongDuToan + tong;
+                    _tongTamUng = _tongTamUng + tong_tam_ung;
+                    _tongDaChi = _tongDaChi + tong_da_chi;
+                    <tr class="total-row"><td></td><td>TỔNG ⤴️</td><td></td><td class="right">@(tong != 0 ? tong.ToString("N0") : "-")</td><td>@(tong_tam_ung != 0 ? tong_tam_ung.ToString("N0") : "-")</td><td class="right">@(tong_da_chi != 0 ? tong_da_chi.ToString("N0") : "-")</td><td></td><td></td><td></td></tr>
+                    count = count + 1;
+                }
+                @{
+                    double ChiQuaDuToan = _tongDaChi - _tongDuToan;
+                    double ChiQuaTamUng = _tongDaChi - _tongTamUng;
+
+                }
+            </tbody>
+            <tfoot>
+                <tr style="font-weight:bold; color: red; background-color: wheat">
+                    <td>TỔNG TOÀN BỘ</td>
+                    <td></td>
+                    <td></td>
+                    <td class="right">@_tongDuToan.ToString("N0")</td>
+                    <td class="right">@_tongTamUng.ToString("N0")</td>
+                    <td class="right">@_tongDaChi.ToString("N0")</td>
+                    <td class="right">@ChiQuaDuToan.ToString("N0")</td>
+                    <td class="right">@ChiQuaTamUng.ToString("N0")</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelector("#_tongDuToan").innerText =  `@_tongDuToan.ToString("N0")`;
+                document.querySelector("#_tongTamUng").innerText =  `@_tongTamUng.ToString("N0")`;
+                document.querySelector("#_tongDaChi").innerText =  `@_tongDaChi.ToString("N0")`;
+                document.querySelector("#ChiQuaDuToan").innerText =  `@ChiQuaDuToan.ToString("N0")`;
+                document.querySelector("#ChiQuaTamUng").innerText =  `@ChiQuaTamUng.ToString("N0")`;
+            });
+        </script>
+    </form>
+</div>

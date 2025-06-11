@@ -1,0 +1,248 @@
+﻿
+@{
+    // Layout = "_layoutUsers";
+    Layout = null;
+    ViewData["Title"] = "Home Users";
+
+}
+@* <div class="container-fluid">
+   
+
+</div> *@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch chấm công</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
+    <script src="~/js/fullcalender.global.min.js"></script>
+    <script src="~/js/alert.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            text-transform: capitalize !important;
+        }
+
+        #calendar {
+            margin: 0px auto;
+            margin-top: 55px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100vw; /* Chiều rộng bằng với màn hình */
+            height: calc(100vh - 55px); /* Chiều cao bằng với màn hình */
+            background: #fff;
+        }
+
+        .fc-header-toolbar {
+            margin-bottom: 20px;
+        }
+
+        .fc-event-title {
+            white-space: normal !important; /* Cho phép hiển thị nhiều dòng */
+            overflow: visible !important; /* Không cắt chữ */
+        }
+
+        .fc-day-today {
+            background: #cff6d0 !important; /* Màu nền ngày hiện tại */
+        }
+    </style>
+</head>
+<body>
+    <div id="desktop" class="d-none d-md-block ">
+        <div class="position-fixed" style="top: 5px; right: 10px">
+            <a href="/logout?logout=true" class="btn btn-primary">Đăng xuất</a>
+        </div>
+        <div class="position-fixed" style="top: 5px; left: 10px">
+            <a href="/UsersController/ChamCong" class="btn btn-success">Chấm công📝</a>
+        </div>
+        <div class="position-fixed h4 fw-bold" style="top: 5px; left: 50%; transform: translateX(-50%); text-align: center">
+            @ViewBag.Name
+            <p class="text-sm text-danger" style=" font-weight: 100; font-size: 10pt; padding-bottom: 5px; ">
+                (*Loại - Nội Dung - Sản Lượng - Thời Gian*)
+            </p>
+        </div>
+        <div id="calendar"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            const customNow = '@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(ViewBag.NgayHienTai))';
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth', // Hiển thị theo tháng
+                now: customNow, // Đặt ngày hiện tại tùy chỉnh
+                initialDate: customNow, // Đặt ngày hiển thị ban đầu
+                locale: 'vi',
+                headerToolbar: {
+                    right: 'prevYear,prev,today,next,nextYear',
+                    left: 'custom1',
+                    center: 'title',
+                },
+                customButtons: {
+                  custom1: {
+                    text: 'Thông tin cá nhân💼',
+                    click: function() {
+                        window.location.href = "/UserInfo"
+                    }
+                  },
+                },
+                // dateClick: function (info) {
+                //     const today = new Date();
+                //     const clickedDate = info.date;
+
+                //     if (clickedDate.toDateString() === today.toDateString()) {
+                //         alert("Bạn vừa click vào ngày hiện tại!");
+                //     } else {
+                //         alert("Ngày bạn click: " + clickedDate.toDateString());
+                //     }
+                // },
+
+                events: [
+                    @{
+                        int Count = 0;
+                        string[] colors = {
+                                "#00A54E",  // Dark Green
+                                "#F57C00",  // Dark Orange
+                                "#b54831",
+                                "#242564"
+                                };
+
+                    }
+                    @foreach(var c in ViewBag.DSCong){
+                        <text>{title: '@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(c.IdLoaiCongViecNavigation.ValueLoaiCongViec)) - @Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(c.IdNoiDungCongViecNavigation.ValueNoiDungCongViec)) - @Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode((c.KhoiLuong.Equals("0") ? "-" : c.KhoiLuong))) - @Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(c.ThoiGian))h', start: '@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(c.NgayThiCong.ToString("yyyy-MM-dd")))' , color: '@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(colors[Count]))', textColor: '#ffffff' },</text>
+                        Count += 1;
+                        if(Count >= colors.Length){
+                            Count = 0;
+                        }
+                    }
+                  
+                ],
+             
+                eventDisplay: 'block',
+            });
+
+            calendar.render();
+        });
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+                  const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+
+
+        var queryString = window.location.search;
+
+        var urlParams = new URLSearchParams(queryString);
+
+        var message = urlParams.get('message');
+        var messageType = urlParams.get('messageType');
+            if (messageType != null) {
+                Toast.fire({
+                    icon: messageType,
+                    title: message
+                });
+
+            }
+        });
+    </script>
+
+
+
+    <div id="mobile" class="d-block d-md-none">
+        <div class="position-fixed" style="top: 5px; right: 10px">
+            <a href="/logout?logout=true" class="btn btn-sm btn-primary">Đăng xuất</a>
+        </div>
+        <div class="position-fixed" style="top: 5px; left: 10px">
+            <a href="/UsersController/ChamCong" class="btn btn-sm btn-success">Chấm công📝</a>
+        </div>
+        <div class="h5 fw-bold mt-2" style="background: #f9f9f9 ; text-align: center">
+            @ViewBag.Name
+            <p class="text-sm text-danger" style=" font-weight: 100; font-size: 8pt; padding-bottom: 5px; ">
+                (*Loại - Nội Dung - Sản Lượng - Thời Gian*)
+            </p>
+        </div>
+
+        <table  id="scheduleTable" style="margin-top: 20px; width: 100%">
+           <thead>
+                <tr style="display:none">
+                    <th>Ngày Thi Công</th>
+                    <th>Loại</th>
+                    <th>Nội Dung</th>
+                    <th>Thời Gian</th>
+                    <th>Khối Lượng</th>
+                </tr>
+           </thead>
+           <tbody>
+                @foreach (var c in ViewBag.DSCong)
+                {
+                   <tr>
+                        <td style="display: none; height: 50px; text-align: center">
+                            @c.NgayThiCong.ToString("dd-MM-yyyy")
+                       </td>
+                        <td style=" height: 50px; text-align: center">
+                            @c.IdLoaiCongViecNavigation.ValueLoaiCongViec
+                        </td>
+                        <td style=" height: 50px; text-align: center">
+                            @c.IdNoiDungCongViecNavigation.ValueNoiDungCongViec
+                        </td>
+                        <td style=" height: 50px; text-align: center">
+                            @c.ThoiGian
+                        </td>
+                        <td style=" height: 50px; text-align: center">
+                            @(c.KhoiLuong.Equals("0") ? "-" : c.KhoiLuong)
+                        </td>
+                   </tr>
+                }
+           </tbody>
+        </table>
+    </div>
+
+    <script>
+        const table = document.getElementById("scheduleTable");
+        const rows = table.querySelectorAll("tbody tr");
+
+        let lastDate = null;
+        let toggleColor = false;
+
+        rows.forEach((row, index) => {
+            const currentDate = row.cells[0].innerText.trim();
+
+            if (index === 0 || (lastDate && currentDate !== lastDate)) {
+                // Thêm tiêu đề phụ cho ngày đầu tiên hoặc khi chuyển sang ngày mới
+                const headerRow = document.createElement("tr");
+                headerRow.innerHTML = `<td colspan="5" style="border-top: 10px solid rgba(0,0,0,0);padding: 10px;font-weight: bold; background-color: #e6e6e6; text-align: center;">
+                                          Ngày: ${currentDate}
+                                       </td>`;
+                row.parentNode.insertBefore(headerRow, row);
+
+                // Chuyển đổi màu nền xen kẽ
+                toggleColor = !toggleColor;
+            }
+
+            // Tô màu nền xen kẽ cho hàng
+            row.style.backgroundColor = toggleColor ? "#f9f9f9" : "#ffffff";
+
+            lastDate = currentDate;
+        });
+
+    </script>
+
+</body>
+</html>

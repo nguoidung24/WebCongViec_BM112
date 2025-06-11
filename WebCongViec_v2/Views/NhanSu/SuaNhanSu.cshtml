@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Admin - Sửa thông tin nhân sự";
+}
+<div class="py-2 px-3 position-relative" style="background: white; height: 100%; overflow: auto; ">
+    <div style="position: absolute; top: 15%; left: 50%; transform: translate(-50%)">
+        <p class="h4 text-center py-2 fw-bold">Chi Tiết Nhân Sự</p>
+        <form method="post">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">ID</span>
+                </div>
+                <input disabled value="@ViewBag.NhanSu.IdNhanSu" type="number" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Họ tên</span>
+                </div>
+                <input value="@ViewBag.NhanSu.HoTenNhanSu" name="HoTenNhanSu" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            @* <div class="input-group mb-3"> *@
+            @*     <div class="input-group-prepend"> *@
+            @*         <span class="input-group-text" id="inputGroup-sizing-default">FSI/Thoi vu</span> *@
+            @*     </div> *@
+            @*     <input value="@ViewBag.NhanSu.FsiThoiVu" name="FsiThoiVu" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"> *@
+            @* </div> *@
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">FSI/Thoi vu</span>
+                </div>
+                <select name="FsiThoiVu" class="form-control">
+                    <option selected="@ViewBag.NhanSu.FsiThoiVu.ToString().Equals("Lead")" value="Lead">Lead</option>
+                    <option selected="@ViewBag.NhanSu.FsiThoiVu.ToString().Equals("Sp")" value="Sp">Sp</option>
+                    <option selected="@ViewBag.NhanSu.FsiThoiVu.ToString().Equals("TDS")" value="TDS">TDS</option>
+                    <option selected="@ViewBag.NhanSu.FsiThoiVu.ToString().Equals("Thời vụ")" value="Thời vụ">Thời vụ</option>
+                    <option selected="@ViewBag.NhanSu.FsiThoiVu.ToString().Equals("OS")" value="OS">OS</option>
+                </select>
+                @* <input name="FsiThoiVu" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"> *@
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Mức lương cơ bản 8h</span>
+                </div>
+                <input name="MucLuongCoBan8h" value="@ViewBag.NhanSu.MucLuongCoBan8h" type="number" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Mức lương dự án 8h</span>
+                </div>
+                <input name="MucLuongDuAn8h"value="@ViewBag.NhanSu.MucLuongDuAn8h" type="number" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Hệ số OT thường</span>
+                </div>
+                <input name="HeSoOtThuong" step="0.01" value="@ViewBag.NhanSu.HeSoOtThuong" type="number" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Hệ số CN</span>
+                </div>
+                <input name="HeSoCn" step="0.01" type="number" value="@ViewBag.NhanSu.HeSoCn" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="text-center">
+                <input name="IdNhanSu" value="@ViewBag.NhanSu.IdNhanSu" type="hidden" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                <a href="/NhanSu" class="btn btn-outline-primary">Quay lại</a>
+                <button name="action" value="edit" class="btn btn-outline-success">Xong</button>
+            </div>
+        </form>
+    </div>
+</div>

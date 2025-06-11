@@ -1,0 +1,211 @@
+﻿@{
+    ViewData["Title"] = "Admin - Trang chủ";
+}
+<style>
+    .table-data tr table td, .table-data tr table th {
+        padding: 2px 10px;
+        border: 1px solid black;
+    }
+
+    .table-data table {
+        background: white !important;
+        color: black;
+    }
+
+    .table-data table {
+        overflow: hidden;
+    }
+
+    .TenNhanSu{
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+    .bg-main{
+        background: white;
+    }
+</style>
+<div class="position-relative pb-4">
+    <button class="buttonCoppyTabeData" onclick="copyTableInfo('#table-data', 'Đã coppy tất cả')">📋</button>
+    <form method="post">
+        <input type="month" onchange="handleChangeSelectedMonth()"  class="selectMonth" name="selectedMonth" value="@ViewBag.SelectedMonth" />
+        <button type="submit" id="submitSelectMonth" style="width: 0px; height: 0px; position: fixed"></button>
+    </form>
+    <script>
+        function handleChangeSelectedMonth(){
+            document.getElementById("submitSelectMonth").click();
+        }
+    </script>
+    <div class="" style="overflow: auto;  padding-right: 500px; margin-left: 350px">
+        <table class="table-data" id="table-data" style="">
+            <tr>
+                @* ======================================= Table NhanSu ================================================== *@
+                <td>
+                    <table border="1" onclick="copyTableInfo('#table-name', 'Đã copy bảng tên')" id="table-name" style="text-align: center; min-width: 350px; position: absolute; top: 0px; left: 0px; ">
+                        <tr style="height: 37px">
+                            <th rowspan="3">ID</th>
+                            <th rowspan="3" style="background-color: yellow; color: black">Họ Tên</th>
+                            <th rowspan="3">CV</th>
+                        </tr>
+                        <tr style="height: 37px">  </tr>
+                        <tr style="height: 37px">  </tr>
+                        @foreach (var nhanSu in ViewBag.DSNhanSu)
+                        {
+                            int count = 1;
+                            @foreach (var a in ViewBag.DSCongViec)
+                            {
+                                <tr style="height: 37px">
+                                    @if(count == 1)
+                                    {
+                                        <td rowspan="@ViewBag.DSCongViec.Count">@nhanSu.IdNhanSu</td>
+                                        <td rowspan="@ViewBag.DSCongViec.Count">
+                                            <span class="TenNhanSu">@nhanSu.HoTenNhanSu</span>
+                                        </td>
+                                        <td style="background-color: lightgray">@a.ValueCongViec</td>
+                                    }
+                                    else
+                                    {
+
+                                        <td>@a.ValueCongViec</td>
+                                    }
+                                </tr>
+                                count++;
+                            }
+                        }
+                    </table>
+                </td>
+                @* ======================================= Table NhanSu ================================================== *@
+
+                @* ======================================= Table NgayCong ================================================== *@
+                @{var Count = 1;}
+                @foreach (var chamCong in ViewBag.DLChamCong.Keys)
+                {
+                    <td class="ps-2">
+                        <table border="1" data-toggle="tooltip" title="Ngày thi công:  @chamCong" onclick="copyTableInfo('#table-@Count', 'Đã copy @chamCong')" id="table-@Count" style="text-align: center; min-width: 350px;">
+                            <tr style="height: 37px" >
+                                <th rowspan="1" colspan="2" style=" background-color: cyan; color: black">
+                                    Ngày thi công
+                               </th>
+                               <th rowspan="1" colspan="2">
+                                    @chamCong
+                               </th>
+                            </tr>
+                            <tr style="height: 37px" >
+                               @*  <th  colspan="2">Thứ</th> *@
+                                <th  colspan="4">
+                                    <span id="ThuTrongTuan_@Count">[Thu2]</span>
+                                    <script>
+                                        function layThuTrongTuan(ngayChuoi) {
+                                            var ngay = new Date(ngayChuoi); // Chuyển chuỗi thành đối tượng Date
+                                            var thu = ngay.getDay(); // Lấy thứ trong tuần (0 = Chủ nhật, 1 = Thứ hai, ..., 6 = Thứ bảy)
+
+                                            var thuTrongTuan = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+
+                                            return thuTrongTuan[thu]; // Trả về tên thứ
+                                        }
+                                        document.querySelector("#ThuTrongTuan_@Count").innerHTML = layThuTrongTuan("@chamCong.Split('/')[2]-@chamCong.Split('/')[1]-@chamCong.Split('/')[0]");
+                                    </script>
+                                </th>
+                            </tr>
+                            <tr class="" style="height: 37px" >
+                                <th>
+                                    Thời gian
+                                </th>
+                                <th>
+                                    Loại
+                                </th>
+                                <th>
+                                    Nội dung
+                                </th>
+                                <th>
+                                    Khối lượng
+                                </th>
+                            </tr>
+                            @foreach (var nhanSu in ViewBag.DLChamCong[chamCong].Values)
+                            {
+                                int CountRow = 1;
+                                @foreach (var a in nhanSu)
+                                {
+                                    ViewBag.HeightLight = "none";
+                                    if(CountRow == 1)
+                                    {
+                                        ViewBag.HeightLight = "lightgray";
+                                    }
+                                    <tr style="height: 37px; background-color: @ViewBag.HeightLight">
+
+                                        <td style="height: 37px; background-color: @ViewBag.HeightLight">
+                                            @a.ThoiGian
+                                        </td>
+                                        <td style="height: 37px; background-color: @ViewBag.HeightLight">
+                                            @if (@a.IdLoaiCongViecNavigation != null)
+                                            {
+                                                <text>@a.IdLoaiCongViecNavigation.ValueLoaiCongViec</text>
+                                            }
+                                        </td>
+                                        <td style="height: 37px; background-color: @ViewBag.HeightLight">
+                                            @if (@a.IdNoiDungCongViecNavigation != null)
+                                            {
+                                                <text>@a.IdNoiDungCongViecNavigation.ValueNoiDungCongViec</text>
+                                            }
+                                        </td>
+                                        <td style="height: 37px; background-color: @ViewBag.HeightLight">
+                                            @a.KhoiLuong
+                                        </td>
+                                         
+                                    </tr>
+                                    CountRow += 1;
+                                }
+                            }
+                        </table>
+                    </td>
+                    Count += 1;
+                }
+                @* ======================================= Table NgayCong ================================================== *@
+            </tr>
+        </table>
+    </div>
+    <script>
+        const Toast2 = Swal.mixin({
+            Toast2: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (Toast2) => {
+                Toast2.onmouseenter = Swal.stopTimer;
+                Toast2.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        function copyTableInfo(id, message) {
+            // Lấy toàn bộ phần tử (bao gồm thẻ cha) có ID là table-info
+            var tableInfo = document.querySelector(id);
+
+            // Tạo một vùng chọn mới (textarea) để chứa nội dung HTML của cả thẻ cha và thẻ con
+            var tempTextarea = document.createElement("textarea");
+            tempTextarea.style.position = "fixed";  // Tránh làm ảnh hưởng đến layout
+            tempTextarea.style.opacity = "0";       // Ẩn phần textarea
+            // Lấy cả thẻ cha và thẻ con bằng outerHTML
+            tempTextarea.value = tableInfo.outerHTML;
+
+            document.body.appendChild(tempTextarea); // Thêm textarea vào body tạm thời
+            tempTextarea.select();                   // Chọn toàn bộ nội dung của textarea
+
+            // Copy nội dung đã chọn vào clipboard
+            try {
+                document.execCommand("copy");
+                Toast.fire({
+                    icon: 'success',
+                    title: message
+                });
+            } catch (err) {
+                Toast.fire({
+                    icon: 'warning',
+                    title: 'Không thành công'
+                });
+            }
+
+            // Loại bỏ textarea sau khi copy
+            document.body.removeChild(tempTextarea);
+        }
+    </script>
+</div>

@@ -1,0 +1,141 @@
+﻿@{
+    ViewData["Title"] = "Admin - Báo Cáo Tổng Hợp";
+}
+<style>
+    table, th, tr, td{
+    border: 1px solid black;
+    text-align: center;
+    padding: 3px;
+    }
+
+    table input {
+        border: 0px solid black;
+        padding: 5px 10px;
+        width: 100%;
+        background: yellow;
+        height: 100%;
+    }
+</style>
+<div style="background-color: white; min-height: 100vh" class="position-relative pb-4 p-3">
+    <p class="text-center h5 fw-bold p-3">BÁO CÁO TỔNG HỢP DỰ ÁN</p>
+    <div>
+        <form method="get">
+            <button name="action" value="updateProjectInfo" class="btn btn-sm btn-success mb-1">Lưu</button>
+            <table style="width: 100%">
+                <tr>
+                    <th>Mã Dự Án</th>
+                    <th style="background: yellow">
+                        <input type="text" name="TDS_MaDuAn" value="@ViewBag.ProjectInfo["TDS_MaDuAn"]" />
+                    </th>
+                    <th>Tên Dự Án</th>
+                    <th colspan="3" style="background: yellow">
+                        <input type="text" name="TDS_TenDuAn" value="@ViewBag.ProjectInfo["TDS_TenDuAn"]" />
+                    </th>
+                    <th>Ngày Ký Hợp Đồng</th>
+                    <th style="background: yellow">
+                        <input type="text" name="TDS_NgayKyHopDong" value="@ViewBag.ProjectInfo["TDS_NgayKyHopDong"]" />
+                    </th>
+                    <th>Chi Phí Dự Toán</th>
+                    <th>@ViewBag.TongDuToan.ToString("N0")</th>
+                </tr>
+                <tr>
+                    <th>AM</th>
+                    <th style="background: yellow">
+                        <input type="text" name="TDS_AM" value="@ViewBag.ProjectInfo["TDS_AM"]" />
+                    </th>
+                    <th>Tên Khách Hàng</th>
+                    <th colspan="3" style="background: yellow">
+                        <input type="text" name="TDS_TenKhachHang" value="@ViewBag.ProjectInfo["TDS_TenKhachHang"]" />
+                    </th>
+                    <th>Ngày Kết Thúc Theo HĐ</th>
+                    <th style="background: yellow">
+                        <input type="text" name="TDS_NgayKetThuc" value="@ViewBag.ProjectInfo["TDS_NgayKetThuc"]" />
+                    </th>
+                    <th>Chi Phí Đã Chi</th>
+                    <th>@ViewBag.TongDaChi.ToString("N0")</th>
+                </tr>
+                <tr>
+                    <th>PM</th>
+                    <th style="background: yellow">
+                        <input type="text" name="TDS_PM" value="@ViewBag.ProjectInfo["TDS_PM"]" />
+                     </th>
+                    <th>Ngày Báo Cáo</th>
+                    <th>@ViewBag.ToDay</th>
+                    <th>Ngày Bắt Đầu TC</th>
+                    <th> @(ViewBag.MinDate) </th>
+                    <th>Ngày Dự Kiến Xong Theo TĐ</th>
+                    <th style="background: yellow">
+                        <input type="text" name="TDS_NgayDuKienXong" value="@ViewBag.ProjectInfo["TDS_NgayDuKienXong"]" />
+                    </th>
+                    <th>Tỉ Lệ Đã Chi</th>
+                    <th>@(Math.Round(ViewBag.TongDaChi / ViewBag.TongDuToan * 100, 0))%</th>
+                </tr>
+            </table>
+        </form>
+
+        <form method="get">
+            <button name="action" value="updateNoiDungCongViec" class="btn btn-sm btn-success my-1">Lưu</button>
+            <table style="width: 100%">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Nội dung công việc</th>
+                        <th>ĐVT</th>
+                        <th>Khối lượng theo hợp đồng</th>
+                        <th>Khối lượng thực hiện lũy kế hiện tại</th>
+                        <th>Tỉ lệ hoàn thành lũy kế hiện tại</th>
+                        <th>Thực hiện trong ngày</th>
+                        <th>Mức tiêu chuẩn trong những ngày tiếp theo</th>
+                        <th>Năng suất định mức</th>
+                        <th>Năng suất trung bình ngày (Tỷ lệ chấm NS / NS đo / NS chung)</th>
+                        <th>Ngày dự kiến hoàn thành</th>
+                    </tr>
+                    <tr>
+                        <th colspan="9"></th>
+                        <th style="color: red">@(ViewBag.MinDate) - @(ViewBag.MaxDate)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int count = 1;}
+                    @foreach (var cv in ViewBag.DSNoiDungCongViec)
+                    {
+                        <tr>
+                            <td>@count</td>
+                            <td>@cv["ValueNoiDungCongViec"]</td>
+                            <td>@cv["DonVi"]</td>
+                            <td style="background-color: yellow">
+                                <input style="text-align: center" type="number" value="@(cv["KhoiLuongTheoHopDong"] != 0 ? cv["KhoiLuongTheoHopDong"] : "")" placeholder="-" name="@(cv["IdNoiDungCongViec"])" />
+                            </td>
+                            <td>@(cv["KhoiLuong"] != 0 ? cv["KhoiLuong"] : "-")</td>
+                            <td>
+                                @try
+                                {
+                                    if (double.Parse(cv["KhoiLuongTheoHopDong"].ToString()) != 0)
+                                    {
+                                        double ratio = double.Parse(cv["KhoiLuong"].ToString()) / double.Parse(cv["KhoiLuongTheoHopDong"].ToString()) * 100;
+                                        <text>@ratio.ToString("F2") %</text>
+                                    }
+                                    else
+                                    {
+                                        <text>-</text>
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    <text>@e</text>
+                                }
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>@(cv["DinhMuc8h"] != 0 ? cv["DinhMuc8h"] : "-")</td>
+                            <td>@(cv["DataRatio"]) - @(cv["TB1"]) - @(cv["TB2"])</td>
+                            <td></td>
+                        </tr>
+                        count = count + 1;
+                    } 
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>

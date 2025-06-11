@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Admin - Nội dung công việc";
+}
+<div class="py-2 px-3 position-relative" style="background: white; height: 100%; overflow: auto; ">
+    <div>
+        <table class="table table-striped table-bordered" style="width:100%" id="DataTableJS">
+            <thead>
+                <tr>
+                    <th>ID </th>
+                    <th>Nội dung</th>
+                    <th>Định mức 8h</th>
+                    <th>Đơn vị</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var nd in ViewBag.DSNDCV)
+                {
+                    <tr>
+                        <td>@nd.IdNoiDungCongViec</td>
+                        <td>@nd.ValueNoiDungCongViec</td>
+                        <td>
+                            @if (int.Parse(@nd.DinhMuc8h.ToString().Trim()) == 0)
+                            {
+                                <text>-</text>
+                            }
+                            else
+                            {
+                                <text>@nd.DinhMuc8h.ToString()</text>
+                            }
+
+                        </td>
+                        <td>@nd.DonVi</td>
+                        <td>
+                            <a href="/SuaNDCV?id=@nd.IdNoiDungCongViec">📝</a>
+                            &nbsp;
+                            <a style="font-size: 15pt" role="button" onclick="confirmToLink('?delete=@nd.IdNoiDungCongViec')">🗑</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
