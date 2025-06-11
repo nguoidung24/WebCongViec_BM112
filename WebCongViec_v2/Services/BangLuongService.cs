@@ -68,8 +68,8 @@ namespace WebCongViec_v2.Services
                 d.id = c[0].IdNhanSu.ToString();
                 d.ho_ten = c[0].IdNhanSuNavigation.HoTenNhanSu.ToString();
                 d.fsi_thoi_vu = c[0].IdNhanSuNavigation.FsiThoiVu.ToString();
-                d.luong_co_ban_muc_ngay = c[0].IdNhanSuNavigation.MucLuongCoBan8h.ToString();
-                d.luong_du_an_muc_ngay = c[0].IdNhanSuNavigation.MucLuongDuAn8h.ToString();
+                d.luong_co_ban_muc_ngay = c[0].IdNhanSuNavigation.MucLuongCoBan8h.ToString("N1");
+                d.luong_du_an_muc_ngay = c[0].IdNhanSuNavigation.MucLuongDuAn8h.ToString("N1");
 
                 double luong_co_ban_so_nc = 0;
                 double luong_co_ban_so_nc_quy_doi = 0;

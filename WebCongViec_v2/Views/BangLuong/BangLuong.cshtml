@@ -185,31 +185,34 @@
 				});
 			});
          });
-        document.addEventListener("DOMContentLoaded", function () {
-               const table = document.querySelector("table.table-data");
-               const rows = Array.from(table.querySelectorAll("tbody tr"));
-               const columnIndex = Array.from(table.querySelectorAll("thead th"))
-                   .findIndex(th => th.innerText.trim() === "FSI/ Thời vụ");
 
-               if (columnIndex !== -1) {
-                   // Sắp xếp các hàng
-                   rows.sort((rowA, rowB) => {
-                       const cellA = rowA.querySelectorAll("td")[columnIndex]?.innerText.trim() || "";
-                       const cellB = rowB.querySelectorAll("td")[columnIndex]?.innerText.trim() || "";
 
-                       // Đưa các hàng có "OS" xuống cuối
-                       if (cellA === "OS" && cellB !== "OS") return 1;
-                       if (cellB === "OS" && cellA !== "OS") return -1;
 
-                       // Sắp xếp tăng dần theo bảng chữ cái
-                       return cellA.localeCompare(cellB);
-                   });
+        function sortTableById() {
+              var table = document.querySelector(".table-data");
+              var tbody = table.tBodies[0];
+              var rows = Array.from(tbody.rows);
 
-                   // Xóa các hàng cũ và thêm lại các hàng đã sắp xếp
-                   const tbody = table.querySelector("tbody");
-                   tbody.innerHTML = "";
-                   rows.forEach(row => tbody.appendChild(row));
-               }
-           });
+              rows.sort(function(a, b) {
+                var idA = parseInt(a.cells[0].textContent);
+                var idB = parseInt(b.cells[0].textContent);
+                return idA - idB; // tăng dần
+              });
+
+              // Xóa hết hàng cũ
+              while(tbody.firstChild) {
+                tbody.removeChild(tbody.firstChild);
+              }
+
+              // Thêm lại hàng đã sắp xếp
+              rows.forEach(function(row) {
+                tbody.appendChild(row);
+              });
+        }
+
+        // Gọi hàm sắp xếp khi trang load xong
+        window.onload = function() {
+          sortTableById();
+        };
     </script>
 </div>

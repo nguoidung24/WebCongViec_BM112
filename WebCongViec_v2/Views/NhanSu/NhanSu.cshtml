@@ -146,10 +146,10 @@
                         <td>@nhanSu.IdNhanSu</td>
                         <td>@nhanSu.HoTenNhanSu <span class="fw-bold">@(ViewBag.Roles[nhanSu.Role].ToString().Equals("") ? "" : " - " + ViewBag.Roles[nhanSu.Role].ToString())</span></td>
                         <td>@nhanSu.FsiThoiVu</td>
-                        <td>@nhanSu.MucLuongCoBan8h</td>
-                        <td>@nhanSu.MucLuongDuAn8h</td>
-                        <td>@nhanSu.HeSoOtThuong</td>
-                        <td>@nhanSu.HeSoCn</td>
+                        <td>@nhanSu.MucLuongCoBan8h.ToString("N1")</td>
+                        <td>@nhanSu.MucLuongDuAn8h.ToString("N1")</td>
+                        <td>@nhanSu.HeSoOtThuong.ToString("N1")</td>
+                        <td>@nhanSu.HeSoCn.ToString("N1")</td>
                         @if (ViewBag.HideInfo.Equals("false"))
                         {
                             <td>
