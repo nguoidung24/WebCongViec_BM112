@@ -1,0 +1,97 @@
+﻿@{
+    ViewData["Title"] = "Admin - Phí phát sinh";
+}
+<div class="py-2 px-3 position-relative" style="background: white; height: 100%; overflow: auto; ">
+    <div>
+        <p class="h4 text-center py-2 fw-bold">PHÍ PHÁT SINH</p>
+        <form method="post">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Loại phát sinh</span>
+                </div>
+                <select class="form-control"  name="LoaiPhatSinh">
+                    <option value="1">Phát sinh tăng</option>
+                    <option value="2">Phát sinh giảm</option>
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Nội dung phát sinh</span>
+                </div>
+                <input value="" required name="NoiDungPhatSinh" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Giá trị</span>
+                </div>
+                <input value="" required name="GiaTriPhatSinh" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Ngày phát sinh</span>
+                </div>
+                <input value="" required name="NgayTinhPhatSinh" type="date" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="text-center">
+                <a href="/BangLuong" class="btn btn-outline-primary">Quay lại</a>
+                <button name="action" value="create" class="btn btn-outline-success">Xong</button>
+            </div>
+            <p class="h4 text-center py-2 mt-2 fw-bold">ÁP DỤNG CHO</p>
+            <table class="table table-bordered table-hover" id="nhanSuTable">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            <input type="checkbox" id="checkAll" />
+                        </th>
+                        <th class="text-center">Id</th>
+                        <th class="text-center">Họ tên nhân sự</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.DSNhanSu)
+                    {
+                        <tr class="td-checkbox" style="cursor:pointer;">
+                            <td class="text-center">
+                                <input type="checkbox" class="checkItem" name="IdNhanSu" value="@item.IdNhanSu" />
+                            </td>
+                            <td class="text-center">@item.IdNhanSu</td>
+                            <td class="text-center">@item.HoTenNhanSu</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @section Scripts {
+                <script>
+                    // Chọn/bỏ chọn tất cả
+                    document.getElementById('checkAll').addEventListener('change', function () {
+                        var checked = this.checked;
+                        document.querySelectorAll('.checkItem').forEach(function (cb) {
+                            cb.checked = checked;
+                        });
+                    });
+
+                    // Click vào tr sẽ toggle checkbox
+                    document.querySelectorAll('#nhanSuTable tbody tr').forEach(function (row) {
+                        row.addEventListener('click', function (e) {
+                            // Không toggle nếu click trực tiếp vào checkbox
+                            if (e.target.tagName.toLowerCase() === 'input') return;
+                            var cb = row.querySelector('.checkItem');
+                            cb.checked = !cb.checked;
+                        });
+                    });
+
+                    // Nếu tất cả checkbox con đều được chọn thì checkAll cũng được chọn, ngược lại thì bỏ chọn
+                    document.querySelectorAll('.checkItem').forEach(function (cb) {
+                        cb.addEventListener('change', function () {
+                            var all = document.querySelectorAll('.checkItem');
+                            var checked = document.querySelectorAll('.checkItem:checked');
+                            document.getElementById('checkAll').checked = all.length === checked.length;
+                        });
+                    });
+                </script>
+            }
+        </form>
+    </div>
+    
+</div>
