@@ -68,8 +68,11 @@
                 <th colspan='5' style="background-color: orange">Lương dự án</th>
                 <th colspan='2' style="background-color: dodgerblue">Phát sinh tăng</th>
                 <th colspan='2' style="background-color: dodgerblue">Phát sinh giảm</th>
-                <th rowspan='3' style="background-color: indianred">Tổng (KPS)</th>
-                <th rowspan='3' style="background-color: white">Tổng cộng</th>
+                <th rowspan='3' style="background-color: white">Tổng (KPS)</th>
+                <th rowspan='3' style="background-color: indianred">Tổng cộng</th>
+                <th rowspan='3' style="background-color: white">Ngân hàng</th>
+                <th rowspan='3' style="background-color: white">Số tài khoản</th>
+
             </tr>
             <tr>
                 <th rowspan='2' style="background-color: lightgray">Mức/Ngày</th>
@@ -113,12 +116,14 @@
                             <td>@cc.luong_du_an_cc</td>
                             <td>@cc.luong_du_an_nsot</td>
                             <td>@cc.luong_du_an_ccot</td>
-                            <td>@cc.phat_sinh_tang_noi_dung</td>
-                            <td>@cc.phat_sinh_tang_gia_tri</td>
-                            <td>@cc.phat_sinh_giam_noi_dung</td>
-                            <td>@cc.phat_sinh_giam_gia_tri</td>
+                            <td>@Html.Raw(@cc.phat_sinh_tang_noi_dung)</td>
+                            <td>@Html.Raw(@cc.phat_sinh_tang_gia_tri)</td>
+                            <td>@Html.Raw(@cc.phat_sinh_giam_noi_dung)</td>
+                            <td>@Html.Raw(@cc.phat_sinh_giam_gia_tri)</td>
                             <td>@cc.tong_cong_kps</td>
-                            <td>@cc.phat_sinh_giam_gia_tri</td>
+                            <td>@cc.tong_cong</td>
+                            <td>@cc.ngan_hang</td>
+                            <td>@cc.so_tai_khoan</td>
                         </tr>
                     }
                 </tbody>

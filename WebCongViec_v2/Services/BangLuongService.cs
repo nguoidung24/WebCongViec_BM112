@@ -1,6 +1,7 @@
 ﻿
 using WebCongViec_v2.Models;
 using Microsoft.EntityFrameworkCore;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 
 
 namespace WebCongViec_v2.Services
@@ -30,7 +31,10 @@ namespace WebCongViec_v2.Services
         public string phat_sinh_giam_gia_tri;
 
         public string tong_cong_kps;
+        public string tong_cong;
 
+        public string so_tai_khoan;
+        public string ngan_hang;
 
     }
 
@@ -61,6 +65,8 @@ namespace WebCongViec_v2.Services
         {
             var result = new List<DataBangLuong>();
             var luongDB = _layDanhSachNhanSu(startDate, endDate);
+            var DSTKNganHang = layTKNganHang();
+            var TongSoNgayCong = layTongSoNgayCong(startDate, endDate);
 
             foreach (var c in luongDB.Values)
             {
@@ -192,6 +198,65 @@ namespace WebCongViec_v2.Services
                     + luong_du_an_nsot
                     + luong_du_an_ccot).ToString("N0");
 
+
+                var dsPhatSinh= layPhatSinh(startDate, endDate);
+                double PHATSINHTANG = 0;
+                double PHATSINHGIAM = 0;
+
+                if (dsPhatSinh.ContainsKey(int.Parse(d.id)))
+                {
+                    foreach (var ps in dsPhatSinh[int.Parse(d.id)])
+                    {
+                        if (ps.LoaiPhatSinh == 1)
+                        {
+                            if (ps.KieuPhatSinh == 1)
+                            {
+                                d.phat_sinh_tang_noi_dung += $"<p>- {ps.NoiDungPhatSinh} </p>";
+                                d.phat_sinh_tang_gia_tri += $"<p>{ps.GiaTriPhatSinh.ToString("N0")}  </p>";
+                                PHATSINHTANG += ps.GiaTriPhatSinh;
+
+                            }
+                            else
+                            {
+                                d.phat_sinh_tang_noi_dung += $"<p>- {ps.NoiDungPhatSinh} </p>";
+                                d.phat_sinh_tang_gia_tri += $"<p>{(ps.GiaTriPhatSinh * TongSoNgayCong[int.Parse(d.id)]).ToString("N0")}  </p>";
+                                PHATSINHTANG += (ps.GiaTriPhatSinh * TongSoNgayCong[int.Parse(d.id)]);
+                            }
+
+                        }
+                        else
+                        {
+                            if (ps.KieuPhatSinh == 1)
+                            {
+                                d.phat_sinh_giam_noi_dung += $"<p>- {ps.NoiDungPhatSinh} </p>";
+                                d.phat_sinh_giam_gia_tri += $"<p>{ps.GiaTriPhatSinh.ToString("N0")}  </p>";
+                                PHATSINHGIAM += ps.GiaTriPhatSinh;
+                            }
+                            else
+                            {
+                                d.phat_sinh_giam_noi_dung += $"<p>- {ps.NoiDungPhatSinh} </p>";
+                                d.phat_sinh_giam_gia_tri += $"<p>{(ps.GiaTriPhatSinh * TongSoNgayCong[int.Parse(d.id)]).ToString("N0")}  </p>";
+                                PHATSINHGIAM += (ps.GiaTriPhatSinh * TongSoNgayCong[int.Parse(d.id)]);
+                            }
+
+                        }
+                    }
+                }
+                
+
+                d.tong_cong = ((luong_co_ban_so_nc / 8 * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
+                    + (luong_co_ban_so_nc_quy_doi / 8 * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
+                    + luong_du_an_ns
+                    + luong_du_an_cc
+                    + luong_du_an_nsot
+                    + luong_du_an_ccot
+                    + PHATSINHTANG
+                    - PHATSINHGIAM
+                    ).ToString("N0");
+                d.ngan_hang = " " + (DSTKNganHang.ContainsKey(int.Parse(d.id)) ? DSTKNganHang[int.Parse(d.id)]["ngan_hang"] : "");
+                d.so_tai_khoan = " " + (DSTKNganHang.ContainsKey(int.Parse(d.id)) ? DSTKNganHang[int.Parse(d.id)]["so_tai_khoan"] : "");
+
+
                 result.Add(d);
 
             }
@@ -199,7 +264,57 @@ namespace WebCongViec_v2.Services
             return result;
         }
     
+        public Dictionary<int, Dictionary<string, string>> layTKNganHang(){
+            var result = new Dictionary<int, Dictionary<string, string>>();
+            var dsNhanSu = this.DbContext.Nhansus
+                .Select(n => new { n.IdNhanSu, n.ThongTinCaNhan })
+                .ToList();
+            foreach (var ns in dsNhanSu)
+            {
+                string html = ns.ThongTinCaNhan;
 
+                string account = ExtractValue(html, "Số tài khoản ngân hàng:");
+                string bank = ExtractValue(html, "Ngân hàng:");
+                result[ns.IdNhanSu] = new Dictionary<string, string>
+                {
+                    { "so_tai_khoan", account },
+                    { "ngan_hang", bank }
+                };
+            }
+            return result;
+        }
+        static string ExtractValue(string html, string label)
+        {
+            int labelIndex = html.IndexOf(label);
+            if (labelIndex == -1) return "";
+
+            int spanStart = html.IndexOf("<span>", labelIndex);
+            int spanEnd = html.IndexOf("</span>", spanStart);
+
+            if (spanStart == -1 || spanEnd == -1) return "";
+
+            int contentStart = spanStart + "<span>".Length;
+            return html.Substring(contentStart, spanEnd - contentStart).Trim();
+        }
+
+        public Dictionary<int, List<Phatsinh>> layPhatSinh(DateOnly startDate, DateOnly endDate)
+        {
+            var result = new Dictionary<int, List<Phatsinh>>();
+            var dsPhatSinh = this.DbContext.Phatsinhs
+                .Where(p => p.NgayTinhPhatSinh >= startDate && p.NgayTinhPhatSinh <= endDate)
+                .ToList();
+
+            foreach(var phatSinh in dsPhatSinh)
+            {
+                if (!result.ContainsKey(phatSinh.IdNhanSu))
+                {
+                    result[phatSinh.IdNhanSu] = new List<Phatsinh>();
+                }
+                result[phatSinh.IdNhanSu].Add(phatSinh);
+            }
+
+            return result;
+        }
 
 
 

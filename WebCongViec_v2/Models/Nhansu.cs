@@ -29,5 +29,5 @@ public partial class Nhansu
 
     public virtual ICollection<Chamcong> Chamcongs { get; set; } = new List<Chamcong>();
 
-    public virtual Phatsinh? Phatsinh { get; set; }
+    public virtual ICollection<Phatsinh> Phatsinhs { get; set; } = new List<Phatsinh>();
 }

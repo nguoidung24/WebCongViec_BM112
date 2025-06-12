@@ -227,7 +227,7 @@ public partial class Bm112Context : DbContext
 
             entity.ToTable("phatsinh");
 
-            entity.HasIndex(e => e.IdNhanSu, "id_nhan_su").IsUnique();
+            entity.HasIndex(e => e.IdNhanSu, "id_nhan_su");
 
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
@@ -236,6 +236,10 @@ public partial class Bm112Context : DbContext
             entity.Property(e => e.IdNhanSu)
                 .HasColumnType("int(11)")
                 .HasColumnName("id_nhan_su");
+            entity.Property(e => e.KieuPhatSinh)
+                .HasDefaultValueSql("'1'")
+                .HasColumnType("int(11)")
+                .HasColumnName("kieu_phat_sinh");
             entity.Property(e => e.LoaiPhatSinh)
                 .HasColumnType("int(11)")
                 .HasColumnName("loai_phat_sinh");
@@ -244,8 +248,8 @@ public partial class Bm112Context : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("noi_dung_phat_sinh");
 
-            entity.HasOne(d => d.IdNhanSuNavigation).WithOne(p => p.Phatsinh)
-                .HasForeignKey<Phatsinh>(d => d.IdNhanSu)
+            entity.HasOne(d => d.IdNhanSuNavigation).WithMany(p => p.Phatsinhs)
+                .HasForeignKey(d => d.IdNhanSu)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("phatsinh_ibfk_1");
         });

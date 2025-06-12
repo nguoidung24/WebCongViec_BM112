@@ -30,6 +30,7 @@ namespace WebCongViec_v2.Services
                     IdNhanSu = id,
                     NoiDungPhatSinh = phatSinh.NoiDungPhatSinh,
                     GiaTriPhatSinh = phatSinh.GiaTriPhatSinh,
+                    KieuPhatSinh = phatSinh.KieuPhatSinh,
                     LoaiPhatSinh = phatSinh.LoaiPhatSinh,
                     NgayTinhPhatSinh = phatSinh.NgayTinhPhatSinh
                 }); 

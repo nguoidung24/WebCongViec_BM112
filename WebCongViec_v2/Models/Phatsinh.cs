@@ -17,5 +17,7 @@ public partial class Phatsinh
 
     public DateOnly NgayTinhPhatSinh { get; set; }
 
+    public int KieuPhatSinh { get; set; }
+
     public virtual Nhansu IdNhanSuNavigation { get; set; } = null!;
 }
