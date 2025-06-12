@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Admin - Phí phát sinh";
+}
+<div class="py-2 px-3 position-relative" style="background: white; height: 100%; overflow: auto; ">
+    <div>
+        <p class="h4 text-center py-2 fw-bold">DANH SÁCH PHÍ PHÁT SINH</p>
+        <p class="text-center">
+            <span class="text-success">🟢 Phát sinh tăng</span> - 
+            <span class="text-danger">🔴 Phát sinh giảm</span>
+        </p>
+    </div>
+    <div>
+        <table style="border-color: black" class="table table-striped table-bordered table-hover table-sm align-middle" id="tblPhatSinh">
+            <thead>
+                <tr style="text-align: center">
+                    <th scope="col">Id</th>
+                    <th style="min-width:250px" scope="col">Họ tên</th>
+                    @foreach (var item in ViewBag.TatCaPhatSinh.Values)
+                    {
+                        foreach(var day in item.data.Keys)
+                        {
+                            <th style="min-width:250px" scope="col">@day</th>
+                        }
+                        break;
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.TatCaPhatSinh.Keys)
+                {
+                    <tr>
+                        <td style="text-align: center">@item</td>
+                        <td class="fw-bold">@ViewBag.TatCaPhatSinh[item].name</td>
+                        @foreach (var dsPhatSinh in ViewBag.TatCaPhatSinh[item].data.Values)
+                        {
+                            <td>
+                                @foreach(var phatSinh in dsPhatSinh)
+                                {
+                                    <div class="my-1">
+                                        <form method="post" style="display: inline-block">
+                                            <button value="delete" name="action" title="Xoá" class="btn btn-sm btn-warning" >🗑</button>
+                                            <input type="hidden" name="Id" value="@phatSinh.Id" />
+                                        </form>
+
+                                        @if(phatSinh.LoaiPhatSinh == 1) 
+                                        {
+                                            <span class="text-success">@(phatSinh.NoiDungPhatSinh): +<span class="fw-bold">@( (phatSinh.GiaTriPhatSinh % 1 == 0) ? phatSinh.GiaTriPhatSinh.ToString("N0") : phatSinh.GiaTriPhatSinh.ToString("N2"))</span></span>
+                                        } 
+                                        else 
+                                        {
+                                            <span class="text-danger">@(phatSinh.NoiDungPhatSinh): -<span class="fw-bold">@( (phatSinh.GiaTriPhatSinh % 1 == 0) ? phatSinh.GiaTriPhatSinh.ToString("N0") : phatSinh.GiaTriPhatSinh.ToString("N2"))</span></span>
+                                        }
+                                    </div>
+                                }
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

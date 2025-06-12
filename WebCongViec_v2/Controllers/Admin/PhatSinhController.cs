@@ -40,5 +40,33 @@ namespace WebCongViec_v2.Controllers.Admin
             }
             return View();
         }
+
+
+        [Route("DSPhatSinh")]
+        public IActionResult DSPhatSinh(string action, int Id)
+        {
+            ViewBag.DSPhatSinh = "active";
+            ViewBag.TatCaPhatSinh = this.phatSinhService.TatCaPhatSinh();
+            if (action != null && action.Equals("delete"))
+            {
+                if (Id != null)
+                {
+                    if (this.phatSinhService.xoaPhatSinh(Id))
+                    {
+                        return RedirectToAction("DSPhatSinh", "PhatSinh", new { message = "Thành công!", messageType = "success" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("DSPhatSinh", "PhatSinh", new { message = "Không thành công!", messageType = "warning" });
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("DSPhatSinh", "PhatSinh", new { message = "Không thành công!", messageType = "warning" });
+                }
+            }
+
+            return View();
+        }
     }
 }
