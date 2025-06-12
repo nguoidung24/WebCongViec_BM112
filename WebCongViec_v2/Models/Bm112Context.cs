@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
+using System;
+using System.Collections.Generic;
 using WebCongViec_v2.Services;
 
 namespace WebCongViec_v2.Models;
@@ -30,6 +30,8 @@ public partial class Bm112Context : DbContext
     public virtual DbSet<Nhansu> Nhansus { get; set; }
 
     public virtual DbSet<Noidungcongviec> Noidungcongviecs { get; set; }
+
+    public virtual DbSet<Phatsinh> Phatsinhs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseMySql(ConnectStringService.Get(), Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.4.32-mariadb"));
@@ -217,6 +219,35 @@ public partial class Bm112Context : DbContext
             entity.Property(e => e.ValueNoiDungCongViec)
                 .HasMaxLength(255)
                 .HasColumnName("value_noi_dung_cong_viec");
+        });
+
+        modelBuilder.Entity<Phatsinh>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("phatsinh");
+
+            entity.HasIndex(e => e.IdNhanSu, "id_nhan_su").IsUnique();
+
+            entity.Property(e => e.Id)
+                .HasColumnType("int(11)")
+                .HasColumnName("id");
+            entity.Property(e => e.GiaTriPhatSinh).HasColumnName("gia_tri_phat_sinh");
+            entity.Property(e => e.IdNhanSu)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_nhan_su");
+            entity.Property(e => e.LoaiPhatSinh)
+                .HasColumnType("int(11)")
+                .HasColumnName("loai_phat_sinh");
+            entity.Property(e => e.NgayTinhPhatSinh).HasColumnName("ngay_tinh_phat_sinh");
+            entity.Property(e => e.NoiDungPhatSinh)
+                .HasMaxLength(255)
+                .HasColumnName("noi_dung_phat_sinh");
+
+            entity.HasOne(d => d.IdNhanSuNavigation).WithOne(p => p.Phatsinh)
+                .HasForeignKey<Phatsinh>(d => d.IdNhanSu)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("phatsinh_ibfk_1");
         });
 
         OnModelCreatingPartial(modelBuilder);

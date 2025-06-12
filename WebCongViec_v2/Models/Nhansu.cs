@@ -19,13 +19,15 @@ public partial class Nhansu
 
     public string FsiThoiVu { get; set; } = null!;
 
-    public float MucLuongCoBan8h { get; set; }
+    public double MucLuongCoBan8h { get; set; }
 
-    public float MucLuongDuAn8h { get; set; }
+    public double MucLuongDuAn8h { get; set; }
 
     public float HeSoOtThuong { get; set; }
 
     public float HeSoCn { get; set; }
 
     public virtual ICollection<Chamcong> Chamcongs { get; set; } = new List<Chamcong>();
+
+    public virtual Phatsinh? Phatsinh { get; set; }
 }
