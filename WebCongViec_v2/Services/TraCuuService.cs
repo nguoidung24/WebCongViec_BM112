@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Globalization;
+using WebCongViec_v2.Models;
 
 namespace WebCongViec_v2.Services
 {
@@ -19,6 +20,12 @@ namespace WebCongViec_v2.Services
             
     public class TraCuuService : BaseService
     {
+
+        public List<Noidungcongviec> layNoiDungCongViec()
+        {
+            return this.DbContext.Noidungcongviecs.Where(nd => nd.IdNoiDungCongViec != 0).ToList();
+        }
+
         public Dictionary<int, DataTraCuu> getData(DateOnly startDate, DateOnly endDate, int jobId, string typeId)
         {
             var dataTraCuu = new Dictionary<int, DataTraCuu>();

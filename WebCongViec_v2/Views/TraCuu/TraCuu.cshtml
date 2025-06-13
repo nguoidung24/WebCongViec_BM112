@@ -3,7 +3,7 @@
 }
 <div class="position-relative" style="background: white; height: 100%; overflow: auto; ">
     <div class="container-fluid py-2">
-        <p class="text-center h4 fw-bold pt-3"> TRA CỨU NĂNG SUẤT (Chưa lấy list CV)</p>
+        <p class="text-center h4 fw-bold pt-3"> TRA CỨU NĂNG SUẤT</p>
         <div>
             <form method="post" class="row g-3 flex-wrap" style="max-width: 1200px; margin: 30px auto; background: #fff; padding-left: 24px; padding-right: 24px; padding-bottom: 24px; border-radius: 12px; box-shadow: 0 2px 8px #0001;">
                 <div class="col-12 col-md-2">
@@ -18,8 +18,10 @@
                     <label for="job" class="form-label">Công việc</label>
                     <select class="form-select" id="job" name="jobId" required>
                         <option value="">-- Chọn công việc --</option>
-                        <option selected="@ViewBag.JobId.ToString().Equals("33")" value="33">Scan A31</option>
-                        <option selected="@ViewBag.JobId.ToString().Equals("31")" value="31">Check scan</option>
+                        @foreach (var nd in ViewBag.DSNoiDungCongViec)
+                        {
+                            <option selected="@ViewBag.JobId.ToString().Equals(nd.IdNoiDungCongViec.ToString())" value="@nd.IdNoiDungCongViec">@nd.ValueNoiDungCongViec</option>
+                        }
                     </select>
                 </div>
                 <div class="col-12 col-md-3">

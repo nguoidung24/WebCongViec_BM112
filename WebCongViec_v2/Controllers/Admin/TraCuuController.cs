@@ -19,7 +19,7 @@ namespace WebCongViec_v2.Controllers.Admin
             ViewBag.EndDate = endDate != default(DateOnly) ? endDate.ToString("yyyy-MM-dd") : DateOnly.FromDateTime(DateTime.Now).ToString("yyyy-MM-dd") ;
             ViewBag.JobId = jobId;
             ViewBag.TypeId = typeId != null ? typeId : "";
-
+            ViewBag.DSNoiDungCongViec = this.traCuuService.layNoiDungCongViec();
             ViewBag.TraCuu = "active";
             if (action != null && action.Equals("TraCuu"))
             {
