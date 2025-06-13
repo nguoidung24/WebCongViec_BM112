@@ -87,7 +87,7 @@
                 },
                 customButtons: {
                   custom1: {
-                    text: 'Thông tin cá nhân💼',
+                    text: 'Thông tin cá nhân 💼',
                     click: function() {
                         window.location.href = "/UserInfo"
                     }
@@ -166,11 +166,10 @@
 
 
     <div id="mobile" class="d-block d-md-none">
-        <div class="position-fixed" style="top: 5px; right: 10px">
+        <div style="padding: 2px; text-align: center;">
             <a href="/logout?logout=true" class="btn btn-sm btn-primary">Đăng xuất</a>
-        </div>
-        <div class="position-fixed" style="top: 5px; left: 10px">
-            <a href="/UsersController/ChamCong" class="btn btn-sm btn-success">Chấm công📝</a>
+            <a href="/UsersController/ChamCong" class="btn btn-sm btn-success">Chấm công 📝</a>
+            <a href="/UserInfo" class="btn btn-sm btn-danger">Thông tin cá nhân 💼</a>
         </div>
         <div class="h5 fw-bold mt-2" style="background: #f9f9f9 ; text-align: center">
             @ViewBag.Name
