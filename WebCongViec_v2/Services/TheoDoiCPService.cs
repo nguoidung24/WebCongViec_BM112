@@ -30,6 +30,8 @@ namespace WebCongViec_v2.Services
             decimal ResultTongLuongDuAn = 0;
             var result = new List<DataBangLuong>();
             var luongDB = _layDanhSachNhanSu();
+            var TongSoNgayCong = layTongSoNgayCong();
+            var dsPhatSinh = layPhatSinh();
 
             foreach (var c in luongDB.Values)
             {
@@ -40,7 +42,8 @@ namespace WebCongViec_v2.Services
                 double luong_du_an_cc = 0;
                 double luong_du_an_nsot = 0;
                 double luong_du_an_ccot = 0;
-
+                double PHATSINHTANG = 0;
+                double PHATSINHGIAM = 0;
                 foreach (var nhansuchamcong in c)
                 {
                     // Tính lương cơ bản 
@@ -136,6 +139,42 @@ namespace WebCongViec_v2.Services
                         }
                     }
 
+                    
+
+                }
+
+
+
+                if (dsPhatSinh.ContainsKey(int.Parse(c[0].IdNhanSu.ToString())))
+                {
+                    foreach (var ps in dsPhatSinh[int.Parse(c[0].IdNhanSu.ToString())])
+                    {
+                        if (ps.LoaiPhatSinh == 1)
+                        {
+                            if (ps.KieuPhatSinh == 1)
+                            {
+                                PHATSINHTANG += ps.GiaTriPhatSinh;
+
+                            }
+                            else
+                            {
+                                PHATSINHTANG += (ps.GiaTriPhatSinh * TongSoNgayCong[int.Parse(c[0].IdNhanSu.ToString())]);
+                            }
+
+                        }
+                        else
+                        {
+                            if (ps.KieuPhatSinh == 1)
+                            {
+                                PHATSINHGIAM += ps.GiaTriPhatSinh;
+                            }
+                            else
+                            {
+                                PHATSINHGIAM += (ps.GiaTriPhatSinh * TongSoNgayCong[int.Parse(c[0].IdNhanSu.ToString())]);
+                            }
+
+                        }
+                    }
                 }
 
                 ResultTongLuongDuAn += decimal.Parse((
@@ -144,11 +183,44 @@ namespace WebCongViec_v2.Services
                     + luong_du_an_ns
                     + luong_du_an_cc
                     + luong_du_an_nsot
-                    + luong_du_an_ccot).ToString());
+                    + PHATSINHTANG
+                    - PHATSINHGIAM
+                    + luong_du_an_ccot).ToString("N2"));
             }
 
             return  ResultTongLuongDuAn;
         }
+        public Dictionary<int, List<Phatsinh>> layPhatSinh()
+        {
+            var result = new Dictionary<int, List<Phatsinh>>();
+            var dsPhatSinh = this.DbContext.Phatsinhs
+                .ToList();
+
+            foreach (var phatSinh in dsPhatSinh)
+            {
+                if (!result.ContainsKey(phatSinh.IdNhanSu))
+                {
+                    result[phatSinh.IdNhanSu] = new List<Phatsinh>();
+                }
+                result[phatSinh.IdNhanSu].Add(phatSinh);
+            }
+
+            return result;
+        }
+        public Dictionary<int, int> layTongSoNgayCong()
+        {
+            var result = this.DbContext.Chamcongs
+                .GroupBy(c => c.IdNhanSu)
+                .Select(g => new
+                {
+                    IdNhanSu = g.Key,
+                    SoNgayThiCong = g.Select(c => c.NgayThiCong).Distinct().Count()
+                })
+                .ToDictionary(x => x.IdNhanSu, x => x.SoNgayThiCong);
+
+            return result;
+        }
+
         public decimal TongChiPhiKhauHaoMayScan = decimal.MaxValue;
 
         public void updateDuToanChiPhi(string data, string value)
