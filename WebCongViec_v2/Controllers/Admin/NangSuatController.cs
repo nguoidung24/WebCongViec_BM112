@@ -7,6 +7,7 @@ namespace WebCongViec_v2.Controllers.Admin
         [Route("NangSuat")]
         public IActionResult NangSuat()
         {
+            ViewBag.NangSuat = "active";
             return View();
         }
     }

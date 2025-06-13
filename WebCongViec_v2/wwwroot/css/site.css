@@ -1,8 +1,8 @@
 body {
-    background: radial-gradient(#4c4c4c 4%, #3d3d3d 9%, rgba(61, 61, 61, 0) 9%) 0 0, radial-gradient(#4c4c4c 4%, #3d3d3d 8%, rgba(61, 61, 61, 0) 10%) 50px 50px, radial-gradient(rgba(76, 76, 76, 0.8) 20%, rgba(61, 61, 61, 0)) 50px 0, radial-gradient(rgba(76, 76, 76, 0.8) 20%, rgba(61, 61, 61, 0)) 0 50px, radial-gradient(#3d3d3d 35%, rgba(61, 61, 61, 0) 60%) 50px 0, radial-gradient(#3d3d3d 35%, rgba(61, 61, 61, 0) 60%) 100px 50px, radial-gradient(rgba(53, 53, 53, 0.7), rgba(61, 61, 61, 0)) 0 0, radial-gradient(rgba(53, 53, 53, 0.7), rgba(61, 61, 61, 0)) 50px 50px, linear-gradient(45deg, rgba(61, 61, 61, 0) 49%, black 50%, rgba(61, 61, 61, 0) 70%) 0 0, linear-gradient(-45deg, rgba(61, 61, 61, 0) 49%, black 50%, rgba(61, 61, 61, 0) 70%) 0 0;
-    background-color: #3d3d3d;
-    background-size: 100px 100px;
+    background: linear-gradient(to bottom, #f6877766 0%, #d03d3d 100%);
 }
+
+
 
 input[type="date"]::-webkit-datetime-edit, input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-clear-button {
     color: #fff;
@@ -187,11 +187,13 @@ body::-webkit-scrollbar {
     z-index: 999999999;
     justify-content: center;
     align-items: center;
-    background-color: #39566f;
+    background-color: white;
     animation: moveBackground 5s linear infinite;
-/*    background-color: white;*/
-    background: radial-gradient(#4c4c4c 4%, #3d3d3d 9%, rgba(61, 61, 61, 0) 9%) 0 0, radial-gradient(#4c4c4c 4%, #3d3d3d 8%, rgba(61, 61, 61, 0) 10%) 50px 50px, radial-gradient(rgba(76, 76, 76, 0.8) 20%, rgba(61, 61, 61, 0)) 50px 0, radial-gradient(rgba(76, 76, 76, 0.8) 20%, rgba(61, 61, 61, 0)) 0 50px, radial-gradient(#3d3d3d 35%, rgba(61, 61, 61, 0) 60%) 50px 0, radial-gradient(#3d3d3d 35%, rgba(61, 61, 61, 0) 60%) 100px 50px, radial-gradient(rgba(53, 53, 53, 0.7), rgba(61, 61, 61, 0)) 0 0, radial-gradient(rgba(53, 53, 53, 0.7), rgba(61, 61, 61, 0)) 50px 50px, linear-gradient(45deg, rgba(61, 61, 61, 0) 49%, black 50%, rgba(61, 61, 61, 0) 70%) 0 0, linear-gradient(-45deg, rgba(61, 61, 61, 0) 49%, black 50%, rgba(61, 61, 61, 0) 70%) 0 0;
-    background-size: 100px 100px;
+    /*    background-color: white;*/
+    background-image: url('/tds.png');
+    background-size: 300px auto;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 /*@keyframes moveBackground {
     from {
@@ -315,9 +317,9 @@ ul, ol {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    background-color: #00000094;
+    background-color: white;
     padding: 24px;
-    color: white;
+    color: black;
     border-radius: 20px;
     transition: all 0.3s;
 }
@@ -337,7 +339,7 @@ ul, ol {
     display: flex;
     gap: 20px;
     padding-bottom: 20px;
-    border-bottom: 1px solid #292a3c;
+    border-bottom: 1px solid #65656563;
 }
 
 .user-img {
@@ -358,7 +360,7 @@ ul, ol {
 .menu .title {
     font-size: 10px;
     font-weight: 500;
-    color: white;
+    color: rgba(76, 76, 76, 0.8);
     text-transform: uppercase;
     margin-bottom: 10px;
 }
@@ -402,7 +404,7 @@ ul, ol {
         gap: 10px;
         font-size: 18px;
         font-weight: 500;
-        color: white;
+        color: black;
         text-decoration: none;
         /*padding: 13px 13px;*/
         border-radius: 8px;
@@ -422,8 +424,8 @@ ul, ol {
 
         .menu ul li > a:hover .sidebar-icon,
         .menu ul li.active a > .sidebar-icon {
-            background-color: #0d6efd;
-            box-shadow: 0px 0px 6px #0d6efd, 0px 0px 20px #023177;
+            background-color: #ffcf49;
+            box-shadow: 0px 0px 6px #e5ce28, 0px 0px 20px #ffe873;
         }
 
     .sidebar-icon {
@@ -472,7 +474,7 @@ ul, ol {
     margin-left: 20px;
     padding-left: 20px;
     padding-top: 5px;
-    border-left: 1px solid #292a3c;
+    border-left: 1px solid #cccccc;
 }
 
 .sidebar:not(.active) .menu .active .sub-menu {
@@ -481,7 +483,7 @@ ul, ol {
 
 .sub-menu .active .text:before {
     content: " ";
-    border: solid #0d6efd;
+    border: solid #efbe33;
     width: 11px;
     height: 11px;
     background: transparent;
@@ -492,7 +494,7 @@ ul, ol {
     display: inline-block;
     opacity: 100%;
     margin-right: 10px;
-    box-shadow: 0px 0px 6px #0d6efd, 0px 0px 20px #023177;
+    box-shadow: 0px 0px 6px #efbe33, 0px 0px 20px #fbedc633;
 }
 
 .sub-menu .text:before {
@@ -526,6 +528,7 @@ ul, ol {
     right: -14px;
     top: 3.5%;
     width: 28px;
+    box-shadow: 0px 0px 5px #b7b7b7;
     height: 28px;
     border-radius: 8px;
     display: flex;
@@ -614,6 +617,6 @@ ul, ol {
         border-radius: 0px 30px 30px 30px;
         padding: 10px 20px;
         border: 1px solid #0077cc;
-        background-color: #171829;
+        background-color: white;
         box-shadow: 0px 10px 8px rgba(0, 0, 0, 0.1);
     }

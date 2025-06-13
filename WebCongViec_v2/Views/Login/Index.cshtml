@@ -42,6 +42,7 @@
                                     <span></span>
                                     Đăng nhập 🔑
                                 </button>
+                                <img src="/tds.png" class="btn-login" style="width: 100px; margin: 0; ">
                             </form>
                         </div>
                     </div>
@@ -64,6 +65,12 @@
         anime({
             delay:1000,
             targets: 'input, button, label',
+            scale: ['0%', '100%'],
+        });
+
+        anime({
+            delay:1200,
+            targets: 'form img',
             scale: ['0%', '100%'],
         });
        
