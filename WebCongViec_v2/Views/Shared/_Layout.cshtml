@@ -26,8 +26,8 @@
                     <span style="font-size: 35px">🔐</span>
                 </div>
                 <div class="user-details">
-                    <p class="title">Website Chấm Công</p>
-                    <p class="name">Quản Trị Viên</p>
+                    <p class="title">CHẤM CÔNG - CN13</p>
+                    <p class="name">Quản Trị</p>
                 </div>
             </div>
             <div class="nav">
@@ -52,6 +52,18 @@
                                 <span class="text pe-2">Trang chủ</span>
                             </a>
                         </li>
+
+                        <li class="@ViewBag.TraCuu @ViewBag.NangSuat">
+                            <a role="button">
+                                <span class="sidebar-icon">🧱</span>
+                                <span class="text">Năng suất</span><i class="arrow">👇</i>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="@ViewBag.NangSuat"><a href="/NangSuat"><span class="text">Năng suất</span></a></li>
+                                <li class="@ViewBag.TraCuu"><a href="/TraCuu"><span class="text">Tra cứu</span></a></li>
+                            </ul>
+                        </li>
+
                         <li class="@ViewBag.ThongKeActive @ViewBag.BCTongHop @ViewBag.DSPhatSinh">
                             <a role="button">
                                 <span class="sidebar-icon">📐</span>
@@ -92,7 +104,7 @@
                         <li class="@ViewBag.NDCVActive @ViewBag.ThemNDCVActive">
                             <a role="button">
                                 <span class="sidebar-icon">📚</span>
-                                <span class="text">ND công việc</span><i class="arrow">👇</i>
+                                <span class="text">Công việc</span><i class="arrow">👇</i>
                             </a>
                             <ul class="sub-menu">
                                 <li class="@ViewBag.NDCVActive"><a href="/NDCV"><span class="text">Danh sách</span></a></li>
@@ -110,24 +122,7 @@
                                 <li class="@ViewBag.ThungRacActive"><a href="/ThungRac"><span class="text">Thùng rác</span></a></li>
                             </ul>
                         </li>
-                        @* <li class="@ViewBag.CapNhatCongActive"> *@
-                        @*     <a href="/CapNhatCong" class=""> *@
-                        @*         <span class="sidebar-icon">✍</span> *@
-                        @*         <span class="text">Cập nhật công</span> *@
-                        @*     </a> *@
-                        @* </li> *@
-                        @* <li class="@ViewBag.AdminChamCongActive"> *@
-                        @*     <a href="/AdminChamCong" class=""> *@
-                        @*         <span class="sidebar-icon">⏳</span> *@
-                        @*         <span class="text">Chấm công bù</span> *@
-                        @*     </a> *@
-                        @* </li> *@
-                        @* <li class="@ViewBag.ThungRacActive"> *@
-                        @*     <a href="/ThungRac" class=""> *@
-                        @*         <span class="sidebar-icon">🧺</span> *@
-                        @*         <span class="text">Thùng rác</span> *@
-                        @*     </a> *@
-                        @* </li> *@
+
                         <li class="@ViewBag.BangLuong">
                             <a href="/BangLuong" class="">
                                 <span class="sidebar-icon">💰</span>
@@ -148,6 +143,7 @@
                                 <span class="text">Tra cứu</span>
                             </a>
                         </li>
+
                         @* @for(int i = 1; i < 50; i++)
                         {
                             <li class="">
