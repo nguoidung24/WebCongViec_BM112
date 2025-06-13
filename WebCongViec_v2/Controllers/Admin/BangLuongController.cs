@@ -47,7 +47,7 @@ namespace WebCongViec_v2.Controllers.Admin
 
             ViewBag.DSTongNgayCong = this.bangLuongService.layTongSoNgayCong(DateOnly.Parse(ViewBag.StartDate), DateOnly.Parse(ViewBag.EndDate));
             ViewBag.DSNhanSuChamCong = this.bangLuongService.tinhLuong(DateOnly.Parse(ViewBag.StartDate), DateOnly.Parse(ViewBag.EndDate));
-
+            ViewBag.TongLuong = this.bangLuongService.TONGLUONG.ToString("N2");
             return View();
         }
     }

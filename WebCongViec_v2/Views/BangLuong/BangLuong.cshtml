@@ -58,7 +58,7 @@
     <div class="text-end">
         <a href="/PhatSinh" style="position: fixed; top: 20px; right: 140px" class="btn mb-2 btn-warning btn-sm">➕ Phát sinh</a>
     </div>
-    <table class="table-data">
+    <table class="table-data" style="min-width: 2000px">
         <thead style="text-align:center">
             <tr>
                 <th rowspan='3' style="background-color: limegreen">ID</th>
@@ -97,41 +97,73 @@
                 <th style="background-color: orange">CC.OT</th>
             </tr>
         </thead>
-            @if (ViewBag.DSNhanSuChamCong.Count > 0)
-            {
-                <tbody>
-                    @foreach (var cc in ViewBag.DSNhanSuChamCong)
-                    {
-                        <tr>
-                            <td>@cc.id</td>
-                            <td>@cc.ho_ten</td>
-                            <td>@cc.fsi_thoi_vu</td>
-                            <td>@cc.luong_co_ban_muc_ngay</td>
-                            <td>@cc.luong_co_ban_so_nc</td>
-                            <td>@cc.luong_co_ban_thanh_tien_1</td>
-                            <td>@cc.luong_co_ban_so_nc_quy_doi</td>
-                            <td>@cc.luong_co_ban_thanh_tien_2</td>
-                            <td>@cc.luong_du_an_muc_ngay</td>
-                            <td>@cc.luong_du_an_ns</td>
-                            <td>@cc.luong_du_an_cc</td>
-                            <td>@cc.luong_du_an_nsot</td>
-                            <td>@cc.luong_du_an_ccot</td>
-                            <td>@Html.Raw(@cc.phat_sinh_tang_noi_dung)</td>
-                            <td>@Html.Raw(@cc.phat_sinh_tang_gia_tri)</td>
-                            <td>@Html.Raw(@cc.phat_sinh_giam_noi_dung)</td>
-                            <td>@Html.Raw(@cc.phat_sinh_giam_gia_tri)</td>
-                            <td>@cc.tong_cong_kps</td>
-                            <td>@cc.tong_cong</td>
-                            <td>@cc.ngan_hang</td>
-                            <td>@cc.so_tai_khoan</td>
-                        </tr>
-                    }
-                </tbody>
+        @{
+            double tongSo = 0;
+        }
+
+        @if (ViewBag.DSNhanSuChamCong.Count > 0)
+        {
+        <tbody>
+            <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>@ViewBag.TongLuong</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                @foreach (var cc in ViewBag.DSNhanSuChamCong)
+                {
+                    <tr>
+                        <td>@cc.id</td>
+                        <td>@cc.ho_ten</td>
+                        <td>@cc.fsi_thoi_vu</td>
+                        <td>@cc.luong_co_ban_muc_ngay</td>
+                        <td>@cc.luong_co_ban_so_nc</td>
+                        <td>@cc.luong_co_ban_thanh_tien_1</td>
+                        <td>@cc.luong_co_ban_so_nc_quy_doi</td>
+                        <td>@cc.luong_co_ban_thanh_tien_2</td>
+                        <td>@cc.luong_du_an_muc_ngay</td>
+                        <td>@cc.luong_du_an_ns</td>
+                        <td>@cc.luong_du_an_cc</td>
+                        <td>@cc.luong_du_an_nsot</td>
+                        <td>@cc.luong_du_an_ccot</td>
+                        <td>@Html.Raw(@cc.phat_sinh_tang_noi_dung)</td>
+                        <td>@Html.Raw(@cc.phat_sinh_tang_gia_tri)</td>
+                        <td>@Html.Raw(@cc.phat_sinh_giam_noi_dung)</td>
+                        <td>@Html.Raw(@cc.phat_sinh_giam_gia_tri)</td>
+                        <td>@cc.tong_cong_kps</td>
+                        <td>@cc.tong_cong</td>
+                        <td>@cc.ngan_hang</td>
+                        <td>@cc.so_tai_khoan</td>
+                    </tr>
+                    tongSo += double.Parse(cc.tong_cong);
+                }
+            </tbody>
             }
     </table>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <script>
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector("#TongSo").innerText ="@tongSo.ToString("N2")";
+         });
         function exportToExcel() {
             const table = document.querySelector(".table-data");
             const wb = XLSX.utils.table_to_book(table, { sheet: "BangLuong" });
@@ -193,7 +225,6 @@
 				});
 			});
          });
-
 
 
         function sortTableById() {

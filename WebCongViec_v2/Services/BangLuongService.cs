@@ -40,6 +40,7 @@ namespace WebCongViec_v2.Services
 
     public class BangLuongService : BaseService
     {
+        public double TONGLUONG = 0;
 
         public Dictionary<int, List<Chamcong>> _layDanhSachNhanSu(DateOnly startDate, DateOnly endDate)
         {
@@ -67,7 +68,7 @@ namespace WebCongViec_v2.Services
             var luongDB = _layDanhSachNhanSu(startDate, endDate);
             var DSTKNganHang = layTKNganHang();
             var TongSoNgayCong = layTongSoNgayCong(startDate, endDate);
-
+            double TongCongLuong = 0;
             foreach (var c in luongDB.Values)
             {
                 var d = new DataBangLuong();
@@ -253,14 +254,25 @@ namespace WebCongViec_v2.Services
                     + PHATSINHTANG
                     - PHATSINHGIAM
                     ).ToString("N0");
+
                 d.ngan_hang = " " + (DSTKNganHang.ContainsKey(int.Parse(d.id)) ? DSTKNganHang[int.Parse(d.id)]["ngan_hang"] : "");
+
                 d.so_tai_khoan = " " + (DSTKNganHang.ContainsKey(int.Parse(d.id)) ? DSTKNganHang[int.Parse(d.id)]["so_tai_khoan"] : "");
 
+                TongCongLuong += ((luong_co_ban_so_nc / 8 * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
+                    + (luong_co_ban_so_nc_quy_doi / 8 * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
+                    + luong_du_an_ns
+                    + luong_du_an_cc
+                    + luong_du_an_nsot
+                    + luong_du_an_ccot
+                    + PHATSINHTANG
+                    - PHATSINHGIAM
+                    );
 
                 result.Add(d);
 
             }
-
+            this.TONGLUONG = TongCongLuong;
             return result;
         }
     
