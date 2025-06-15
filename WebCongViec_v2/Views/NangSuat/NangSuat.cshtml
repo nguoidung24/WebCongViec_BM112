@@ -1,32 +1,31 @@
 ﻿@{
     ViewData["Title"] = "Admin - Năng suất";
-    // Get the productivity data from ViewBag and cast it to the correct type
-    var dataNangSuat = ViewBag.DataNangSuat as Dictionary<int, WebCongViec_v2.Services.DataNangSuat>;
+    // Get the productivity data from ViewBag and cast it to the correct type
+    var dataNangSuat = ViewBag.DataNangSuat as Dictionary<int, WebCongViec_v2.Services.DataNangSuat>;
 
-    // Determine the unique dates across all data to generate the header columns dynamically
-    // This is important because each person/task combination will have the same date range
-    List<string> uniqueDates = new List<string>();
+    // Determine the unique dates across all data to generate the header columns dynamically
+    // This is important because each person/task combination will have the same date range
+    List<string> uniqueDates = new List<string>();
     if (dataNangSuat != null && dataNangSuat.Any())
     {
-        // Get the first person's data and iterate through their tasks to get the dates
-        var firstPersonData = dataNangSuat.Values.FirstOrDefault();
+        // Get the first person's data and iterate through their tasks to get the dates
+        var firstPersonData = dataNangSuat.Values.FirstOrDefault();
         if (firstPersonData != null && firstPersonData.data.Any())
         {
             var firstTaskData = firstPersonData.data.Values.FirstOrDefault();
             if (firstTaskData != null)
             {
-                // Order dates to ensure consistent column order
-                uniqueDates = firstTaskData.Keys.OrderBy(dateStr => DateTime.ParseExact(dateStr, "dd-MM-yyyy", null)).ToList();
+                // Order dates to ensure consistent column order
+                uniqueDates = firstTaskData.Keys.OrderBy(dateStr => DateTime.ParseExact(dateStr, "dd-MM-yyyy", null)).ToList();
             }
         }
     }
 }
-<style>
-   
-</style>
+
+
 <div class="py-2 px-3 position-relative" style="background: white; height: 100%; overflow: auto;">
     <div>
-        <table class="__table __table-bordered">
+        <table class="table table-bordered" id="myTable">
             <thead>
                 <tr>
                     <td rowspan="2">Id</td>
