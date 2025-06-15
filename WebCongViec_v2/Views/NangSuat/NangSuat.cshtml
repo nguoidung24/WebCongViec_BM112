@@ -1,9 +1,117 @@
 ﻿@{
     ViewData["Title"] = "Admin - Năng suất";
-}
+    // Get the productivity data from ViewBag and cast it to the correct type
+    var dataNangSuat = ViewBag.DataNangSuat as Dictionary<int, WebCongViec_v2.Services.DataNangSuat>;
 
-<div class="py-2 px-3 position-relative" style="background: white; height: 100%; overflow: auto; ">
+    // Determine the unique dates across all data to generate the header columns dynamically
+    // This is important because each person/task combination will have the same date range
+    List<string> uniqueDates = new List<string>();
+    if (dataNangSuat != null && dataNangSuat.Any())
+    {
+        // Get the first person's data and iterate through their tasks to get the dates
+        var firstPersonData = dataNangSuat.Values.FirstOrDefault();
+        if (firstPersonData != null && firstPersonData.data.Any())
+        {
+            var firstTaskData = firstPersonData.data.Values.FirstOrDefault();
+            if (firstTaskData != null)
+            {
+                // Order dates to ensure consistent column order
+                uniqueDates = firstTaskData.Keys.OrderBy(dateStr => DateTime.ParseExact(dateStr, "dd-MM-yyyy", null)).ToList();
+            }
+        }
+    }
+}
+<style>
+   
+</style>
+<div class="py-2 px-3 position-relative" style="background: white; height: 100%; overflow: auto;">
     <div>
-       
+        <table class="__table __table-bordered">
+            <thead>
+                <tr>
+                    <td rowspan="2">Id</td>
+                    <td rowspan="2">Họ Tên</td>
+                    <td rowspan="2">CV</td>
+                    @* Dynamically generate date columns based on uniqueDates *@
+                    @foreach (var date in uniqueDates)
+                    {
+                        <td colspan="4" class="text-center">@date</td>
+                    }
+                </tr>
+                <tr>
+                    @* Generate sub-headers for each date (Thời gian, Loại, Nội dung, Khối lượng) *@
+                    @foreach (var date in uniqueDates)
+                    {
+                        <td>Thời gian</td>
+                        <td>Nội dung</td>
+                        <td>Loại</td>
+                        <td>Khối lượng</td>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @if (dataNangSuat != null)
+                {
+                    @foreach (var nhanSuEntry in dataNangSuat.OrderBy(ns => ns.Key)) // Order by NhanSu Id for consistent display
+                    {
+                        var idNhanSu = nhanSuEntry.Key;
+                        var nhanSuData = nhanSuEntry.Value;
+                        var listCongViec = nhanSuData.data;
+
+                        // Keep track of the row span for NhanSu Id and Ho Ten
+                        int rowSpanForNhanSu = listCongViec.Count;
+                        bool isFirstCongViecForNhanSu = true;
+
+                        @foreach (var congViecEntry in listCongViec.OrderBy(cv => cv.Key)) // Order by CongViec name
+                        {
+                            var tenCongViec = congViecEntry.Key;
+                            var chamCongByDate = congViecEntry.Value;
+
+                            <tr>
+                                @if (isFirstCongViecForNhanSu)
+                                {
+                                    <td rowspan="@rowSpanForNhanSu">@idNhanSu</td>
+                                    <td rowspan="@rowSpanForNhanSu">@nhanSuData.name</td>
+                                    isFirstCongViecForNhanSu = false;
+                                }
+                                <td>@tenCongViec</td>
+                                @* Iterate through uniqueDates to ensure all date columns are present for each task *@
+                                @foreach (var date in uniqueDates)
+                                {
+                                    // Get the list of Chamcong for the current date and task
+                                    var chamcongsForDate = chamCongByDate.GetValueOrDefault(date, new List<Chamcong>());
+
+                                    // Display data or empty if no Chamcong records for that date/task
+                                    if (chamcongsForDate.Any())
+                                    {
+                                        // If there are multiple entries for the same date/task, you might want to concatenate them
+                                        // For simplicity, I'm taking the first one here. Adjust as needed.
+                                        var firstChamcong = chamcongsForDate.First();
+                                        <td>@firstChamcong.ThoiGian</td>
+                                        <td>@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td>
+                                        <td>@firstChamcong.IdLoaiCongViecNavigation?.ValueLoaiCongViec</td>
+                                        <td>@firstChamcong.KhoiLuong</td>
+                                    }
+                                    else
+                                    {
+                                        // Render empty cells if no data for this date/task
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="@(3 + uniqueDates.Count * 4)">No productivity data available.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
