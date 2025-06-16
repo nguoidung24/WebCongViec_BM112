@@ -30,9 +30,16 @@
 
 </style>
 
-
 <div class="position-relative" style="background: white; height: 100%; overflow: auto;">
-
+    <form method="post" style="z-index: 99999; display: flex; position: fixed; right: 10px; bottom: 10px">
+        <input type="date" value="@ViewBag.TuNgay" name="tuNgay" />
+        &nbsp;&nbsp;
+        <input type="date" value="@ViewBag.DenNgay" name="denNgay" />
+        &nbsp;&nbsp;
+        <button type="submit" name="action" value="filter" class="btn btn-primary">Xem</button>
+        &nbsp;&nbsp;
+        <button type="button" onclick="ExportExcel()" class="btn btn-success">📥</button>
+    </form>
     <table class="m-0" style="position: sticky; top: 0px;  left: 0px; z-index: 1000; background: white" >
         <thead>
             <tr style="">
@@ -56,7 +63,7 @@
                     <td style="min-width: 51px" rowspan="2">CV</td>
                     @foreach (var date in uniqueDates)
                     {
-                        <td style="min-width: 100px; text-align: center;font-weight: bold;  background-color: lightblue" colspan="2">@date</td>
+                        <td style="min-width: 100px; text-align: center;font-weight: bold;  background-color: lightblue" colspan="2">@date.Replace("-","|")</td>
                         <td style="min-width: 100px; text-align: center;font-weight: bold;  background-color: lightyellow" class="dayOfWeek" colspan="2">@date</td>
                         <td class="tableTrang"></td>
                     }
@@ -124,7 +131,7 @@
                         <td style="min-width: 50px" rowspan="2">CV</td>
                         @foreach (var date in uniqueDates)
                         {
-                            <td style="min-width: 100px; text-align: center;  background-color: lightblue" colspan="2">@date</td>
+                            <td style="min-width: 100px; text-align: center;  background-color: lightblue" colspan="2">@date.Replace("-","|")</td>
                             <td style="min-width: 100px; text-align: center;  background-color: lightyellow" class="dayOfWeek" colspan="2">@date</td>
                             <td class="tableTrang"></td>
                         }
@@ -260,3 +267,17 @@
       });
     </script>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script>
+
+
+    function ExportExcel() {
+        const table = document.getElementById("myTable");
+        const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+        XLSX.writeFile(wb, "table_export.xlsx");
+    }
+
+
+</script>

@@ -14,7 +14,7 @@ namespace WebCongViec_v2.Services
 
     public class NangSuatService : BaseService
     {
-        public Dictionary<int, DataNangSuat> LayNangSuat()
+        public Dictionary<int, DataNangSuat> LayNangSuat(DateOnly tuNgay, DateOnly denNgay)
         {
             // Lấy danh sách tất cả nhân sự từ DB một lần
             var allNhansus = this.DbContext.Nhansus.ToDictionary(ns => ns.IdNhanSu, ns => ns.HoTenNhanSu);
@@ -25,6 +25,7 @@ namespace WebCongViec_v2.Services
                 .Include(c => c.IdNhanSuNavigation)
                 .Include(c => c.IdNoiDungCongViecNavigation)
                 .Include(c => c.IdCongViecNavigation)
+                .Where(c => c.NgayThiCong >= tuNgay && c.NgayThiCong <= denNgay)
                 .Where(c => c.Status == 1)
                 .ToList();
 

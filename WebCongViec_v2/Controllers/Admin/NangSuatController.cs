@@ -12,11 +12,23 @@ namespace WebCongViec_v2.Controllers.Admin
         }
 
         [Route("NangSuat")]
-        public IActionResult NangSuat()
+        public IActionResult NangSuat(string action, DateOnly tuNgay, DateOnly denNgay)
         {
-            ViewBag.NangSuat = "active";
 
-            ViewBag.DataNangSuat = this.nangSuatService.LayNangSuat();
+            ViewBag.NangSuat = "active";
+            if (action != null && action.Equals("filter"))
+            { 
+                ViewBag.DataNangSuat = this.nangSuatService.LayNangSuat(tuNgay, denNgay);
+            }
+            else
+            {
+                DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+                tuNgay = new DateOnly(today.Year, today.Month, 1); 
+                denNgay = new DateOnly(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month)); 
+                ViewBag.DataNangSuat = this.nangSuatService.LayNangSuat(tuNgay, denNgay);
+            }
+            ViewBag.TuNgay = tuNgay.ToString("yyyy-MM-dd");
+            ViewBag.DenNgay = denNgay.ToString("yyyy-MM-dd");
             return View();
         }
     }
