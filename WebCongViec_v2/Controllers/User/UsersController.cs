@@ -108,7 +108,7 @@ namespace WebCongViec_v2.Controllers.User
                     }
                     ListCong.Add(chamcong);
                 }
-                if (CheckThoiGian > 12)
+                if (CheckThoiGian > 14)
                 {
                     return RedirectToAction("ChamCong", "UsersController", new { message = "Tổng thời gian nhỏ hơn 12", messageType = "warning" });
                 }
@@ -117,10 +117,26 @@ namespace WebCongViec_v2.Controllers.User
                     return RedirectToAction("Index", "HomeUsers", new { message = "Không thành công -  số lượng công việc không khớp", messageType = "warning" });
                 }
 
+                var dsLoaiCongViec = _context.Loaicongviecs
+                    .Where(c => c.IdLoaiCongViec != 0)
+                    .ToDictionary(c => c.IdLoaiCongViec, c => c.ValueLoaiCongViec);
 
+                int CheckTongThoiGian = 0;
+                foreach (var cong in ListCong)
+                {
+                    if (cong.IdLoaiCongViec != 0)
+                    {
+                        if (dsLoaiCongViec[cong.IdLoaiCongViec].Equals("NS") || dsLoaiCongViec[cong.IdLoaiCongViec].Equals("CC"))
+                        {
+                            CheckTongThoiGian += int.Parse(cong.ThoiGian);
+                        }
+                    }
 
-
-
+                }
+                if (CheckTongThoiGian > 8)
+                {
+                    return RedirectToAction("Index", "HomeUsers", new { message = "Không thành công -  Thời gian giờ thường không lớn hơn 8 ", messageType = "warning" });
+                }
 
 
 
@@ -136,6 +152,9 @@ namespace WebCongViec_v2.Controllers.User
                             }
                         }
                     }
+
+
+
                     _context.Chamcongs.Add(cong);
                 }
                 _context.SaveChanges();
