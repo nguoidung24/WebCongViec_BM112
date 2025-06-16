@@ -1,116 +1,185 @@
 ﻿@{
     ViewData["Title"] = "Admin - Năng suất";
-    // Get the productivity data from ViewBag and cast it to the correct type
     var dataNangSuat = ViewBag.DataNangSuat as Dictionary<int, WebCongViec_v2.Services.DataNangSuat>;
 
-    // Determine the unique dates across all data to generate the header columns dynamically
-    // This is important because each person/task combination will have the same date range
     List<string> uniqueDates = new List<string>();
     if (dataNangSuat != null && dataNangSuat.Any())
     {
-        // Get the first person's data and iterate through their tasks to get the dates
         var firstPersonData = dataNangSuat.Values.FirstOrDefault();
         if (firstPersonData != null && firstPersonData.data.Any())
         {
             var firstTaskData = firstPersonData.data.Values.FirstOrDefault();
             if (firstTaskData != null)
             {
-                // Order dates to ensure consistent column order
                 uniqueDates = firstTaskData.Keys.OrderBy(dateStr => DateTime.ParseExact(dateStr, "dd-MM-yyyy", null)).ToList();
             }
         }
     }
 }
+<style>
+     tr, th, td{
+        border: 1px solid black;
+        vertical-align: middle;
+        text-align: center;
+        padding: 5px;
+    }
+
+</style>
 
 
-<div class="py-2 px-3 position-relative" style="background: white; height: 100%; overflow: auto;">
-    <div>
-        <table class="table table-bordered" id="myTable">
+<div class="position-relative" style="background: white; height: 100%; overflow: auto;">
+
+    <table class="m-0" style="position: sticky; top: 0px;  left: 0px; z-index: 1000; background: white" >
+        <thead>
+            <tr style="">
+                <td style="min-width: 100px;border-bottom: 0px;" rowspan="2">Id</td>
+                <td style="min-width: 200px;border-bottom: 0px;" rowspan="2">Họ Tên</td>
+                <td style="min-width: 50px;border-bottom: 0px;" rowspan="1">📆</td>
+            </tr>
+            <tr>
+                <td style="min-width: 50px;border-bottom: 0px;" rowspan="1">🛠</td>
+
+            </tr>
+        </thead>
+    </table>
+    <div style="width: fit-content; position: absolute; top: 0px; left: 0px">
+
+        <table class="m-0" style="position: sticky; top:0px; background: white" >
             <thead>
                 <tr>
-                    <td rowspan="2">Id</td>
-                    <td rowspan="2">Họ Tên</td>
-                    <td rowspan="2">CV</td>
-                    @* Dynamically generate date columns based on uniqueDates *@
+                    <td style="min-width: 100px" rowspan="2">Id</td>
+                    <td style="min-width: 200px" rowspan="2">Họ Tên</td>
+                    <td style="min-width: 51px" rowspan="2">CV</td>
                     @foreach (var date in uniqueDates)
                     {
-                        <td colspan="4" class="text-center">@date</td>
+                        <td style="min-width: 100px; text-align: center" colspan="4">@date</td>
                     }
                 </tr>
                 <tr>
-                    @* Generate sub-headers for each date (Thời gian, Loại, Nội dung, Khối lượng) *@
                     @foreach (var date in uniqueDates)
                     {
-                        <td>Thời gian</td>
-                        <td>Nội dung</td>
-                        <td>Loại</td>
-                        <td>Khối lượng</td>
+                        <td style="min-width: 100px">Thời gian</td>
+                        <td style="min-width: 100px">Nội dung</td>
+                        <td style="min-width: 100px">Loại</td>
+                        <td style="min-width: 100px">Khối lượng</td>
                     }
                 </tr>
             </thead>
-            <tbody>
-                @if (dataNangSuat != null)
-                {
-                    @foreach (var nhanSuEntry in dataNangSuat.OrderBy(ns => ns.Key)) // Order by NhanSu Id for consistent display
+        </table>
+
+        <div style="display: flex; width: fit-content">
+            <table class=" m-0" style="position: sticky; left: 0px; background: white">
+                <tbody>
+                    @if (dataNangSuat != null)
                     {
-                        var idNhanSu = nhanSuEntry.Key;
-                        var nhanSuData = nhanSuEntry.Value;
-                        var listCongViec = nhanSuData.data;
-
-                        // Keep track of the row span for NhanSu Id and Ho Ten
-                        int rowSpanForNhanSu = listCongViec.Count;
-                        bool isFirstCongViecForNhanSu = true;
-
-                        @foreach (var congViecEntry in listCongViec.OrderBy(cv => cv.Key)) // Order by CongViec name
+                        @foreach (var nhanSuEntry in dataNangSuat.OrderBy(ns => ns.Key)) // Order by NhanSu Id for consistent display
                         {
-                            var tenCongViec = congViecEntry.Key;
-                            var chamCongByDate = congViecEntry.Value;
+                            var idNhanSu = nhanSuEntry.Key;
+                            var nhanSuData = nhanSuEntry.Value;
+                            var listCongViec = nhanSuData.data;
 
-                            <tr>
-                                @if (isFirstCongViecForNhanSu)
-                                {
-                                    <td rowspan="@rowSpanForNhanSu">@idNhanSu</td>
-                                    <td rowspan="@rowSpanForNhanSu">@nhanSuData.name</td>
-                                    isFirstCongViecForNhanSu = false;
-                                }
-                                <td>@tenCongViec</td>
-                                @* Iterate through uniqueDates to ensure all date columns are present for each task *@
-                                @foreach (var date in uniqueDates)
-                                {
-                                    // Get the list of Chamcong for the current date and task
-                                    var chamcongsForDate = chamCongByDate.GetValueOrDefault(date, new List<Chamcong>());
+                            int rowSpanForNhanSu = listCongViec.Count;
+                            bool isFirstCongViecForNhanSu = true;
 
-                                    // Display data or empty if no Chamcong records for that date/task
-                                    if (chamcongsForDate.Any())
+                            @foreach (var congViecEntry in listCongViec.OrderBy(cv => cv.Key)) // Order by CongViec name
+                            {
+                                var tenCongViec = congViecEntry.Key;
+                                var chamCongByDate = congViecEntry.Value;
+
+                                <tr>
+                                    @if (isFirstCongViecForNhanSu)
                                     {
-                                        // If there are multiple entries for the same date/task, you might want to concatenate them
-                                        // For simplicity, I'm taking the first one here. Adjust as needed.
-                                        var firstChamcong = chamcongsForDate.First();
-                                        <td>@firstChamcong.ThoiGian</td>
-                                        <td>@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td>
-                                        <td>@firstChamcong.IdLoaiCongViecNavigation?.ValueLoaiCongViec</td>
-                                        <td>@firstChamcong.KhoiLuong</td>
+                                        <td style="vertical-align: middle; text-align: center; min-width: 100px" rowspan="@rowSpanForNhanSu">@idNhanSu</td>
+                                        <td style="vertical-align: middle; text-align: center;  min-width: 200px; height: 200px" rowspan="@rowSpanForNhanSu">@nhanSuData.name</td>
+                                        isFirstCongViecForNhanSu = false;
                                     }
-                                    else
-                                    {
-                                        // Render empty cells if no data for this date/task
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    }
-                                }
-                            </tr>
+                                    <td style="min-width: 50px">@tenCongViec</td>
+                                </tr>
+                            }
                         }
                     }
-                }
-                else
-                {
+                </tbody>
+            </table>
+
+
+            <table class="" id="myTable">
+                <thead class="d-none">
                     <tr>
-                        <td colspan="@(3 + uniqueDates.Count * 4)">No productivity data available.</td>
+                        <td style="min-width: 100px" rowspan="2">Id</td>
+                        <td style="min-width: 200px" rowspan="2">Họ Tên</td>
+                        <td style="min-width: 50px" rowspan="2">CV</td>
+                        @foreach (var date in uniqueDates)
+                        {
+                            <td style="min-width: 100px; text-align: center" colspan="4">@date</td>
+                        }
                     </tr>
-                }
-            </tbody>
-        </table>
+                    <tr>
+                        @foreach (var date in uniqueDates)
+                        {
+                            <td style="min-width: 100px">Thời gian</td>
+                            <td style="min-width: 100px">Nội dung</td>
+                            <td style="min-width: 100px">Loại</td>
+                            <td style="min-width: 100px">Khối lượng</td>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (dataNangSuat != null)
+                    {
+                        @foreach (var nhanSuEntry in dataNangSuat.OrderBy(ns => ns.Key)) // Order by NhanSu Id for consistent display
+                        {
+                            var idNhanSu = nhanSuEntry.Key;
+                            var nhanSuData = nhanSuEntry.Value;
+                            var listCongViec = nhanSuData.data;
+
+                            int rowSpanForNhanSu = listCongViec.Count;
+                            bool isFirstCongViecForNhanSu = true;
+
+                            @foreach (var congViecEntry in listCongViec.OrderBy(cv => cv.Key)) // Order by CongViec name
+                            {
+                                var tenCongViec = congViecEntry.Key;
+                                var chamCongByDate = congViecEntry.Value;
+
+                                <tr>
+                                    @if (isFirstCongViecForNhanSu)
+                                    {
+                                        <td class="d-none" style="vertical-align: middle; text-align: center; min-width: 100px" rowspan="@rowSpanForNhanSu">@idNhanSu</td>
+                                        <td class="d-none" style="vertical-align: middle; text-align: center;  min-width: 200px;" rowspan="@rowSpanForNhanSu">@nhanSuData.name</td>
+                                        isFirstCongViecForNhanSu = false;
+                                    }
+                                    <td class="d-none" style="min-width: 50px">@tenCongViec</td>
+                                    @foreach (var date in uniqueDates)
+                                    {
+                                        var chamcongsForDate = chamCongByDate.GetValueOrDefault(date, new List<Chamcong>());
+
+                                        if (chamcongsForDate.Any())
+                                        {
+                                            var firstChamcong = chamcongsForDate.First();
+                                            <td style="min-width: 100px; height: 50px">@firstChamcong.ThoiGian</td>
+                                            <td style="min-width: 100px; height: 50px">@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td>
+                                            <td style="min-width: 100px; height: 50px">@firstChamcong.IdLoaiCongViecNavigation?.ValueLoaiCongViec</td>
+                                            <td style="min-width: 100px; height: 50px">@firstChamcong.KhoiLuong</td>
+                                        }
+                                        else
+                                        {
+                                            <td style="min-width: 100px; height: 50px"></td>
+                                            <td style="min-width: 100px; height: 50px"></td>
+                                            <td style="min-width: 100px; height: 50px"></td>
+                                            <td style="min-width: 100px; height: 50px"></td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="@(3 + uniqueDates.Count * 4)">No productivity data available.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
