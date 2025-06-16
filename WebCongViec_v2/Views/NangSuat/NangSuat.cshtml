@@ -23,6 +23,10 @@
         text-align: center;
         padding: 5px;
     }
+    .tableTrang{
+        border-top: 1px solid white;
+        border-bottom: 1px solid white;
+    }
 
 </style>
 
@@ -32,8 +36,8 @@
     <table class="m-0" style="position: sticky; top: 0px;  left: 0px; z-index: 1000; background: white" >
         <thead>
             <tr style="">
-                <td style="min-width: 100px;border-bottom: 0px;" rowspan="2">Id</td>
-                <td style="min-width: 200px;border-bottom: 0px;" rowspan="2">Họ Tên</td>
+                <td style="min-width: 50px;border-bottom: 0px;" rowspan="2">Id</td>
+                <td style="min-width: 200px;border-bottom: 0px;font-weight: bold; background-color: lightyellow" rowspan="2">Họ Tên</td>
                 <td style="min-width: 50px;border-bottom: 0px;" rowspan="1">📆</td>
             </tr>
             <tr>
@@ -47,21 +51,26 @@
         <table class="m-0" style="position: sticky; top:0px; background: white" >
             <thead>
                 <tr>
-                    <td style="min-width: 100px" rowspan="2">Id</td>
-                    <td style="min-width: 200px" rowspan="2">Họ Tên</td>
+                    <td style="min-width: 50px" rowspan="2">Id</td>
+                    <td style="min-width: 200px; font-weight: bold; background-color: lightyellow" rowspan="2">Họ Tên</td>
                     <td style="min-width: 51px" rowspan="2">CV</td>
                     @foreach (var date in uniqueDates)
                     {
-                        <td style="min-width: 100px; text-align: center" colspan="4">@date</td>
+                        <td style="min-width: 100px; text-align: center;font-weight: bold;  background-color: lightblue" colspan="2">@date</td>
+                        <td style="min-width: 100px; text-align: center;font-weight: bold;  background-color: lightyellow" class="dayOfWeek" colspan="2">@date</td>
+                        <td class="tableTrang"></td>
                     }
+
                 </tr>
                 <tr>
                     @foreach (var date in uniqueDates)
                     {
                         <td style="min-width: 100px">Thời gian</td>
-                        <td style="min-width: 100px">Nội dung</td>
+                        <td style="min-width: 200px">Nội dung</td>
                         <td style="min-width: 100px">Loại</td>
                         <td style="min-width: 100px">Khối lượng</td>
+                        <td class="tableTrang"></td>
+
                     }
                 </tr>
             </thead>
@@ -89,12 +98,17 @@
                                 <tr>
                                     @if (isFirstCongViecForNhanSu)
                                     {
-                                        <td style="vertical-align: middle; text-align: center; min-width: 100px" rowspan="@rowSpanForNhanSu">@idNhanSu</td>
-                                        <td style="vertical-align: middle; text-align: center;  min-width: 200px; height: 200px" rowspan="@rowSpanForNhanSu">@nhanSuData.name</td>
-                                        isFirstCongViecForNhanSu = false;
+                                        <td style="vertical-align: middle; text-align: center; min-width: 50px" rowspan="@rowSpanForNhanSu">@idNhanSu</td>
+                                        <td style="vertical-align: middle;font-weight: bold; text-align: center;  min-width: 200px;" rowspan="@rowSpanForNhanSu">@nhanSuData.name</td>
+                                        <td style="min-width: 50px; background-color: lightcyan">@tenCongViec</td>
+
                                     }
-                                    <td style="min-width: 50px">@tenCongViec</td>
+                                    else
+                                    {
+                                        <td style="min-width: 50px">@tenCongViec</td>
+                                    }
                                 </tr>
+                                isFirstCongViecForNhanSu = false;
                             }
                         }
                     }
@@ -105,21 +119,26 @@
             <table class="" id="myTable">
                 <thead class="d-none">
                     <tr>
-                        <td style="min-width: 100px" rowspan="2">Id</td>
-                        <td style="min-width: 200px" rowspan="2">Họ Tên</td>
+                        <td style="min-width: 50px" rowspan="2">Id</td>
+                        <td style="min-width: 200px; background-color: lightyellow" rowspan="2">Họ Tên</td>
                         <td style="min-width: 50px" rowspan="2">CV</td>
                         @foreach (var date in uniqueDates)
                         {
-                            <td style="min-width: 100px; text-align: center" colspan="4">@date</td>
+                            <td style="min-width: 100px; text-align: center;  background-color: lightblue" colspan="2">@date</td>
+                            <td style="min-width: 100px; text-align: center;  background-color: lightyellow" class="dayOfWeek" colspan="2">@date</td>
+                            <td class="tableTrang"></td>
                         }
+
                     </tr>
                     <tr>
                         @foreach (var date in uniqueDates)
                         {
                             <td style="min-width: 100px">Thời gian</td>
-                            <td style="min-width: 100px">Nội dung</td>
+                            <td style="min-width: 200px">Nội dung</td>
                             <td style="min-width: 100px">Loại</td>
                             <td style="min-width: 100px">Khối lượng</td>
+                            <td class="tableTrang"></td>
+
                         }
                     </tr>
                 </thead>
@@ -143,11 +162,18 @@
                                 <tr>
                                     @if (isFirstCongViecForNhanSu)
                                     {
-                                        <td class="d-none" style="vertical-align: middle; text-align: center; min-width: 100px" rowspan="@rowSpanForNhanSu">@idNhanSu</td>
+                                        <td class="d-none" style="vertical-align: middle; text-align: center; min-width: 50px" rowspan="@rowSpanForNhanSu">@idNhanSu</td>
                                         <td class="d-none" style="vertical-align: middle; text-align: center;  min-width: 200px;" rowspan="@rowSpanForNhanSu">@nhanSuData.name</td>
-                                        isFirstCongViecForNhanSu = false;
                                     }
-                                    <td class="d-none" style="min-width: 50px">@tenCongViec</td>
+                                    @if (isFirstCongViecForNhanSu)
+                                    {
+                                        <td class="d-none" style="min-width: 50px; background-color: lightcyan">@tenCongViec</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="d-none" style="min-width: 50px">@tenCongViec</td>
+
+                                    }
                                     @foreach (var date in uniqueDates)
                                     {
                                         var chamcongsForDate = chamCongByDate.GetValueOrDefault(date, new List<Chamcong>());
@@ -155,20 +181,48 @@
                                         if (chamcongsForDate.Any())
                                         {
                                             var firstChamcong = chamcongsForDate.First();
-                                            <td style="min-width: 100px; height: 50px">@firstChamcong.ThoiGian</td>
-                                            <td style="min-width: 100px; height: 50px">@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td>
-                                            <td style="min-width: 100px; height: 50px">@firstChamcong.IdLoaiCongViecNavigation?.ValueLoaiCongViec</td>
-                                            <td style="min-width: 100px; height: 50px">@firstChamcong.KhoiLuong</td>
+                                            if (isFirstCongViecForNhanSu)
+                                            {
+                                                <td style="min-width: 100px; height: 50px; background-color: lightcyan">@firstChamcong.ThoiGian</td>
+                                                <td style="min-width: 200px; height: 50px; background-color: lightcyan">@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td>
+                                                <td style="min-width: 100px; height: 50px; background-color: lightcyan">@firstChamcong.IdLoaiCongViecNavigation?.ValueLoaiCongViec</td>
+                                                <td style="min-width: 100px; height: 50px; background-color: lightcyan">@firstChamcong.KhoiLuong</td>
+                                                <td class="tableTrang"></td>
+                                            }
+                                            else
+                                            {
+                                                <td style="min-width: 100px; height: 50px">@firstChamcong.ThoiGian</td>
+                                                <td style="min-width: 200px; height: 50px">@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td>
+                                                <td style="min-width: 100px; height: 50px">@firstChamcong.IdLoaiCongViecNavigation?.ValueLoaiCongViec</td>
+                                                <td style="min-width: 100px; height: 50px">@firstChamcong.KhoiLuong</td>
+                                                <td class="tableTrang"></td>
+                                            }
+
                                         }
                                         else
                                         {
-                                            <td style="min-width: 100px; height: 50px"></td>
-                                            <td style="min-width: 100px; height: 50px"></td>
-                                            <td style="min-width: 100px; height: 50px"></td>
-                                            <td style="min-width: 100px; height: 50px"></td>
+                                            if (isFirstCongViecForNhanSu)
+                                            {
+                                                <td style="min-width: 100px; height: 50px; background-color: lightcyan"></td>
+                                                <td style="min-width: 200px; height: 50px; background-color: lightcyan"></td>
+                                                <td style="min-width: 100px; height: 50px; background-color: lightcyan"></td>
+                                                <td style="min-width: 100px; height: 50px; background-color: lightcyan"></td>
+                                                <td class="tableTrang"></td>
+                                            }
+                                            else
+                                            {
+                                                <td style="min-width: 100px; height: 50px"></td>
+                                                <td style="min-width: 200px; height: 50px"></td>
+                                                <td style="min-width: 100px; height: 50px"></td>
+                                                <td style="min-width: 100px; height: 50px"></td>
+                                                <td class="tableTrang"></td>
+                                            }
+
                                         }
                                     }
                                 </tr>
+                                isFirstCongViecForNhanSu = false;
+
                             }
                         }
                     }
@@ -182,4 +236,27 @@
             </table>
         </div>
     </div>
+    
+    <script>
+      // Mảng tên các thứ trong tuần
+      const weekdays = ["Chủ Nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+
+      // Lấy tất cả các thẻ có class 'dayOfWeek'
+      const dayElements = document.querySelectorAll(".dayOfWeek");
+
+      // Lặp qua từng thẻ
+      dayElements.forEach(td => {
+        const dateText = td.innerText.trim();
+        const [day, month, year] = dateText.split("-");
+
+        // Tạo đối tượng Date
+        const dateObj = new Date(year, month - 1, day);
+
+        // Lấy thứ trong tuần
+        const weekdayName = weekdays[dateObj.getDay()];
+
+        // Gán kết quả vào nội dung thẻ
+        td.innerText = weekdayName;
+      });
+    </script>
 </div>
