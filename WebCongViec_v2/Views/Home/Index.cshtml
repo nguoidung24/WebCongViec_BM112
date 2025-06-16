@@ -114,19 +114,19 @@
     <div class="cards-container">
         <div class="card">
             <h5>Tổng nhân sự</h5>
-            <p>120</p>
+            <p>@ViewBag.TongNhanSu</p>
         </div>
         <div class="card">
-            <h5>Đi làm hôm nay</h5>
-            <p>110</p>
+            <h5>Đã chấm hôm nay</h5>
+            <p>@ViewBag.DaChamCongHomNay</p>
         </div>
         <div class="card">
-            <h5>Đi muộn</h5>
-            <p>8</p>
+            <h5>Tỉ lệ đi làm</h5>
+            <p>@(ViewBag.TiLeChamCong)%</p>
         </div>
         <div class="card">
-            <h5>Tỉ lệ đúng giờ</h5>
-            <p>93%</p>
+            <h5>Năng suất hôm nay</h5>
+            <p>@ViewBag.TongNangSuat</p>
         </div>
     </div>
 
@@ -137,33 +137,25 @@
                 <tr>
                     <th>#</th>
                     <th>Tên nhân viên</th>
-                    <th>Thời gian vào</th>
-                    <th>Thời gian ra</th>
-                    <th>Trạng thái</th>
+                    <th>CV</th>
+                    <th>Thời gian</th>
+                    <th>Nội dung</th>
+                    <th>Loại</th>
+                    <th>Khối lượng</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Nguyễn Văn A</td>
-                    <td>08:05</td>
-                    <td>17:00</td>
-                    <td><span class="badge warning">Đi muộn</span></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Trần Thị B</td>
-                    <td>07:55</td>
-                    <td>17:10</td>
-                    <td><span class="badge success">Đúng giờ</span></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Lê Văn C</td>
-                    <td>08:00</td>
-                    <td>16:50</td>
-                    <td><span class="badge success">Đúng giờ</span></td>
-                </tr>
+                @foreach (var item in ViewBag.DSChamcongHomNay){
+                    <tr>
+                        <td>@item.IdNhanSu</td>
+                        <td>@item.IdNhanSuNavigation.HoTenNhanSu</td>
+                        <td>@item.IdCongViecNavigation.ValueCongViec</td>
+                        <td>@item.ThoiGian</td>
+                        <td>@item.IdNoiDungCongViecNavigation.ValueNoiDungCongViec</td>
+                        <td>@item.IdLoaiCongViecNavigation.ValueLoaiCongViec</td>
+                        <td>@(item.KhoiLuong.ToString().Equals("0") ? "-" : item.KhoiLuong)</td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
