@@ -21,6 +21,7 @@ namespace WebCongViec_v2.Services
         {
             return this.DbContext.Noidungcongviecs
                 .Where(row => row.IdNoiDungCongViec != 0)
+                .Where(row => row.DinhMuc8h != 0)   
                 .OrderBy(row => row.IdNoiDungCongViec)
                 .ToList();
         }
@@ -29,6 +30,7 @@ namespace WebCongViec_v2.Services
         public Dictionary<string, string> DSNoiDungCVTypeKeyValue()
         {
              var r = this.DbContext.Noidungcongviecs
+                .Where(row => row.DinhMuc8h != 0)
                 .Where(row => row.IdNoiDungCongViec != 0)
                 .OrderBy(row => row.IdNoiDungCongViec)
                 .ToList();
@@ -110,12 +112,21 @@ namespace WebCongViec_v2.Services
                         {
                             while (reader.Read())
                             {
-                                result.Add(new Total()
+                                foreach (var check in DSNoiDungCV())
                                 {
-                                    ngayThiCong = reader.GetDateOnly(0), 
-                                    idNoiDungCongViec = reader.GetInt32(1), 
-                                    tongKhoiLuong = reader.GetDecimal(2)      
-                                });
+                                    if(check.IdNoiDungCongViec == reader.GetInt32(1))
+                                    {
+                                        if(check.DinhMuc8h != 0)
+                                        {
+                                            result.Add(new Total()
+                                            {
+                                                ngayThiCong = reader.GetDateOnly(0),
+                                                idNoiDungCongViec = reader.GetInt32(1),
+                                                tongKhoiLuong = reader.GetDecimal(2)
+                                            });
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
