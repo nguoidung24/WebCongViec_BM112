@@ -59,10 +59,12 @@
         <a href="/PhatSinh" style="position: fixed; top: 20px; width: 100px; right: 140px" class="btn mb-2 btn-warning btn-sm">🚨 Phát sinh</a>
     </div>
 
-    <table class="table-data" style="min-width: 2000px">
+    <table class="table-data" id="table-data" style="min-width: 2000px">
         <thead style="text-align:center">
             <tr>
                 <th rowspan='3' style="background-color: limegreen">ID</th>
+                <th rowspan='3' style="background-color: limegreen">Mã số thuế</th>
+                <th rowspan='3' style="background-color: limegreen">CCCD/CMND</th>
                 <th rowspan='3' style="background-color: limegreen">Họ tên</th>
                 <th rowspan='3' style="background-color: limegreen">TDS/ Thời vụ</th>
                 <th colspan='5' style="background-color: lightgray">Lương cơ bản</th>
@@ -124,6 +126,8 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
+                    <td></td>
                     <td>@ViewBag.TongLuong</td>
                     <td></td>
                     <td></td>
@@ -132,6 +136,8 @@
                 {
                     <tr>
                         <td>@cc.id</td>
+                        <td>@cc.ma_so_thue</td>
+                        <td>@cc.ma_so_cccd</td>
                         <td>@cc.ho_ten</td>
                         <td>@cc.fsi_thoi_vu</td>
                         <td>@cc.luong_co_ban_muc_ngay</td>
@@ -160,16 +166,36 @@
     </table>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
+
     <script>
+        function exportToExcel() {
+
+            const table = document.getElementById("table-data");
+            const workbook = XLSX.utils.table_to_book(table, { raw: false });
+
+            // Ép kiểu dữ liệu từng ô thành "text"
+            const sheet = workbook.Sheets[workbook.SheetNames[0]];
+            const range = XLSX.utils.decode_range(sheet['!ref']);
+
+            for (let R = range.s.r + 1; R <= range.e.r; ++R) {
+                for (let C = range.s.c; C <= range.e.c; ++C) {
+                    const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
+                    const cell = sheet[cellAddress];
+                    if (cell && cell.v != null) {
+                        cell.t = 's'; // ép kiểu text
+                        cell.z = '@@'; // định dạng text
+                    }
+                }
+            }
+
+            XLSX.writeFile(workbook, "export.xlsx");
+
+        }
         
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelector("#TongSo").innerText ="@tongSo.ToString("N2")";
          });
-        function exportToExcel() {
-            const table = document.querySelector(".table-data");
-            const wb = XLSX.utils.table_to_book(table, { sheet: "BangLuong" });
-            XLSX.writeFile(wb, "BangLuongDuAn.xlsx");
-        }
+
 
         document.addEventListener("DOMContentLoaded", function () {
             const tableCells = document.querySelectorAll("table.table-data td");
