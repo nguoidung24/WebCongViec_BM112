@@ -393,17 +393,3 @@
       });
     </script>
 </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
-<script>
-
-
-    function ExportExcel() {
-        const table = document.getElementById("myTable");
-        const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
-        XLSX.writeFile(wb, "table_export.xlsx");
-    }
-
-
-</script>
