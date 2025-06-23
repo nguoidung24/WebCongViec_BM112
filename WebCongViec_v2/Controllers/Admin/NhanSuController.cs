@@ -1,5 +1,7 @@
 ﻿using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Text;
 using WebCongViec_v2.Models;
 using WebCongViec_v2.Services;
 
@@ -18,7 +20,7 @@ namespace WebCongViec_v2.Controllers.Admin
 
 
         [Route("/NhanSu")]
-        public IActionResult NhanSu()
+        public IActionResult NhanSu(string action, string dataExport)
         {
             string? setrole = HttpContext.Request.Query["setrole"].ToString();
             string? id = HttpContext.Request.Query["id"].ToString();
@@ -32,6 +34,19 @@ namespace WebCongViec_v2.Controllers.Admin
             ViewBag.DSNhanSu = this.nhanSuService.DSNhanSu();
             ViewBag.Roles = new[] { "", "LEADER⭐", "SUPPORT🔰", "", "BỊ KHÓA🚫" };
             ViewBag.HideInfo = HttpContext.Request.Query["hideinfo"].ToString();
+
+
+            if (action != null && action.Equals("export"))
+            {
+                string htmlContent = dataExport;
+
+                byte[] fileBytes = Encoding.UTF8.GetBytes(htmlContent);
+
+                return File(fileBytes, "application/vnd.ms-excel", "ExportThongTinNhanSu.xlsx");
+            }
+
+
+
             return View();
         }
 
