@@ -1,4 +1,5 @@
 ﻿
+using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
@@ -215,15 +216,15 @@ namespace WebCongViec_v2.Services
                         {
                             if (ps.KieuPhatSinh == 1)
                             {
-                                d.phat_sinh_tang_noi_dung += $"<p> ▫ {ps.NoiDungPhatSinh} </p>";
-                                d.phat_sinh_tang_gia_tri += $"<p> ▫ {ps.GiaTriPhatSinh.ToString("N0")}  </p>";
+                                d.phat_sinh_tang_noi_dung += $" {ps.NoiDungPhatSinh} <br/>";
+                                d.phat_sinh_tang_gia_tri += $" {ps.GiaTriPhatSinh.ToString("N0")}  <br/>";
                                 PHATSINHTANG += ps.GiaTriPhatSinh;
 
                             }
                             else
                             {
-                                d.phat_sinh_tang_noi_dung += $"<p> ▫ {ps.NoiDungPhatSinh} </p>";
-                                d.phat_sinh_tang_gia_tri += $"<p> ▫ {(ps.GiaTriPhatSinh * TongSoNgayCong[int.Parse(d.id)]).ToString("N0")}  </p>";
+                                d.phat_sinh_tang_noi_dung += $" {ps.NoiDungPhatSinh} <br/>";
+                                d.phat_sinh_tang_gia_tri += $" {(ps.GiaTriPhatSinh * TongSoNgayCong[int.Parse(d.id)]).ToString("N0")}  <br/>";
                                 PHATSINHTANG += (ps.GiaTriPhatSinh * TongSoNgayCong[int.Parse(d.id)]);
                             }
 
@@ -232,14 +233,14 @@ namespace WebCongViec_v2.Services
                         {
                             if (ps.KieuPhatSinh == 1)
                             {
-                                d.phat_sinh_giam_noi_dung += $"<p> ▫ {ps.NoiDungPhatSinh} </p>";
-                                d.phat_sinh_giam_gia_tri += $"<p> ▫ {ps.GiaTriPhatSinh.ToString("N0")}  </p>";
+                                d.phat_sinh_giam_noi_dung += $" {ps.NoiDungPhatSinh} <br/>";
+                                d.phat_sinh_giam_gia_tri += $" {ps.GiaTriPhatSinh.ToString("N0")}  <br/>";
                                 PHATSINHGIAM += ps.GiaTriPhatSinh;
                             }
                             else
                             {
-                                d.phat_sinh_giam_noi_dung += $"<p> ▫ {ps.NoiDungPhatSinh} </p>";
-                                d.phat_sinh_giam_gia_tri += $"<p> ▫ {(ps.GiaTriPhatSinh * TongSoNgayCong[int.Parse(d.id)]).ToString("N0")}  </p>";
+                                d.phat_sinh_giam_noi_dung += $" {ps.NoiDungPhatSinh} <br/>";
+                                d.phat_sinh_giam_gia_tri += $" {(ps.GiaTriPhatSinh * TongSoNgayCong[int.Parse(d.id)]).ToString("N0")}  <br/>";
                                 PHATSINHGIAM += (ps.GiaTriPhatSinh * TongSoNgayCong[int.Parse(d.id)]);
                             }
 
@@ -280,7 +281,8 @@ namespace WebCongViec_v2.Services
 
             }
             this.TONGLUONG = TongCongLuong;
-            return result;
+            List<DataBangLuong> sortResult = result.OrderBy(x => int.Parse(x.id)).ToList();
+            return sortResult;
         }
 
         public Dictionary<int, Dictionary<string, string>> layTKNganHang()

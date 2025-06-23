@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text;
 using WebCongViec_v2.Models;
 using WebCongViec_v2.Services;
 
@@ -26,7 +27,7 @@ namespace WebCongViec_v2.Controllers.Admin
         }
 
         [Route("/BangLuong")]
-        public IActionResult BangLuong()
+        public IActionResult BangLuong(string action, string table)
         {
             ViewBag.BangLuong = "active";
             ViewBag.StartDate = getStartEndDate()[0];
@@ -48,6 +49,17 @@ namespace WebCongViec_v2.Controllers.Admin
             ViewBag.DSTongNgayCong = this.bangLuongService.layTongSoNgayCong(DateOnly.Parse(ViewBag.StartDate), DateOnly.Parse(ViewBag.EndDate));
             ViewBag.DSNhanSuChamCong = this.bangLuongService.tinhLuong(DateOnly.Parse(ViewBag.StartDate), DateOnly.Parse(ViewBag.EndDate));
             ViewBag.TongLuong = this.bangLuongService.TONGLUONG.ToString("N2");
+
+
+            if (action != null && action.Equals("export"))
+            {
+                string htmlContent = table;
+
+                byte[] fileBytes = Encoding.UTF8.GetBytes(htmlContent);
+
+                return File(fileBytes, "application/vnd.ms-excel", "ExportBangLuong.xlsx");
+            }
+
             return View();
         }
     }

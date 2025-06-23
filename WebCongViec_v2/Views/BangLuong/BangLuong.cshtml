@@ -53,7 +53,116 @@
         </div>
     </form>
     <div class="text-end">
-        <button style="position: fixed; top: 20px; right: 30px; width: 100px" onclick="exportToExcel()" class="btn mb-2 btn-info btn-sm">📤 Export</button>
+        <form method="post">
+            <textarea style="position: fixed; top: -999px; left: -999px; opacity: 0%; z-index: -9" name="table">
+            <table class="table-data" id="table-data" style="min-width: 2000px; font-family: 'Times New Roman'">
+                <thead style="text-align:center">
+                    <tr>
+                        <th rowspan='3' style="background-color: limegreen">ID</th>
+                        <th rowspan='3' style="background-color: limegreen">Mã số thuế</th>
+                        <th rowspan='3' style="background-color: limegreen">CCCD/CMND</th>
+                        <th rowspan='3' style="background-color: limegreen">Họ tên</th>
+                        <th rowspan='3' style="background-color: limegreen">TDS/ Thời vụ</th>
+                        <th colspan='5' style="background-color: lightgray">Lương cơ bản</th>
+                        <th colspan='5' style="background-color: orange">Lương dự án</th>
+                        <th colspan='2' style="background-color: dodgerblue">Phát sinh tăng</th>
+                        <th colspan='2' style="background-color: dodgerblue">Phát sinh giảm</th>
+                        <th rowspan='3' style="background-color: white">Tổng (KPS)</th>
+                        <th rowspan='3' style="background-color: indianred">Tổng cộng</th>
+                        <th rowspan='3' style="background-color: white">Ngân hàng</th>
+                        <th rowspan='3' style="background-color: white">Số tài khoản</th>
+
+                    </tr>
+                    <tr>
+                        <th rowspan='2' style="background-color: lightgray">Mức/Ngày</th>
+                        <th colspan='2' style="background-color: lightgray">Giờ thường</th>
+                        <th colspan='2' style="background-color: lightgray">Thêm giờ</th>
+                        <th rowspan='2' style="background-color: orange">Mức/Ngày</th>
+                        <th colspan='2' style="background-color: orange">Giờ thường</th>
+                        <th colspan='2' style="background-color: orange">Thêm giờ</th>
+                        <th rowspan='2' style="background-color: dodgerblue">Nội dung</th>
+                        <th rowspan='2' style="background-color: dodgerblue">Giá trị</th>
+                        <th rowspan='2' style="background-color: dodgerblue">Nội dung</th>
+                        <th rowspan='2' style="background-color: dodgerblue">Giá trị</th>
+                    </tr>
+                    <tr>
+                        <th style="background-color: lightgray">Số NC</th>
+                        <th style="background-color: lightgray">Thành tiền</th>
+                        <th style="background-color: lightgray">Số NC quy đổi</th>
+                        <th style="background-color: lightgray">Thành tiền</th>
+                        <th style="background-color: orange">NS</th>
+                        <th style="background-color: orange">CC</th>
+                        <th style="background-color: orange">NS.OT</th>
+                        <th style="background-color: orange">CC.OT</th>
+                    </tr>
+                </thead>
+                @{
+                    double tongSo = 0;
+                }
+
+                @if (ViewBag.DSNhanSuChamCong.Count > 0)
+                {
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td  style="mso-number-format:'\@@';"> @ViewBag.TongLuong</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @foreach (var cc in ViewBag.DSNhanSuChamCong)
+                    {
+                        <tr>
+                            <td  style="mso-number-format:'\@@';"> @cc.id</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.ma_so_thue</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.ma_so_cccd</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.ho_ten</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.fsi_thoi_vu</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.luong_co_ban_muc_ngay</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.luong_co_ban_so_nc</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.luong_co_ban_thanh_tien_1</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.luong_co_ban_so_nc_quy_doi</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.luong_co_ban_thanh_tien_2</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.luong_du_an_muc_ngay</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.luong_du_an_ns</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.luong_du_an_cc</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.luong_du_an_nsot</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.luong_du_an_ccot</td>
+                            <td  style="mso-number-format:'\@@';"> @Html.Raw(@cc.phat_sinh_tang_noi_dung)</td>
+                            <td  style="mso-number-format:'\@@';"> @Html.Raw(@cc.phat_sinh_tang_gia_tri)</td>
+                            <td  style="mso-number-format:'\@@';"> @Html.Raw(@cc.phat_sinh_giam_noi_dung)</td>
+                            <td  style="mso-number-format:'\@@';"> @Html.Raw(@cc.phat_sinh_giam_gia_tri)</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.tong_cong_kps</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.tong_cong</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.ngan_hang</td>
+                            <td  style="mso-number-format:'\@@';"> @cc.so_tai_khoan</td>
+                        </tr>
+                            tongSo += double.Parse(cc.tong_cong);
+                        }
+                    </tbody>
+                    }
+                </table>
+            </textarea>
+            <button name="action" value="export" style="position: fixed; top: 20px; right: 30px; width: 100px"  class="btn mb-2 btn-info btn-sm">📤 Export</button>
+        </form>
     </div>
     <div class="text-end">
         <a href="/PhatSinh" style="position: fixed; top: 20px; width: 100px; right: 140px" class="btn mb-2 btn-warning btn-sm">🚨 Phát sinh</a>
@@ -164,7 +273,6 @@
             </tbody>
             }
     </table>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 
     <script>
@@ -254,31 +362,6 @@
          });
 
 
-        function sortTableById() {
-              var table = document.querySelector(".table-data");
-              var tbody = table.tBodies[0];
-              var rows = Array.from(tbody.rows);
 
-              rows.sort(function(a, b) {
-                var idA = parseInt(a.cells[0].textContent);
-                var idB = parseInt(b.cells[0].textContent);
-                return idA - idB; // tăng dần
-              });
-
-              // Xóa hết hàng cũ
-              while(tbody.firstChild) {
-                tbody.removeChild(tbody.firstChild);
-              }
-
-              // Thêm lại hàng đã sắp xếp
-              rows.forEach(function(row) {
-                tbody.appendChild(row);
-              });
-        }
-
-        // Gọi hàm sắp xếp khi trang load xong
-        window.onload = function() {
-          sortTableById();
-        };
     </script>
 </div>
