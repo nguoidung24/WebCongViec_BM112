@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text;
 using WebCongViec_v2.Services;
 
 namespace WebCongViec_v2.Controllers.Admin
@@ -12,7 +13,7 @@ namespace WebCongViec_v2.Controllers.Admin
         }
 
         [Route("NangSuat")]
-        public IActionResult NangSuat(string action, DateOnly tuNgay, DateOnly denNgay)
+        public IActionResult NangSuat(string action, DateOnly tuNgay, DateOnly denNgay, string dataExport)
         {
 
             ViewBag.NangSuat = "active";
@@ -29,6 +30,16 @@ namespace WebCongViec_v2.Controllers.Admin
             }
             ViewBag.TuNgay = tuNgay.ToString("yyyy-MM-dd");
             ViewBag.DenNgay = denNgay.ToString("yyyy-MM-dd");
+
+            if (action != null && action.Equals("export"))
+            {
+                string htmlContent = dataExport;
+
+                byte[] fileBytes = Encoding.UTF8.GetBytes(htmlContent);
+
+                return File(fileBytes, "application/vnd.ms-excel", "ExportBangNangSuat.xlsx");
+            }
+
             return View();
         }
     }

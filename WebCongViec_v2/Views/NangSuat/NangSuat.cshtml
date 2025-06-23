@@ -38,7 +38,133 @@
         &nbsp;&nbsp;
         <button type="submit" name="action" value="filter" class="btn btn-primary">Xem</button>
         &nbsp;&nbsp;
-        <button type="button" onclick="ExportExcel()" class="btn btn-success">📥</button>
+        <button type="submit" name="action" value="export" class="btn btn-success">📥</button>
+
+        <textarea name="dataExport" style="position: fixed; top: -9999px; left-9999px; opacity: 0%">
+            <table class="" style="font-family: 'Times New Roman'; border: 1px solid black" border="1">
+                <thead class="d-none">
+                    <tr>
+                        <td style="min-width: 50px;  border: 1px solid black" rowspan="2">Id</td>
+                        <td style="min-width: 200px;  border: 1px solid black; background-color: lightyellow" rowspan="2">Họ Tên</td>
+                        <td style="min-width: 50px;  border: 1px solid black" rowspan="2">CV</td>
+                        @using System.Globalization
+                        @foreach (var date in uniqueDates)
+                        {
+                            DateTime date2 = DateTime.ParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+        
+                            CultureInfo culture = new CultureInfo("vi-VN");
+                            string cultureName = culture.DateTimeFormat.GetDayName(date2.DayOfWeek);
+                            <td style="min-width: 100px; border: 1px solid black; text-align: center;  background-color: lightblue" colspan="2">@date</td>
+                            <td style="min-width: 100px;  border: 1px solid black;text-align: center;  background-color: lightyellow" class="dayOfWeek" colspan="2">@cultureName</td>
+                            <td class="tableTrang"></td>
+                        }
+
+                    </tr>
+                    <tr>
+                        @foreach (var date in uniqueDates)
+                        {
+                            <td style=" border: 1px solid black;min-width: 100px">Thời gian</td>
+                            <td style=" border: 1px solid black;min-width: 200px">Nội dung</td>
+                            <td style=" border: 1px solid black;min-width: 100px">Loại</td>
+                            <td style=" border: 1px solid black;min-width: 100px">Khối lượng</td>
+                            <td class="tableTrang"></td>
+
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (dataNangSuat != null)
+                    {
+                        @foreach (var nhanSuEntry in dataNangSuat.OrderBy(ns => ns.Key)) // Order by NhanSu Id for consistent display
+                        {
+                            var idNhanSu = nhanSuEntry.Key;
+                            var nhanSuData = nhanSuEntry.Value;
+                            var listCongViec = nhanSuData.data;
+
+                            int rowSpanForNhanSu = listCongViec.Count;
+                            bool isFirstCongViecForNhanSu = true;
+
+                            @foreach (var congViecEntry in listCongViec.OrderBy(cv => cv.Key)) // Order by CongViec name
+                            {
+                                var tenCongViec = congViecEntry.Key;
+                                var chamCongByDate = congViecEntry.Value;
+
+                                <tr>
+                                    @if (isFirstCongViecForNhanSu)
+                                    {
+                                        <td class="d-none" style=" border: 1px solid black;vertical-align: middle; text-align: center; min-width: 50px" rowspan="@rowSpanForNhanSu">@idNhanSu</td>
+                                        <td class="d-none" style=" border: 1px solid black;vertical-align: middle; text-align: center;  min-width: 200px;" rowspan="@rowSpanForNhanSu">@nhanSuData.name</td>
+                                    }
+                                    @if (isFirstCongViecForNhanSu)
+                                    {
+                                        <td class="d-none" style=" border: 1px solid black;min-width: 50px; background-color: lightcyan">@tenCongViec</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="d-none" style=" border: 1px solid black;min-width: 50px">@tenCongViec</td>
+
+                                    }
+                                    @foreach (var date in uniqueDates)
+                                    {
+                                        var chamcongsForDate = chamCongByDate.GetValueOrDefault(date, new List<Chamcong>());
+
+                                        if (chamcongsForDate.Any())
+                                        {
+                                            var firstChamcong = chamcongsForDate.First();
+                                            if (isFirstCongViecForNhanSu)
+                                            {
+                                                <td style=" border: 1px solid black;min-width: 100px; height: 50px; background-color: lightcyan">@firstChamcong.ThoiGian</td>
+                                                <td style=" border: 1px solid black;min-width: 200px; height: 50px; background-color: lightcyan">@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td>
+                                                <td style=" border: 1px solid black;min-width: 100px; height: 50px; background-color: lightcyan">@firstChamcong.IdLoaiCongViecNavigation?.ValueLoaiCongViec</td>
+                                                <td style=" border: 1px solid black;min-width: 100px; height: 50px; background-color: lightcyan">@firstChamcong.KhoiLuong</td>
+                                                <td class="tableTrang"></td>
+                                            }
+                                            else
+                                            {
+                                                <td style=" border: 1px solid black;min-width: 100px; height: 50px">@firstChamcong.ThoiGian</td>
+                                                <td style=" border: 1px solid black;min-width: 200px; height: 50px">@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td>
+                                                <td style=" border: 1px solid black;min-width: 100px; height: 50px">@firstChamcong.IdLoaiCongViecNavigation?.ValueLoaiCongViec</td>
+                                                <td style=" border: 1px solid black;min-width: 100px; height: 50px">@firstChamcong.KhoiLuong</td>
+                                                <td class="tableTrang"></td>
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            if (isFirstCongViecForNhanSu)
+                                            {
+                                                <td style=" border: 1px solid black;min-width: 100px; height: 50px; background-color: lightcyan"></td>
+                                                <td style=" border: 1px solid black;min-width: 200px; height: 50px; background-color: lightcyan"></td>
+                                                <td style=" border: 1px solid black;min-width: 100px; height: 50px; background-color: lightcyan"></td>
+                                                <td style=" border: 1px solid black;min-width: 100px; height: 50px; background-color: lightcyan"></td>
+                                                <td class="tableTrang"></td>
+                                            }
+                                            else
+                                            {
+                                                <td style=" border: 1px solid black;min-width: 100px; height: 50px"></td>
+                                                <td style=" border: 1px solid black;min-width: 200px; height: 50px"></td>
+                                                <td style=" border: 1px solid black;min-width: 100px; height: 50px"></td>
+                                                <td style=" border: 1px solid black;min-width: 100px; height: 50px"></td>
+                                                <td class="tableTrang"></td>
+                                            }
+
+                                        }
+                                    }
+                                </tr>
+                                isFirstCongViecForNhanSu = false;
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td style=" border: 1px solid black" colspan="@(3 + uniqueDates.Count * 4)">No productivity data available.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </textarea>
     </form>
     <table class="m-0" style="position: sticky; top: 0px;  left: 0px; z-index: 1000; background: white" >
         <thead>
