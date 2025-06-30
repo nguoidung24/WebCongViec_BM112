@@ -37,7 +37,7 @@ namespace WebCongViec_v2.Controllers.Admin
 
                 byte[] fileBytes = Encoding.UTF8.GetBytes(htmlContent);
 
-                return File(fileBytes, "application/vnd.ms-excel", "ExportBangNangSuat.xlsx");
+                return File(fileBytes, "application/vnd.ms-excel", "ExportBangNangSuat.xls");
             }
 
             return View();
