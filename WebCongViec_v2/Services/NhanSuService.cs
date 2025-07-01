@@ -101,25 +101,25 @@ namespace WebCongViec_v2.Services
                             var nhanSu = this.DbContext.Nhansus.Where(r => r.IdNhanSu.ToString().Equals(row.Cell(1).GetString())).FirstOrDefault();
                             if (nhanSu != null)
                             {
-                                string HoTenNhanSu = row.Cell(2).GetString();
+                                string HoTenNhanSu = row.Cell(2).GetFormattedString();
                                 if (!nhanSu.HoTenNhanSu.ToLower().Trim().Equals(HoTenNhanSu.ToLower().Trim()))
                                 {
                                     nhanSu.HoTenNhanSu = HoTenNhanSu;
-                                    nhanSu.FsiThoiVu = row.Cell(3).GetString();
-                                    nhanSu.MucLuongCoBan8h = float.Parse(row.Cell(4).GetString());
-                                    nhanSu.MucLuongDuAn8h = float.Parse(row.Cell(5).GetString());
-                                    nhanSu.HeSoOtThuong = float.Parse(row.Cell(6).GetString());
-                                    nhanSu.HeSoCn = float.Parse(row.Cell(7).GetString());
+                                    nhanSu.FsiThoiVu = row.Cell(3).GetFormattedString();
+                                    nhanSu.MucLuongCoBan8h = float.Parse(row.Cell(4).GetFormattedString());
+                                    nhanSu.MucLuongDuAn8h = float.Parse(row.Cell(5).GetFormattedString());
+                                    nhanSu.HeSoOtThuong = float.Parse(row.Cell(6).GetFormattedString());
+                                    nhanSu.HeSoCn = float.Parse(row.Cell(7).GetFormattedString());
                                     nhanSu.Status = 0;
                                     nhanSu.ThongTinCaNhan = "";
                                 }
                                 else
                                 {
-                                    nhanSu.FsiThoiVu = row.Cell(3).GetString();
-                                    nhanSu.MucLuongCoBan8h = float.Parse(row.Cell(4).GetString());
-                                    nhanSu.MucLuongDuAn8h = float.Parse(row.Cell(5).GetString());
-                                    nhanSu.HeSoOtThuong = float.Parse(row.Cell(6).GetString());
-                                    nhanSu.HeSoCn = float.Parse(row.Cell(7).GetString());
+                                    nhanSu.FsiThoiVu = row.Cell(3).GetFormattedString();
+                                    nhanSu.MucLuongCoBan8h = float.Parse(row.Cell(4).GetFormattedString());
+                                    nhanSu.MucLuongDuAn8h = float.Parse(row.Cell(5).GetFormattedString());
+                                    nhanSu.HeSoOtThuong = float.Parse(row.Cell(6).GetFormattedString());
+                                    nhanSu.HeSoCn = float.Parse(row.Cell(7).GetFormattedString());
                                 }
                                 
 
@@ -128,13 +128,13 @@ namespace WebCongViec_v2.Services
                             {
                                 var newNhanSu = new Nhansu()
                                 {
-                                    IdNhanSu = int.Parse(row.Cell(1).GetString()),
-                                    HoTenNhanSu = row.Cell(2).GetString(),
-                                    FsiThoiVu = row.Cell(3).GetString(),
-                                    MucLuongCoBan8h = float.Parse(row.Cell(4).GetString()),
-                                    MucLuongDuAn8h = float.Parse(row.Cell(5).GetString()),
-                                    HeSoOtThuong = float.Parse(row.Cell(6).GetString()),
-                                    HeSoCn = float.Parse(row.Cell(7).GetString()),
+                                    IdNhanSu = int.Parse(row.Cell(1).GetFormattedString()),
+                                    HoTenNhanSu = row.Cell(2).GetFormattedString(),
+                                    FsiThoiVu = row.Cell(3).GetFormattedString(),
+                                    MucLuongCoBan8h = float.Parse(row.Cell(4).GetFormattedString()),
+                                    MucLuongDuAn8h = float.Parse(row.Cell(5).GetFormattedString()),
+                                    HeSoOtThuong = float.Parse(row.Cell(6).GetFormattedString()),
+                                    HeSoCn = float.Parse(row.Cell(7).GetFormattedString()),
                                     Status = 0,
                                     ThongTinCaNhan = ""
                                 };
