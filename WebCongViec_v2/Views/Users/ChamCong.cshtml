@@ -47,35 +47,35 @@
                             var id = "InputGroup" + count.ToString();
                             <div id="@id" class="row @ViewBag.BGColor row-cols-1 row-cols-md-5 py-2">
                                 <div class="col">
-                                    <label for="" class="form-label">Công việc:</label>
+                                    <label for="" class="form-label">Công việc</label>
                                     <input type="hidden" value="@cv.IdCongViec" name="@count.ToString()IdCongViec" required class="form-control" style="width: 100%" id="" placeholder="">
                                     <label  class="form-control" style="width: 100%; font-weight: bold; background: #63636363"> @cv.ValueCongViec</label>
                                 </div>
                                 <div class="col">
-                                    <label for="" class="form-label">Thời gian:</label>
-                                    <input type="number" @ViewBag.Req min="1" max="8" value="" name="@count.ToString()ThoiGian" class="form-control" style="width: 100%">
+                                    <label for="" class="form-label">Thời gian </label>
+                                    <input type="text" placeholder="Dấu thập phân là dấu ',' " @ViewBag.Req value="" name="@count.ToString()ThoiGian" class="form-control" style="width: 100%">
                                 </div>
                                 <div class="col">
-                                    <label for="" class="form-label">Loại:</label>
+                                    <label for="" class="form-label">Loại</label>
                                     <select @ViewBag.Req name="@count.ToString()IdLoaiCongViec" class="form-select">
                                         @foreach (var loaiCongViec in ViewBag.DanhSachLoaiCongViec)
                                         {
-                                            <option value="@loaiCongViec.IdLoaiCongViec">@loaiCongViec.ValueLoaiCongViec</option>
+                                            <option value="@loaiCongViec.IdLoaiCongViec">@(loaiCongViec.ValueLoaiCongViec.Equals("") ? "-- Chọn loại --" : loaiCongViec.ValueLoaiCongViec)</option>
                                         }
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="" class="form-label">Nội dung:</label>
+                                    <label for="" class="form-label">Nội dung</label>
                                     <select @ViewBag.Req name="@count.ToString()IdNoiDungCongViec" class="form-select">
                                         @foreach (var ndcv in ViewBag.DanhSachNoiDung)
                                         {
-                                            <option value="@ndcv.IdNoiDungCongViec">@ndcv.ValueNoiDungCongViec</option>
+                                            <option value="@ndcv.IdNoiDungCongViec">@(ndcv.ValueNoiDungCongViec.Equals("") ? "-- Chọn nội dung --" : ndcv.ValueNoiDungCongViec)</option>
                                         }
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="" class="form-label">Khối lượng:</label>
-                                    <input @ViewBag.Req type="number" name="@count.ToString()KhoiLuong" class="form-control" style="width: 100%">
+                                    <label for="" class="form-label">Khối lượng</label>
+                                    <input @ViewBag.Req type="number" placeholder="Khối lượng" name="@count.ToString()KhoiLuong" class="form-control" style="width: 100%">
                                 </div>
                             </div>
                             a++;

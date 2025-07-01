@@ -80,7 +80,7 @@ namespace WebCongViec_v2.Controllers.User
             }
             try
             {
-                int CheckThoiGian = 0;
+                float CheckThoiGian = 0;
                 var IDUser_ = HttpContext.Session.GetString("ID").ToString();
                 var DSCongViec = _context.Congviecs.Where(row => row.IdCongViec != 0).ToList();
                 var ListCong = new List<Chamcong>();
@@ -104,7 +104,7 @@ namespace WebCongViec_v2.Controllers.User
                     };
                     if (ThoiGian != "" && ThoiGian != null)
                     {
-                        CheckThoiGian += int.Parse(ThoiGian);
+                        CheckThoiGian += float.Parse(ThoiGian);
                     }
                     ListCong.Add(chamcong);
                 }
@@ -121,14 +121,14 @@ namespace WebCongViec_v2.Controllers.User
                     .Where(c => c.IdLoaiCongViec != 0)
                     .ToDictionary(c => c.IdLoaiCongViec, c => c.ValueLoaiCongViec);
 
-                int CheckTongThoiGian = 0;
+                float CheckTongThoiGian = 0;
                 foreach (var cong in ListCong)
                 {
                     if (cong.IdLoaiCongViec != 0)
                     {
                         if (dsLoaiCongViec[cong.IdLoaiCongViec].Equals("NS") || dsLoaiCongViec[cong.IdLoaiCongViec].Equals("CC"))
                         {
-                            CheckTongThoiGian += int.Parse(cong.ThoiGian);
+                            CheckTongThoiGian += float.Parse(cong.ThoiGian);
                         }
                     }
 
@@ -166,7 +166,7 @@ namespace WebCongViec_v2.Controllers.User
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "HomeUsers", new { message = "Không thành công", messageType = "warning" });
+                return RedirectToAction("Index", "HomeUsers", new { message = "Không thành công" , messageType = "warning" });
             }
 
 
