@@ -15,7 +15,7 @@ namespace WebCongViec_v2.Controllers
         {
             this.homeService = new HomeService();
         }
-
+        [Route("/Home"), Route("/")]
         public IActionResult Index(DateOnly? selectedMonth)
         {
             DateOnly today = DateOnly.FromDateTime(DateTime.Now);

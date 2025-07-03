@@ -34,9 +34,9 @@
         {
             this.HandleUserRole();
 
-            if (this.nextPath != null && this.nextPath.Equals("/chamcong/login"))
+            if (this.nextPath != null && this.nextPath.Equals(WebCongViec_v2.Services.ProjectService.GetProjectName() + "login"))
             {
-                this.context.Response.Redirect("/chamcong/");
+                this.context.Response.Redirect(WebCongViec_v2.Services.ProjectService.GetProjectName() + "");
             }
             else
             {
@@ -49,9 +49,9 @@
 
         bool HanldeLoginFail()
         {
-            if (!this.nextPath.Equals("/chamcong/login"))
+            if (!this.nextPath.Equals(WebCongViec_v2.Services.ProjectService.GetProjectName() + "login"))
             {
-                this.context.Response.Redirect("/chamcong/login");
+                this.context.Response.Redirect(WebCongViec_v2.Services.ProjectService.GetProjectName() + "login");
             }
             else
             {
@@ -71,26 +71,26 @@
                 {
                     if (this.GetUsersRoles().Contains(this.nextPath))
                     {
-                        this.context.Response.Redirect("/chamcong/");
+                        this.context.Response.Redirect(WebCongViec_v2.Services.ProjectService.GetProjectName() + "");
                     }
                 }
 
                 if (this.role != null && this.role.Equals("0"))
                 {
                     if(userrole != null && userrole.Equals("4"))
-                        if (this.nextPath.Equals("/chamcong/userscontroller/chamcong"))
+                        if (this.nextPath.Equals(WebCongViec_v2.Services.ProjectService.GetProjectName() + "userscontroller/chamcong"))
                         {
-                            this.context.Response.Redirect("/chamcong/homeusers?messageType=warning&message="+ Uri.EscapeDataString("Bạn bị khóa chấm công 🚫"));
+                            this.context.Response.Redirect(WebCongViec_v2.Services.ProjectService.GetProjectName() + "homeusers?messageType=warning&message="+ Uri.EscapeDataString("Bạn bị khóa chấm công 🚫"));
                         }                    
                     if(HasInfo != null && HasInfo.Equals("0"))
-                        if (this.nextPath.Equals("/chamcong/userscontroller/chamcong"))
+                        if (this.nextPath.Equals(WebCongViec_v2.Services.ProjectService.GetProjectName() + "userscontroller/chamcong"))
                         {
-                            this.context.Response.Redirect("/chamcong/homeusers?messageType=warning&message="+ Uri.EscapeDataString("Bạn Cần Bổ Sung Thông Tin Cá Nhân"));
+                            this.context.Response.Redirect(WebCongViec_v2.Services.ProjectService.GetProjectName() + "homeusers?messageType=warning&message="+ Uri.EscapeDataString("Bạn Cần Bổ Sung Thông Tin Cá Nhân"));
                         }
 
                     if (!this.GetUsersRoles().Contains(this.nextPath))
                     {
-                        this.context.Response.Redirect("/chamcong/homeusers");
+                        this.context.Response.Redirect(WebCongViec_v2.Services.ProjectService.GetProjectName() + "homeusers");
                     }
                 }
 
@@ -98,7 +98,7 @@
                 {
                     if (this.role != null && !this.role.Equals("1"))
                     {
-                        this.context.Response.Redirect("/chamcong/homeusers");
+                        this.context.Response.Redirect(WebCongViec_v2.Services.ProjectService.GetProjectName() + "homeusers");
                     }
                 }
 
@@ -106,7 +106,7 @@
                 {
                     if (this.role != null && !this.role.Equals("0"))
                     {
-                        this.context.Response.Redirect("/chamcong/");
+                        this.context.Response.Redirect(WebCongViec_v2.Services.ProjectService.GetProjectName() + "");
                     }
                 }*/
 
@@ -119,7 +119,7 @@
         }
         List<string> GetUsersRoles()
         {
-            return new List<string> { "/chamcong/homeusers", "/chamcong/userscontroller/chamcong", "/chamcong/userinfo" };
+            return new List<string> { WebCongViec_v2.Services.ProjectService.GetProjectName() + "homeusers", WebCongViec_v2.Services.ProjectService.GetProjectName() + "userscontroller/chamcong", WebCongViec_v2.Services.ProjectService.GetProjectName() + "userinfo" };
         }
     }
 }
