@@ -23,7 +23,7 @@
                     @foreach (var item in ViewBag.DSCong)
                     {
                         <tr style="vertical-align: middle">
-                            <td>@item.IdChamCong</td>
+                            <td>@item.IdNhanSu</td>
                             <td>@item.NgayThiCong</td>
                             <td>@item.IdNhanSuNavigation?.HoTenNhanSu</td>
                             <td>@item.IdCongViecNavigation?.ValueCongViec</td>
@@ -35,20 +35,20 @@
                                 <div>
                                     <form method="post">
                                         <div style="width: 0px; height: 0px; opacity: 0%; overflow: hidden">
-                                            <input name="NgayThiCong" type="date" value="@(item.NgayThiCong.Year.ToString() + "-" +item.NgayThiCong.Month.ToString() + "-" +item.NgayThiCong.Day.ToString())" />
+                                            <input name="NgayThiCong" type="date" value="@(item.NgayThiCong.ToString("yyyy-MM-dd"))" />
                                             <input type="number" name="IdNhanSu" value="@item.IdNhanSu" />
                                         </div>
                                         <button class="text-primary my-2" name="action" value="KhoiPhuc">
-                                            Không phục ngày @item.NgayThiCong của @item.IdNhanSuNavigation?.HoTenNhanSu
+                                            Khôi phục ngày @(item.NgayThiCong.ToString("dd-MM-yyyy")) của @item.IdNhanSuNavigation?.HoTenNhanSu
                                         </button>
                                     </form>
                                     <form method="post">
                                         <div style="width: 0px; height: 0px; opacity: 0%; overflow: hidden">
-                                            <input name="NgayThiCong" type="date" value="@(item.NgayThiCong.Year.ToString() + "-" +item.NgayThiCong.Month.ToString() + "-" +item.NgayThiCong.Day.ToString())" />
+                                            <input name="NgayThiCong" type="date" value="@(item.NgayThiCong.ToString("yyyy-MM-dd"))" />
                                             <input type="number" name="IdNhanSu" value="@item.IdNhanSu" />
                                         </div>
                                         <button class="text-danger my-2" name="action" value="XoaVinhVien">
-                                            Xóa vĩnh viễn @item.NgayThiCong của @item.IdNhanSuNavigation?.HoTenNhanSu
+                                            Xóa vĩnh viễn @(item.NgayThiCong.ToString("dd-MM-yyyy")) của @item.IdNhanSuNavigation?.HoTenNhanSu
                                         </button>
                                     </form>
                                 </div>

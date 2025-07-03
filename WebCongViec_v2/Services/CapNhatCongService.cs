@@ -55,13 +55,13 @@ namespace WebCongViec_v2.Services
                 }
 
                 this.DbContext.SaveChanges();
-                }
-            catch(Exception e)
-            {
-                return false;
             }
-            return true;
-        }
+                catch(Exception e)
+                {
+                    return false;
+                }
+                return true;
+            }
 
         public Chamcong BangCongID(int idCong)
         {

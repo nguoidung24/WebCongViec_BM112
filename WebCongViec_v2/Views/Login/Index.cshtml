@@ -7,16 +7,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Login </title>
-    <link href="~/css/login_site.css" rel="stylesheet" />
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <script src="~/js/animejs.min.js"></script>
+    <link href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}css/login_site.css" rel="stylesheet" />
+    <link href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}js/animejs.min.js"></script>
 </head>
-<body style="overflow: hidden;background: black; background-image: url('bg.png'); background-size: 100vw auto;">
+<body style="overflow: hidden;background: black; background-image: url('@{WebCongViec_v2.Services.ProjectService.GetProjectName();}bg.png'); background-size: 100vw auto;">
     <div class="content" style=" display: flex; justify-content: center; align-items: center;  width: 100vw; height: 100vh; ">
         <div class="container-fluid p-5">
             <div class="row">
                 <div class="col-md-7">
-                    @* <img src="~/images/image-login.jpg" alt="Image" id="image-login" class="img-fluid"> *@
+                    @* <img src="/images/image-login.jpg" alt="Image" id="image-login" class="img-fluid"> *@
                 </div>
                 <div class="col-md-5 contents " style="background: white; border-radius: 30px; box-shadow: 10px 10px 50px #929292">
                     <div class="row justify-content-center" style="padding-top: 50px; padding-bottom: 50px; padding-left: 20px; padding-right: 20px">
@@ -24,7 +24,7 @@
                             <div class="mb-4">
                                 <h4 class="animate-charcter mb-2" style="font-family: Arial, Helvetica, sans-serif; font-size: 55px">@ViewBag.AppName</h4>
                                 <p style="display: flex; align-items: center" class="mb-4 text-secondary mb-2">
-                                    <img src="/tds.png" class="btn-login" style="width: 70px; padding: 0px; padding-right: 6px; margin: 0; ">
+                                    <img src="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}tds.png" class="btn-login" style="width: 70px; padding: 0px; padding-right: 6px; margin: 0; ">
                                     Phần Mềm Chấm Công
                                 </p>
                             </div>
@@ -89,7 +89,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facebook Login Page | CodingNepal</title>
     <link rel="stylesheet" href="style.css">
-    <link href="~/css/login_site.css" rel="stylesheet" />
+    <link href="/css/login_site.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container flex">

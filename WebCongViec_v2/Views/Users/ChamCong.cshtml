@@ -12,11 +12,11 @@
     }
 </style>
 <div class="pt-2 container" style="margin-top: 50px">
-     <div class="position-fixed" style="top: 5px; right: 10px">
-        <a href="/logout?logout=true" class="btn btn-primary">Đăng xuất</a>
-    </div>
+    @*  <div class="position-fixed" style="top: 5px; right: 10px">
+        <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}logout?logout=true" class="btn btn-primary">Đăng xuất</a>
+    </div> *@
     <div class="position-fixed" style="top: 5px; left: 10px">
-        <a href="/homeusers" class="btn btn-primary">Quay lại</a>
+        <a  onclick="history.back()" class="btn btn-primary">Quay lại</a>
     </div>
     <div class="h4 fw-bold" style="text-align:center">
         @ViewBag.Name

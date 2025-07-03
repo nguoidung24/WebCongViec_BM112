@@ -34,9 +34,9 @@
         {
             this.HandleUserRole();
 
-            if (this.nextPath != null && this.nextPath.Equals("/login"))
+            if (this.nextPath != null && this.nextPath.Equals("/chamcong/login"))
             {
-                this.context.Response.Redirect("/");
+                this.context.Response.Redirect("/chamcong/");
             }
             else
             {
@@ -49,9 +49,9 @@
 
         bool HanldeLoginFail()
         {
-            if (!this.nextPath.Equals("/login"))
+            if (!this.nextPath.Equals("/chamcong/login"))
             {
-                this.context.Response.Redirect("/login");
+                this.context.Response.Redirect("/chamcong/login");
             }
             else
             {
@@ -71,26 +71,26 @@
                 {
                     if (this.GetUsersRoles().Contains(this.nextPath))
                     {
-                        this.context.Response.Redirect("/");
+                        this.context.Response.Redirect("/chamcong/");
                     }
                 }
 
                 if (this.role != null && this.role.Equals("0"))
                 {
                     if(userrole != null && userrole.Equals("4"))
-                        if (this.nextPath.Equals("/userscontroller/chamcong"))
+                        if (this.nextPath.Equals("/chamcong/userscontroller/chamcong"))
                         {
-                            this.context.Response.Redirect("/homeusers?messageType=warning&message="+ Uri.EscapeDataString("Bạn bị khóa chấm công 🚫"));
+                            this.context.Response.Redirect("/chamcong/homeusers?messageType=warning&message="+ Uri.EscapeDataString("Bạn bị khóa chấm công 🚫"));
                         }                    
                     if(HasInfo != null && HasInfo.Equals("0"))
-                        if (this.nextPath.Equals("/userscontroller/chamcong"))
+                        if (this.nextPath.Equals("/chamcong/userscontroller/chamcong"))
                         {
-                            this.context.Response.Redirect("/homeusers?messageType=warning&message="+ Uri.EscapeDataString("Bạn Cần Bổ Sung Thông Tin Cá Nhân"));
+                            this.context.Response.Redirect("/chamcong/homeusers?messageType=warning&message="+ Uri.EscapeDataString("Bạn Cần Bổ Sung Thông Tin Cá Nhân"));
                         }
 
                     if (!this.GetUsersRoles().Contains(this.nextPath))
                     {
-                        this.context.Response.Redirect("/homeusers");
+                        this.context.Response.Redirect("/chamcong/homeusers");
                     }
                 }
 
@@ -98,7 +98,7 @@
                 {
                     if (this.role != null && !this.role.Equals("1"))
                     {
-                        this.context.Response.Redirect("/homeusers");
+                        this.context.Response.Redirect("/chamcong/homeusers");
                     }
                 }
 
@@ -106,7 +106,7 @@
                 {
                     if (this.role != null && !this.role.Equals("0"))
                     {
-                        this.context.Response.Redirect("/");
+                        this.context.Response.Redirect("/chamcong/");
                     }
                 }*/
 
@@ -119,7 +119,7 @@
         }
         List<string> GetUsersRoles()
         {
-            return new List<string> { "/homeusers", "/userscontroller/chamcong", "/userinfo" };
+            return new List<string> { "/chamcong/homeusers", "/chamcong/userscontroller/chamcong", "/chamcong/userinfo" };
         }
     }
 }

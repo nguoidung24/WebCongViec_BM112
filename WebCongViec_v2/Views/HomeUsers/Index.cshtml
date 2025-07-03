@@ -16,10 +16,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lịch chấm công</title>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/lib/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
-    <script src="~/js/fullcalender.global.min.js"></script>
-    <script src="~/js/alert.js"></script>
+    <link href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}lib/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
+    <script src="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}js/fullcalender.global.min.js"></script>
+    <script src="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}js/alert.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -58,10 +58,10 @@
 <body>
     <div id="desktop" class="d-none d-md-block ">
         <div class="position-fixed" style="top: 5px; right: 10px">
-            <a href="/logout?logout=true" class="btn btn-primary">Đăng xuất</a>
+            <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}logout?logout=true" class="btn btn-primary">Đăng xuất</a>
         </div>
         <div class="position-fixed" style="top: 5px; left: 10px">
-            <a href="/UsersController/ChamCong" class="btn btn-success">Chấm công📝</a>
+            <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}UsersController/ChamCong" class="btn btn-success">Chấm công📝</a>
         </div>
         <div class="position-fixed h4 fw-bold" style="top: 5px; left: 50%; transform: translateX(-50%); text-align: center">
             @ViewBag.Name
@@ -89,7 +89,7 @@
                   custom1: {
                     text: 'Thông tin cá nhân 💼',
                     click: function() {
-                        window.location.href = "/UserInfo"
+                        window.location.href = "@{WebCongViec_v2.Services.ProjectService.GetProjectName();}UserInfo"
                     }
                   },
                 },
@@ -167,9 +167,9 @@
 
     <div id="mobile" class="d-block d-md-none">
         <div style="padding: 2px; text-align: center;">
-            <a href="/logout?logout=true" class="btn btn-sm btn-primary">Đăng xuất</a>
-            <a href="/UsersController/ChamCong" class="btn btn-sm btn-success">Chấm công 📝</a>
-            <a href="/UserInfo" class="btn btn-sm btn-danger">Thông tin cá nhân 💼</a>
+            <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}logout?logout=true" class="btn btn-sm btn-primary">Đăng xuất</a>
+            <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}UsersController/ChamCong" class="btn btn-sm btn-success">Chấm công 📝</a>
+            <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}UserInfo" class="btn btn-sm btn-danger">Thông tin cá nhân 💼</a>
         </div>
         <div class="h5 fw-bold mt-2" style="background: #f9f9f9 ; text-align: center">
             @ViewBag.Name

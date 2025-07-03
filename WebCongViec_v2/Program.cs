@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using WebCongViec_v2.Middleware;
 using WebCongViec_v2.Models;
+using WebCongViec_v2.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,7 +66,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}"
     );
 
-//app.UsePathBase("/chamcong/");
+app.UsePathBase(ProjectService.GetProjectName());
 app.UseRouting();
 
 app.Run();

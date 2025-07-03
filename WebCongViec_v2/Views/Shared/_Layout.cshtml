@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Chấm công V2</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/table-data.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WebCongViec_v2.styles.css" asp-append-version="true" />
-    <script src="~/js/alert.js"></script>
-    <link href="~/css/data-table-js.min.css" rel="stylesheet" />
-    <script src="~/js/chart.js"></script>
+    <link rel="stylesheet" href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}css/table-data.css" asp-append-version="true" />
+    <link rel="stylesheet" href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}WebCongViec_v2.styles.css" asp-append-version="true" />
+    <script src="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}js/alert.js"></script>
+    <link href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}css/data-table-js.min.css" rel="stylesheet" />
+    <script src="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}js/chart.js"></script>
 </head>
 <body class="box gradDynamic">
     <div id="isLoadding">
@@ -27,7 +27,7 @@
                 </div>
                 <div class="user-details">
                     <p class="title">CHẤM CÔNG</p>
-                    <img src="/tds2.png" style="width: 65px;">
+                    <img src="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}tds2.png" style="width: 65px;">
                 </div>
             </div>
             <div class="nav">
@@ -47,7 +47,7 @@
                         
                         </style>
                         <li class="@ViewBag.HomeActive">
-                            <a href="/" class="">
+                            <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}" class="">
                                 <span class="sidebar-icon">🏠</span>
                                 <span class="text pe-2">Trang chủ</span>
                             </a>
@@ -59,9 +59,9 @@
                                 <span class="text">Năng suất</span><i class="arrow">👇</i>
                             </a>
                             <ul class="sub-menu">
-                                <li class="@ViewBag.NangSuat"><a href="/NangSuat"><span class="text">Năng suất</span></a></li>
-                                @* <li class="@ViewBag.NangSuat"><a href="/"><span class="text">Năng suất</span></a></li> *@
-                                <li class="@ViewBag.TraCuu"><a href="/TraCuu"><span class="text">Tra cứu</span></a></li>
+                                <li class="@ViewBag.NangSuat"><a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}NangSuat"><span class="text">Năng suất</span></a></li>
+                                @* <li class="@ViewBag.NangSuat"><a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}"><span class="text">Năng suất</span></a></li> *@
+                                <li class="@ViewBag.TraCuu"><a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}TraCuu"><span class="text">Tra cứu</span></a></li>
                             </ul>
                         </li>
 
@@ -72,17 +72,17 @@
                             </a>
                             <ul class="sub-menu">
                                 <li class="@ViewBag.ThongKeActive">
-                                    <a href="/ThongKe" class="">
+                                    <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}ThongKe" class="">
                                         <span class="text">Chung</span>
                                     </a>
                                 </li>
                                 <li class="@ViewBag.BCTongHop">
-                                    <a href="/BCTongHop" class="">
+                                    <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}BCTongHop" class="">
                                         <span class="text">Báo cáo</span>
                                     </a>
                                 </li>
                                 <li class="@ViewBag.DSPhatSinh">
-                                    <a href="/DSPhatSinh" class="">
+                                    <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}DSPhatSinh" class="">
                                         <span class="text">Phát sinh</span>
                                     </a>
                                 </li>
@@ -96,9 +96,9 @@
                                 <span class="text">Nhân sự</span><i class="arrow">👇</i>
                             </a>
                             <ul class="sub-menu">
-                                <li class="@ViewBag.NhanSuActive"><a href="/NhanSu"><span class="text">Danh sách</span></a></li>
-                                <li class="@ViewBag.ThemNhanSuActive"><a href="/ThemNhanSu"><span class="text">Thêm nhân sự</span></a></li>
-                                <li class="@ViewBag.ThemDanhSachNhanSuSuActive"><a href="/ThemDanhSachNhanSu"><span class="text">Thêm DS nhân sự</span></a></li>
+                                <li class="@ViewBag.NhanSuActive"><a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}NhanSu"><span class="text">Danh sách</span></a></li>
+                                <li class="@ViewBag.ThemNhanSuActive"><a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}ThemNhanSu"><span class="text">Thêm nhân sự</span></a></li>
+                                <li class="@ViewBag.ThemDanhSachNhanSuSuActive"><a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}ThemDanhSachNhanSu"><span class="text">Thêm DS nhân sự</span></a></li>
                             </ul>
                         </li>
 
@@ -108,8 +108,8 @@
                                 <span class="text">Công việc</span><i class="arrow">👇</i>
                             </a>
                             <ul class="sub-menu">
-                                <li class="@ViewBag.NDCVActive"><a href="/NDCV"><span class="text">Danh sách</span></a></li>
-                                <li class="@ViewBag.ThemNDCVActive"><a href="/ThemNDCV"><span class="text">Thêm ND</span></a></li>
+                                <li class="@ViewBag.NDCVActive"><a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}NDCV"><span class="text">Danh sách</span></a></li>
+                                <li class="@ViewBag.ThemNDCVActive"><a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}ThemNDCV"><span class="text">Thêm ND</span></a></li>
                             </ul>
                         </li>
                         <li class="@ViewBag.CapNhatCongActive @ViewBag.AdminChamCongActive @ViewBag.ThungRacActive">
@@ -118,28 +118,28 @@
                                 <span class="text">Công</span><i class="arrow">👇</i>
                             </a>
                             <ul class="sub-menu">
-                                <li class="@ViewBag.CapNhatCongActive"><a href="/CapNhatCong"><span class="text">Cập nhật</span></a></li>
-                                <li class="@ViewBag.AdminChamCongActive"><a href="/AdminChamCong"><span class="text">Chấm bù</span></a></li>
-                                <li class="@ViewBag.ThungRacActive"><a href="/ThungRac"><span class="text">Thùng rác</span></a></li>
+                                <li class="@ViewBag.CapNhatCongActive"><a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}CapNhatCong"><span class="text">Cập nhật</span></a></li>
+                                <li class="@ViewBag.AdminChamCongActive"><a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}AdminChamCong"><span class="text">Chấm bù</span></a></li>
+                                <li class="@ViewBag.ThungRacActive"><a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}ThungRac"><span class="text">Thùng rác</span></a></li>
                             </ul>
                         </li>
 
                         <li class="@ViewBag.BangLuong">
-                            <a href="/BangLuong" class="">
+                            <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}BangLuong" class="">
                                 <span class="sidebar-icon">💰</span>
                                 <span class="text">Bảng lương</span>
                             </a>
                         </li>
                         <li class="@ViewBag.TheoDoiCP">
 
-                            <a href="/TheoDoiCP" class="">
+                            <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}TheoDoiCP" class="">
                                 <span class="sidebar-icon">📡</span>
                                 <span class="text">Theo dõi CP</span>
                             </a>
                         </li>
                         @* <li class="@ViewBag.TraCuu">
 
-                            <a href="/TraCuu" class="">
+                            <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}TraCuu" class="">
                                 <span class="sidebar-icon">🔎</span>
                                 <span class="text">Tra cứu</span>
                             </a>
@@ -153,7 +153,7 @@
                                     <span class="text">Nhân sự</span><i class="arrow">👇</i>
                                 </a>
                                 <ul class="sub-menu">
-                                    <li class=""><a href="/NhanSu"><span class="text">Danh sách</span></a></li>
+                                    <li class=""><a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}NhanSu"><span class="text">Danh sách</span></a></li>
 
                                 </ul>
                             </li>
@@ -172,7 +172,7 @@
                 <p class="title">Tải khoản</p>
                 <ul>
                     @* <li><a href="#">🧖‍♂️<span class="text">FAQ</span></a></li> *@
-                    <li><a href="/logout?logout=true">🚪<span class="text">Đăng xuất</span></a></li>
+                    <li><a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}logout?logout=true">🚪<span class="text">Đăng xuất</span></a></li>
                 </ul>
             </div>
         </div>
@@ -183,10 +183,10 @@
             @RenderBody()
        </main>
     </div>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/data-table-js.min.js"></script>
+    <script src="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}lib/jquery/dist/jquery.min.js"></script>
+    <script src="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}js/site.js" asp-append-version="true"></script>
+    <script src="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}js/data-table-js.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <script >
         $(document).ready(function () {
