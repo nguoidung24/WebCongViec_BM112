@@ -101,7 +101,7 @@ namespace WebCongViec_v2.Controllers.Admin
 
         public IActionResult DownloadExcel()
         {
-            string filePath = Path.Combine(_env.WebRootPath, "files", "upload_ns.xlsx");
+            string filePath = Path.Combine(_env.WebRootPath, WebCongViec_v2.Services.ProjectService.GetProjectName().Replace("/",""), "files/upload_ns.xlsx");
 
             if (!System.IO.File.Exists(filePath))
             {

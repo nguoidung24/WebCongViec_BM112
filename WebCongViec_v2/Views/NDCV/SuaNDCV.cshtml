@@ -31,7 +31,7 @@
             </div>
             <div class="text-center">
                 <input name="IdNoiDungCongViec" value="@ViewBag.NDCV.IdNoiDungCongViec" type="hidden" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-                <a href="/NDCV" class="btn btn-outline-primary">Quay lại</a>
+                <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}NDCV" class="btn btn-outline-primary">Quay lại</a>
                 <button name="action" value="edit" class="btn btn-outline-success">Xong</button>
             </div>
         </form>

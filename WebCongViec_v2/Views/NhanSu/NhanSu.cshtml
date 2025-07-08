@@ -121,7 +121,7 @@
                             </td>
                          }
                         <td>
-                            <a href="/SuaNhanSu?id=@nhanSu.IdNhanSu">Sửa 📝</a> <text>&nbsp; | &nbsp;</text>
+                            <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}SuaNhanSu?id=@nhanSu.IdNhanSu">Sửa 📝</a> <text>&nbsp; | &nbsp;</text>
                             @if (@nhanSu.Role == 3)
                             {
                                 <a href="?setrole=1&id=@nhanSu.IdNhanSu">Đặt LEADER⭐</a> <text>&nbsp; | &nbsp;</text>

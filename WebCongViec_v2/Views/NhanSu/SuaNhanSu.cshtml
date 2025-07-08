@@ -62,7 +62,7 @@
             </div>
             <div class="text-center">
                 <input name="IdNhanSu" value="@ViewBag.NhanSu.IdNhanSu" type="hidden" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-                <a href="/NhanSu" class="btn btn-outline-primary">Quay lại</a>
+                <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}NhanSu" class="btn btn-outline-primary">Quay lại</a>
                 <button name="action" value="edit" class="btn btn-outline-success">Xong</button>
             </div>
         </form>
