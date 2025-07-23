@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Admin - cập nhật năng suất";
+}
+<div class="position-relative" style="background: white; height: 100%; overflow: auto; ">
+    <div class="container-fluid py-2">
+        <p class="text-center fw-bold  py-3 h4">CẬP NHẬT NĂNG SUẤT</p>
+    </div>
+
+    <div>
+        <form id="uploadForm" enctype="multipart/form-data" method="post">
+            <input type="file" style="width: 300px; margin: 0 auto" class="form-control" placeholder="FileData" name="fileData">
+        </form>
+        <p class="text-center">
+            @ViewBag.FileName
+        </p>
+        <script>
+            const fileInput = document.querySelector('input[name="fileData"]');
+            const form = document.getElementById('uploadForm');
+
+            fileInput.addEventListener('change', function () {
+                if (fileInput.files.length > 0) {
+                    form.submit(); // Submit form nếu có file được chọn
+                }
+            });
+        </script>
+
+    </div>
+</div>

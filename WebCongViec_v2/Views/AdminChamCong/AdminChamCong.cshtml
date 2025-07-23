@@ -6,18 +6,27 @@
 
 <div class="pt-2 bg-white" style="width: 100%; min-height: 100%">
     <div class="container-fluid">
-        <div class="row">
-            <form method="post" class="col d-flex gap-2">
+        <form method="post" class="row ">
+            <div class="col-2">
+                <a href="@{WebCongViec_v2.Services.ProjectService.GetProjectName();}CapNhatNS" class="btn btn-link w-100">📄 Cập nhật năng suất</a>
+            </div>
+            <div class="col-4">
                 <select class="form-control" name="Id">
                     @foreach (var ns in ViewBag.DSNhanSu.Keys)
                     {
                         <option value="@ns">@ns - @ViewBag.DSNhanSu[ns]</option>
                     }
                 </select>
+            </div>
+            <div class="col-4">
                 <input type="date" class="form-control" name="Data" value="" />
-                <button name="action" value="create" class="btn btn-success">Ok</button>
-            </form>
-        </div>
+            </div>
+            <div class="col-2">
+                <button name="action" value="create" class="btn btn-success w-100">Ok</button>
+            </div>
+
+
+        </form>
         <div class="row">
             <div class="col">
 

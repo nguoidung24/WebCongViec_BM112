@@ -20,13 +20,13 @@
                         <td>@nd.IdNoiDungCongViec</td>
                         <td>@nd.ValueNoiDungCongViec</td>
                         <td>
-                            @if (int.Parse(@nd.DinhMuc8h.ToString().Trim()) == 0)
+                            @if (double.Parse(@nd.DinhMuc8h.ToString().Trim()) == 0)
                             {
                                 <text>-</text>
                             }
                             else
                             {
-                                <text>@nd.DinhMuc8h.ToString("N0")</text>
+                                <text>@nd.DinhMuc8h.ToString()</text>
                             }
 
                         </td>
