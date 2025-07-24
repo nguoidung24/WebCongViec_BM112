@@ -1,34 +1,34 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.IO;
+using WebCongViec_v2.Services;
 
 namespace WebCongViec_v2.Controllers.Admin
 {
-    public class CapNhatNSController : Controller
+
+    public class CapNhatNSController : Controller 
     {
+        protected CapNhatNSService capNhatNSService;
+
+        public CapNhatNSController()
+        {
+            this.capNhatNSService = new CapNhatNSService();
+
+        }
+
         [Route("/CapNhatNS")]
         public IActionResult CapNhatNS()
         {
             return View();
         }
 
-        /*Sử dụng using ClosedXML.Excel;*/
         [HttpPost]
         [Route("/CapNhatNS")]
         public IActionResult CapNhatNS(IFormFile fileData)
         {
-            if (fileData != null && fileData.Length > 0)
-            {
-
-                ViewBag.FileName = $"Chọn file: {fileData.FileName}";
-            }
-            else
-            {
-                ViewBag.FileName = "Không nhận được file nào.";
-            }
-
+            (ViewBag.FileName, ViewBag.SuccessMessage, ViewBag.ErrorMessage, ViewBag.ExcelData) = this.capNhatNSService.getExcelData(fileData);  
             return View();
         }
-
     }
 }

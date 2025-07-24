@@ -23,6 +23,55 @@
                 }
             });
         </script>
+        <div class="px-2">
+            @if (ViewBag.ExcelData != null)
+            {
+                <h2>Dữ liệu từ File Excel <button class="btn btn-outline-primary">Cập nhật 🔄</button></h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>TenNV</th>
+                            <th>Ngày</th>
+                            <th></th>
+                            <th>Thời gian</th>
+                            <th>Loại</th>
+                            <th>Nội dung</th>
+                            <th>Khối lượng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < ((List<Chamcong>)ViewBag.ExcelData).Count; i++)
+                        {
 
+                            if (i == 0) { continue; }
+
+                            var rowData = ((List<Chamcong>)ViewBag.ExcelData)[i];
+                            <tr>
+                                <td>@rowData.IdNhanSu</td>
+                                <td></td>
+                                <td>@rowData.NgayThiCong</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+            {
+                <div class="alert alert-danger">
+                    <strong>Lỗi:</strong> @ViewBag.ErrorMessage
+                </div>
+            }
+            else if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+            {
+                <div class="alert alert-success">
+                    <strong>Thông báo:</strong> @ViewBag.SuccessMessage
+                </div>
+            }
+            else if (!string.IsNullOrEmpty(ViewBag.FileName))
+            {
+                <p>@ViewBag.FileName</p>
+            }
+        </div>
     </div>
 </div>
