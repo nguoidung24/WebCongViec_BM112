@@ -329,12 +329,12 @@
                                                 <td style="min-width: 100px; height: 50px; background-color: lightcyan">@firstChamcong.ThoiGian</td>
                                                 <td style="min-width: 100px; height: 50px; background-color: lightcyan">@firstChamcong.IdLoaiCongViecNavigation?.ValueLoaiCongViec</td>
                                                 @* <td style="min-width: 200px; height: 50px; background-color: lightcyan">@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td> *@
-                                                <td style="min-width: 200px; height: 50px">
+                                                <td style="min-width: 200px; height: 50px; background-color: lightcyan">
                                                         @{
                                                             var ValueNoiDungCongViec1 = firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec;
-                                                            if (ValueNoiDungCongViec1 != null && ValueNoiDungCongViec1.Length > 15)
+                                                            if (ValueNoiDungCongViec1 != null && ValueNoiDungCongViec1.Length > 23)
                                                             {
-                                                                ValueNoiDungCongViec1 = ValueNoiDungCongViec1.Substring(0, 15) + "...";
+                                                                ValueNoiDungCongViec1 = ValueNoiDungCongViec1.Substring(0, 23) + "...";
                                                             }
                                                         }
                                                         @ValueNoiDungCongViec1
@@ -350,9 +350,9 @@
                                                 <td style="min-width: 200px; height: 50px">
                                                         @{
                                                             var ValueNoiDungCongViec2 = firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec;
-                                                            if (ValueNoiDungCongViec2 != null && ValueNoiDungCongViec2.Length > 15)
+                                                            if (ValueNoiDungCongViec2 != null && ValueNoiDungCongViec2.Length > 23)
                                                             {
-                                                                ValueNoiDungCongViec2 = ValueNoiDungCongViec2.Substring(0, 15) + "...";
+                                                                ValueNoiDungCongViec2 = ValueNoiDungCongViec2.Substring(0, 23) + "...";
                                                             }
                                                         }
                                                         @ValueNoiDungCongViec2
