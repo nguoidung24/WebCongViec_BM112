@@ -14,7 +14,7 @@ namespace WebCongViec_v2.Controllers
             this._context = new Bm112Context();
         }
 
-        [Microsoft.AspNetCore.Mvc.Route("/login")]
+/*        [Microsoft.AspNetCore.Mvc.Route("/login")]
         public IActionResult Index()
         {
             ViewBag.AppName = "CN - 13";
@@ -24,12 +24,12 @@ namespace WebCongViec_v2.Controllers
                 ViewBag.AppName = AppName.Data;  
             }
             return View();
-        }
+        }*/
 
 
 
         [Microsoft.AspNetCore.Mvc.Route("/login")]
-        [HttpPost]
+        [HttpGet]
         public IActionResult Index(string id, string password)
         {
            /* string mac = "";

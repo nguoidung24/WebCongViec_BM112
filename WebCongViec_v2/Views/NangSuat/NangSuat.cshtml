@@ -64,8 +64,8 @@
                         @foreach (var date in uniqueDates)
                         {
                             <td style=" border: 1px solid gray;min-width: 100px">Thời gian</td>
-                            <td style=" border: 1px solid gray;min-width: 200px">Nội dung</td>
                             <td style=" border: 1px solid gray;min-width: 100px">Loại</td>
+                            <td style=" border: 1px solid gray;min-width: 200px">Nội dung</td>
                             <td style=" border: 1px solid gray;min-width: 100px">Khối lượng</td>
                             <td class="tableTrang"></td>
 
@@ -114,16 +114,16 @@
                                             if (isFirstCongViecForNhanSu)
                                             {
                                                 <td style=" border: 1px solid gray;min-width: 100px; height: 50px; background-color: lightcyan">@firstChamcong.ThoiGian</td>
-                                                <td style=" border: 1px solid gray;min-width: 200px; height: 50px; background-color: lightcyan">@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td>
                                                 <td style=" border: 1px solid gray;min-width: 100px; height: 50px; background-color: lightcyan">@firstChamcong.IdLoaiCongViecNavigation?.ValueLoaiCongViec</td>
+                                                <td style=" border: 1px solid gray;min-width: 200px; height: 50px; background-color: lightcyan">@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td>
                                                 <td style=" border: 1px solid gray;min-width: 100px; height: 50px; background-color: lightcyan">@firstChamcong.KhoiLuong</td>
                                                 <td class="tableTrang"></td>
                                             }
                                             else
                                             {
                                                 <td style=" border: 1px solid gray;min-width: 100px; height: 50px">@firstChamcong.ThoiGian</td>
-                                                <td style=" border: 1px solid gray;min-width: 200px; height: 50px">@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td>
                                                 <td style=" border: 1px solid gray;min-width: 100px; height: 50px">@firstChamcong.IdLoaiCongViecNavigation?.ValueLoaiCongViec</td>
+                                                <td style=" border: 1px solid gray;min-width: 200px; height: 50px">@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td>
                                                 <td style=" border: 1px solid gray;min-width: 100px; height: 50px">@firstChamcong.KhoiLuong</td>
                                                 <td class="tableTrang"></td>
                                             }
@@ -134,16 +134,16 @@
                                             if (isFirstCongViecForNhanSu)
                                             {
                                                 <td style=" border: 1px solid gray;min-width: 100px; height: 50px; background-color: lightcyan"></td>
-                                                <td style=" border: 1px solid gray;min-width: 200px; height: 50px; background-color: lightcyan"></td>
                                                 <td style=" border: 1px solid gray;min-width: 100px; height: 50px; background-color: lightcyan"></td>
+                                                <td style=" border: 1px solid gray;min-width: 200px; height: 50px; background-color: lightcyan"></td>
                                                 <td style=" border: 1px solid gray;min-width: 100px; height: 50px; background-color: lightcyan"></td>
                                                 <td class="tableTrang"></td>
                                             }
                                             else
                                             {
                                                 <td style=" border: 1px solid gray;min-width: 100px; height: 50px"></td>
-                                                <td style=" border: 1px solid gray;min-width: 200px; height: 50px"></td>
                                                 <td style=" border: 1px solid gray;min-width: 100px; height: 50px"></td>
+                                                <td style=" border: 1px solid gray;min-width: 200px; height: 50px"></td>
                                                 <td style=" border: 1px solid gray;min-width: 100px; height: 50px"></td>
                                                 <td class="tableTrang"></td>
                                             }
@@ -199,8 +199,8 @@
                     @foreach (var date in uniqueDates)
                     {
                         <td style="min-width: 100px">Thời gian</td>
-                        <td style="min-width: 200px">Nội dung</td>
                         <td style="min-width: 100px">Loại</td>
+                        <td style="min-width: 200px">Nội dung</td>
                         <td style="min-width: 100px">Khối lượng</td>
                         <td class="tableTrang"></td>
 
@@ -210,7 +210,7 @@
         </table>
 
         <div style="display: flex; width: fit-content">
-            <table class=" m-0" style="position: sticky; left: 0px; background: white">
+            <table class="table-showo m-0" style="position: sticky; left: 0px; background: white">
                 <tbody>
                     @if (dataNangSuat != null)
                     {
@@ -232,7 +232,17 @@
                                     @if (isFirstCongViecForNhanSu)
                                     {
                                         <td style="vertical-align: middle; text-align: center; min-width: 50px" rowspan="@rowSpanForNhanSu">@idNhanSu</td>
-                                        <td style="vertical-align: middle;font-weight: bold; text-align: center;  min-width: 200px;" rowspan="@rowSpanForNhanSu">@nhanSuData.name</td>
+                                        <td style="vertical-align: middle;font-weight: bold; text-align: center; min-width: 200px;" rowspan="@rowSpanForNhanSu">
+                                            @{
+                                                string displayedName = nhanSuData.name;
+                                                if (displayedName != null && displayedName.Length > 20)
+                                                {
+                                                    displayedName = displayedName.Replace(" ", "<br/>");
+                                                }
+                                            }
+                                            @Html.Raw(displayedName)
+                                        </td>
+                                        @* <td style="vertical-align: middle;font-weight: bold; text-align: center;  min-width: 200px;" rowspan="@rowSpanForNhanSu">@nhanSuData.name</td> *@
                                         <td style="min-width: 50px; background-color: lightcyan">@tenCongViec</td>
 
                                     }
@@ -267,8 +277,8 @@
                         @foreach (var date in uniqueDates)
                         {
                             <td style="min-width: 100px">Thời gian</td>
-                            <td style="min-width: 200px">Nội dung</td>
                             <td style="min-width: 100px">Loại</td>
+                            <td style="min-width: 200px">Nội dung</td>
                             <td style="min-width: 100px">Khối lượng</td>
                             <td class="tableTrang"></td>
 
@@ -317,16 +327,36 @@
                                             if (isFirstCongViecForNhanSu)
                                             {
                                                 <td style="min-width: 100px; height: 50px; background-color: lightcyan">@firstChamcong.ThoiGian</td>
-                                                <td style="min-width: 200px; height: 50px; background-color: lightcyan">@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td>
                                                 <td style="min-width: 100px; height: 50px; background-color: lightcyan">@firstChamcong.IdLoaiCongViecNavigation?.ValueLoaiCongViec</td>
+                                                @* <td style="min-width: 200px; height: 50px; background-color: lightcyan">@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td> *@
+                                                <td style="min-width: 200px; height: 50px">
+                                                        @{
+                                                            var ValueNoiDungCongViec1 = firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec;
+                                                            if (ValueNoiDungCongViec1 != null && ValueNoiDungCongViec1.Length > 15)
+                                                            {
+                                                                ValueNoiDungCongViec1 = ValueNoiDungCongViec1.Substring(0, 15) + "...";
+                                                            }
+                                                        }
+                                                        @ValueNoiDungCongViec1
+                                                </td>
                                                 <td style="min-width: 100px; height: 50px; background-color: lightcyan">@firstChamcong.KhoiLuong</td>
                                                 <td class="tableTrang"></td>
                                             }
                                             else
                                             {
                                                 <td style="min-width: 100px; height: 50px">@firstChamcong.ThoiGian</td>
-                                                <td style="min-width: 200px; height: 50px">@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td>
                                                 <td style="min-width: 100px; height: 50px">@firstChamcong.IdLoaiCongViecNavigation?.ValueLoaiCongViec</td>
+                                                @* <td style="min-width: 200px; height: 50px">@firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec</td> *@
+                                                <td style="min-width: 200px; height: 50px">
+                                                        @{
+                                                            var ValueNoiDungCongViec2 = firstChamcong.IdNoiDungCongViecNavigation?.ValueNoiDungCongViec;
+                                                            if (ValueNoiDungCongViec2 != null && ValueNoiDungCongViec2.Length > 15)
+                                                            {
+                                                                ValueNoiDungCongViec2 = ValueNoiDungCongViec2.Substring(0, 15) + "...";
+                                                            }
+                                                        }
+                                                        @ValueNoiDungCongViec2
+                                                </td>
                                                 <td style="min-width: 100px; height: 50px">@firstChamcong.KhoiLuong</td>
                                                 <td class="tableTrang"></td>
                                             }
@@ -337,16 +367,16 @@
                                             if (isFirstCongViecForNhanSu)
                                             {
                                                 <td style="min-width: 100px; height: 50px; background-color: lightcyan"></td>
-                                                <td style="min-width: 200px; height: 50px; background-color: lightcyan"></td>
                                                 <td style="min-width: 100px; height: 50px; background-color: lightcyan"></td>
+                                                <td style="min-width: 200px; height: 50px; background-color: lightcyan"></td>
                                                 <td style="min-width: 100px; height: 50px; background-color: lightcyan"></td>
                                                 <td class="tableTrang"></td>
                                             }
                                             else
                                             {
                                                 <td style="min-width: 100px; height: 50px"></td>
-                                                <td style="min-width: 200px; height: 50px"></td>
                                                 <td style="min-width: 100px; height: 50px"></td>
+                                                <td style="min-width: 200px; height: 50px"></td>
                                                 <td style="min-width: 100px; height: 50px"></td>
                                                 <td class="tableTrang"></td>
                                             }
