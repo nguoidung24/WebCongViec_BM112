@@ -35,25 +35,36 @@ namespace WebCongViec_v2.Services
                         using (var workbook = new XLWorkbook(stream))
                         {
                             var worksheet = workbook.Worksheet(1);
+                            int countR = 1;
                             foreach (var row in worksheet.RowsUsed())
                             {
-                                if(row.Cell(0).GetFormattedString() != "" && row.Cell(0).GetFormattedString() != "-")
+                                if(!row.Cell(1).GetFormattedString().Equals("ID") && !row.Cell(1).GetFormattedString().Equals("") && !row.Cell(1).GetFormattedString().Equals("-"))
                                 {
-                                    DateOnly.TryParseExact(row.Cell(2).GetFormattedString(), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly parsedDate);
-                                    Chamcong rowData = new Chamcong()
+                                    DateOnly.TryParseExact(row.Cell(3).GetFormattedString(), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly parsedDate);
+                                    string thoiGianString = row.Cell(5).GetFormattedString().Trim().Equals("") ? "0" : row.Cell(5).GetFormattedString().Trim();
+                                    if(double.Parse(thoiGianString) <= 8)
                                     {
-                                        IdNhanSu = int.Parse(row.Cell(0).GetFormattedString()),
-                                        IdCongViec = 0,
-                                        IdLoaiCongViec = 0,
-                                        IdNoiDungCongViec = 0,
-                                        NgayThiCong = parsedDate,
-                                        ThoiGian = "",
-                                        KhoiLuong = "",
-                                        Status = 1
-                                    };
+                                        string thoiGianDouble = thoiGianString.Equals("0") ? "" : double.Parse(thoiGianString).ToString();
+                                        Chamcong rowData = new Chamcong()
+                                        {
+                                            IdNhanSu = int.Parse(row.Cell(1).GetFormattedString()),
+                                            IdCongViec = 0,
+                                            IdLoaiCongViec = 0,
+                                            IdNoiDungCongViec = 0,
+                                            NgayThiCong = parsedDate,
+                                            ThoiGian = thoiGianDouble,
+                                            KhoiLuong = "",
+                                            Status = 1
+                                        };
 
-                                    excelData.Add(rowData);
+                                        excelData.Add(rowData);
+                                    }
+                                    else
+                                    {
+                                        throw new Exception(" thời gian không hợp lệ. (" + countR.ToString() + ")");
+                                    }
                                 }
+                                countR++;
                             }
                         }
                     }

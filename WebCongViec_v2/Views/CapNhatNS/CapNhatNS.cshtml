@@ -43,35 +43,32 @@
                     <tbody>
                         @for (int i = 0; i < ((List<Chamcong>)ViewBag.ExcelData).Count; i++)
                         {
-
-                            if (i == 0) { continue; }
-
                             var rowData = ((List<Chamcong>)ViewBag.ExcelData)[i];
                             <tr>
                                 <td>@rowData.IdNhanSu</td>
                                 <td></td>
                                 <td>@rowData.NgayThiCong</td>
+                                <td>CV1</td>
+                                <td>@rowData.ThoiGian</td>
+
                             </tr>
                         }
                     </tbody>
                 </table>
             }
-            else if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+            @if (ViewBag.ErrorMessage!= null && !ViewBag.ErrorMessage.ToString().Equals(""))
             {
                 <div class="alert alert-danger">
-                    <strong>Lỗi:</strong> @ViewBag.ErrorMessage
+                    <strong>@ViewBag.ErrorMessage</strong>
                 </div>
             }
-            else if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+            @if (ViewBag.SuccessMessage != null && !ViewBag.SuccessMessage.ToString().Equals(""))
             {
                 <div class="alert alert-success">
-                    <strong>Thông báo:</strong> @ViewBag.SuccessMessage
+                    <strong> @ViewBag.SuccessMessage</strong>
                 </div>
             }
-            else if (!string.IsNullOrEmpty(ViewBag.FileName))
-            {
-                <p>@ViewBag.FileName</p>
-            }
+
         </div>
     </div>
 </div>
