@@ -8,6 +8,21 @@ namespace WebCongViec_v2.Services
 {
     public class CapNhatNSService : BaseService
     {
+
+        public Dictionary<string, string> getAllNhanSu()
+        {
+            return this.DbContext.Nhansus
+                .ToDictionary(ns => ns.IdNhanSu.ToString(), ns => ns.HoTenNhanSu);
+        }
+
+
+        public Dictionary<string, int> getAllCV()
+        {
+            return this.DbContext.Congviecs
+                .Where(cv => cv.IdCongViec != 0)
+                .ToDictionary(ns => ns.ValueCongViec.ToLower(), ns => ns.IdCongViec);
+        }
+
         public (string ,string, string, List<Chamcong>) getExcelData(IFormFile fileData) {
             string FileName = "";
             string SuccessMessage = "";
@@ -48,7 +63,7 @@ namespace WebCongViec_v2.Services
                                         Chamcong rowData = new Chamcong()
                                         {
                                             IdNhanSu = int.Parse(row.Cell(1).GetFormattedString()),
-                                            IdCongViec = 0,
+                                            IdCongViec = getAllCV()[row.Cell(4).GetFormattedString().ToLower()],
                                             IdLoaiCongViec = 0,
                                             IdNoiDungCongViec = 0,
                                             NgayThiCong = parsedDate,

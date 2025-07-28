@@ -28,6 +28,7 @@ namespace WebCongViec_v2.Controllers.Admin
         public IActionResult CapNhatNS(IFormFile fileData)
         {
             (ViewBag.FileName, ViewBag.SuccessMessage, ViewBag.ErrorMessage, ViewBag.ExcelData) = this.capNhatNSService.getExcelData(fileData);  
+            ViewBag.NhanSuList = this.capNhatNSService.getAllNhanSu();
             return View();
         }
     }

@@ -46,9 +46,9 @@
                             var rowData = ((List<Chamcong>)ViewBag.ExcelData)[i];
                             <tr>
                                 <td>@rowData.IdNhanSu</td>
-                                <td></td>
-                                <td>@rowData.NgayThiCong</td>
-                                <td>CV1</td>
+                                <td>@ViewBag.NhanSuList[rowData.IdNhanSu.ToString()]</td>
+                                <td>@rowData.NgayThiCong.ToString("yyyy-MM-dd")</td>
+                                <td>@rowData.IdCongViec</td>
                                 <td>@rowData.ThoiGian</td>
 
                             </tr>
