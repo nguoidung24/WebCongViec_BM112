@@ -26,28 +26,33 @@ namespace WebCongViec_v2.Controllers
             return View();
         }*/
 
-
+        string? bm12Decode(string? input)
+        {
+            return input;
+        }
 
         [Microsoft.AspNetCore.Mvc.Route("/login")]
         [HttpGet]
-        public IActionResult Index(string id, string password)
+        public IActionResult Index(string? username)
         {
-           /* string mac = "";
-            NetworkInterface[] networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            string? id = bm12Decode(username);
+            string password = "12345678";
+            /* string mac = "";
+             NetworkInterface[] networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
 
-            foreach (NetworkInterface netInterface in networkInterfaces)
-            {
-                if (netInterface.OperationalStatus == OperationalStatus.Up && netInterface.NetworkInterfaceType != NetworkInterfaceType.Loopback && netInterface.NetworkInterfaceType != NetworkInterfaceType.Tunnel)
-                {
-                    PhysicalAddress macAddress = netInterface.GetPhysicalAddress();
-                    mac = macAddress.ToString();
-                    break;
-                }
-            }
-            if (!mac.Equals("00090FAA0001"))
-            {
-                return View();
-            }*/
+             foreach (NetworkInterface netInterface in networkInterfaces)
+             {
+                 if (netInterface.OperationalStatus == OperationalStatus.Up && netInterface.NetworkInterfaceType != NetworkInterfaceType.Loopback && netInterface.NetworkInterfaceType != NetworkInterfaceType.Tunnel)
+                 {
+                     PhysicalAddress macAddress = netInterface.GetPhysicalAddress();
+                     mac = macAddress.ToString();
+                     break;
+                 }
+             }
+             if (!mac.Equals("00090FAA0001"))
+             {
+                 return View();
+             }*/
 
             if (id != null && password != null)
             {

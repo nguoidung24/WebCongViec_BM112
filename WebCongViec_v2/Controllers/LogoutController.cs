@@ -9,10 +9,18 @@ namespace WebCongViec_v2.Controllers
         {
             if (logout != null)
             {
-                HttpContext.Session.Clear();
-                return RedirectToAction("Index", "Login");
+                if(logout.Equals("true"))
+                {
+                    HttpContext.Session.Clear();
+                    return RedirectToAction("Index", "Login");
+                }
+                else if(logout.Equals("axe"))
+                {
+                    HttpContext.Session.Clear();
+                    return Json(new { status = "200" });
+                }
             }
-            return View();
+            return Json(new { status = "500" });
         }
     }
 }
