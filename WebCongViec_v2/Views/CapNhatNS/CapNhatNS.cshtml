@@ -7,11 +7,16 @@
     </div>
 
     <div>
-        <form id="uploadForm" enctype="multipart/form-data" method="post">
-            <input type="file" style="width: 300px; margin: 0 auto" class="form-control" placeholder="FileData" name="fileData">
+        <form id="uploadForm" enctype="multipart/form-data" method="post" style="display: flex; justify-content: center">
+            <input type="file" style="width: 100px;" class="form-control" placeholder="FileData" name="fileData">
+            <button class="btn btn-outline-primary">Cập nhật 🔄</button>
+
         </form>
+        <p id="chonFile" class="text-center">
+            
+        </p>
         <p class="text-center">
-            @ViewBag.FileName
+            @ViewBag.FileName ("file cập nhật")
         </p>
         <script>
             const fileInput = document.querySelector('input[name="fileData"]');
@@ -19,44 +24,14 @@
 
             fileInput.addEventListener('change', function () {
                 if (fileInput.files.length > 0) {
-                    form.submit(); // Submit form nếu có file được chọn
+                    document.getElementById('chonFile').textContent = `Đã chọn: ${fileInput.files[0].name}`;
                 }
             });
         </script>
-        <div class="px-2">
-            @if (ViewBag.ExcelData != null)
-            {
-                <h2>Dữ liệu từ File Excel <button class="btn btn-outline-primary">Cập nhật 🔄</button></h2>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>TenNV</th>
-                            <th>Ngày</th>
-                            <th></th>
-                            <th>Thời gian</th>
-                            <th>Loại</th>
-                            <th>Nội dung</th>
-                            <th>Khối lượng</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (int i = 0; i < ((List<Chamcong>)ViewBag.ExcelData).Count; i++)
-                        {
-                            var rowData = ((List<Chamcong>)ViewBag.ExcelData)[i];
-                            <tr>
-                                <td>@rowData.IdNhanSu</td>
-                                <td>@ViewBag.NhanSuList[rowData.IdNhanSu.ToString()]</td>
-                                <td>@rowData.NgayThiCong.ToString("yyyy-MM-dd")</td>
-                                <td>@rowData.IdCongViec</td>
-                                <td>@rowData.ThoiGian</td>
+    
 
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-            @if (ViewBag.ErrorMessage!= null && !ViewBag.ErrorMessage.ToString().Equals(""))
+        <div class="px-2">
+            @if (ViewBag.ErrorMessage != null && !ViewBag.ErrorMessage.ToString().Equals(""))
             {
                 <div class="alert alert-danger">
                     <strong>@ViewBag.ErrorMessage</strong>
@@ -68,7 +43,56 @@
                     <strong> @ViewBag.SuccessMessage</strong>
                 </div>
             }
-
+            @if (ViewBag.ExcelData != null)
+            {
+                <h2>Dữ liệu từ File Excel</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>TenNV</th>
+                            <th>Ngày</th>
+                            <th>CV</th>
+                            <th>Thời gian</th>
+                            <th>Loại</th>
+                            <th>Nội dung</th>
+                            <th>Khối lượng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int count = 0;}
+                        @for (int i = 0; i < ((List<Chamcong>)ViewBag.ExcelData).Count; i++)
+                        {
+                            var rowData = ((List<Chamcong>)ViewBag.ExcelData)[i];
+                            <tr>
+                                @if(count % 4 == 0)
+                                {
+                                    <td style="background-color: lightcyan">@rowData.IdNhanSu</td>
+                                    <td style="background-color: lightcyan">@ViewBag.NhanSuList[rowData.IdNhanSu.ToString()]</td>
+                                    <td style="background-color: lightcyan">@rowData.NgayThiCong.ToString("yyyy-MM-dd")</td>
+                                    <td style="background-color: lightcyan">@rowData.IdCongViec</td>
+                                    <td style="background-color: lightcyan">@rowData.ThoiGian</td>
+                                    <td style="background-color: lightcyan">@rowData.IdLoaiCongViec</td>
+                                    <td style="background-color: lightcyan">@rowData.IdNoiDungCongViec</td>
+                                    <td style="background-color: lightcyan">@rowData.KhoiLuong</td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>@rowData.IdCongViec</td>
+                                    <td>@rowData.ThoiGian</td>
+                                    <td>@rowData.IdLoaiCongViec</td>
+                                    <td>@rowData.IdNoiDungCongViec</td>
+                                    <td>@rowData.KhoiLuong</td>
+                                }
+                            </tr>
+                            count++;
+                        }
+                    </tbody>
+                </table>
+            }
         </div>
     </div>
 </div>
