@@ -158,7 +158,98 @@
 
     <!-- Table -->
     <div class="table-container">
-        <h5 style="
+     
+        <div class="table-container">
+            <h5 style="
+                margin-top: 20px;
+                text-align: center;
+                padding: 20px;
+                font-weight: bold;
+            ">
+                THEO DÕI CÔNG
+            </h5>
+            <table class="mt-3" id="tableShow">
+                <thead>
+                    <tr>
+                        <td style="min-width: 50px; text-align: center" ></td>
+                        <td style="min-width: 200px; text-align: center" ></td>
+                        <td style="min-width: 50px; text-align: center" ></td>
+                        @foreach (var date in uniqueDates)
+                        {
+                            <td style="min-width: 100px; text-align: center;  background-color: lightyellow" class="dayOfWeek">@date</td>
+                            <td class="tableTrang"></td>
+                        }
+
+                    </tr>
+                    <tr>
+                        <td style="min-width: 50px; text-align: center" >Id</td>
+                        <td style="min-width: 200px; background-color: lightyellow; text-align: center" >Họ Tên</td>
+                        <td style="min-width: 50px; text-align: center" >CV</td>
+                        @foreach (var date in uniqueDates)
+                        {
+                            <td style="min-width: 100px; text-align: center">Giờ đi làm</td>
+                            <td class="tableTrang"></td>
+
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (dataNangSuat != null)
+                    {
+                        @foreach (var nhanSuEntry in dataNangSuat.OrderBy(ns => ns.Key)) // Order by NhanSu Id for consistent display
+                        {
+                            var idNhanSu = nhanSuEntry.Key;
+                            var nhanSuData = nhanSuEntry.Value;
+                            var listCongViec = nhanSuData.data;
+
+                            int rowSpanForNhanSu = listCongViec.Count;
+                            bool isFirstCongViecForNhanSu = true;
+
+                            @foreach (var congViecEntry in listCongViec.OrderBy(cv => cv.Key)) // Order by CongViec name
+                            {
+                                var tenCongViec = congViecEntry.Key;
+                                var chamCongByDate = congViecEntry.Value;
+                                <tr>
+                        
+                                        <td class="" style="vertical-align: middle; text-align: center; min-width: 50px" >@idNhanSu</td>
+                                        <td class="" style="vertical-align: middle; text-align: center;  min-width: 200px;" >@nhanSuData.name</td>
+                                        <td class="" style="min-width: 50px; ">@tenCongViec</td>
+                           
+                                    
+                                    @foreach (var date in uniqueDates)
+                                    {
+                                        var chamcongsForDate = chamCongByDate.GetValueOrDefault(date, new List<Chamcong>());
+                                        if (chamcongsForDate.Any())
+                                        {
+                                            var firstChamcong = chamcongsForDate.First();
+                                            
+                                            <td style="min-width: 100px; height: 50px; ">@(firstChamcong.ThoiGian)</td>
+                                            <td class="tableTrang"></td>
+                                   
+
+                                        }
+                                        else
+                                        {
+                                            <td style="min-width: 100px; height: 50px; "></td>
+                                            <td class="tableTrang"></td>
+                                        }
+                                    }
+                                </tr>
+                                isFirstCongViecForNhanSu = false;
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="@(3 + uniqueDates.Count * 4)">No productivity data available.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+           <h5 style="
                 text-align: center;
                 padding: 20px;
                 font-weight: bold;
@@ -191,117 +282,113 @@
                 }
             </tbody>
         </table>
-        <div class="table-container">
-            <h5 style="
-                margin-top: 20px;
-                text-align: center;
-                padding: 20px;
-                font-weight: bold;
-            ">
-                THEO DÕI CÔNG
-            </h5>
-            <table class="mt-3">
-                <thead>
-                    <tr>
-                        <td style="min-width: 50px" rowspan="2">Id</td>
-                        <td style="min-width: 200px; background-color: lightyellow" rowspan="2">Họ Tên</td>
-                        <td style="min-width: 50px" rowspan="2">CV</td>
-                        @foreach (var date in uniqueDates)
-                        {
-                            <td style="min-width: 100px; text-align: center;  background-color: lightyellow" class="dayOfWeek">@date</td>
-                            <td class="tableTrang"></td>
-                        }
-
-                    </tr>
-                    <tr>
-                        @foreach (var date in uniqueDates)
-                        {
-                            <td style="min-width: 100px">Thời gian</td>
-                            <td class="tableTrang"></td>
-
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (dataNangSuat != null)
-                    {
-                        @foreach (var nhanSuEntry in dataNangSuat.OrderBy(ns => ns.Key)) // Order by NhanSu Id for consistent display
-                        {
-                            var idNhanSu = nhanSuEntry.Key;
-                            var nhanSuData = nhanSuEntry.Value;
-                            var listCongViec = nhanSuData.data;
-
-                            int rowSpanForNhanSu = listCongViec.Count;
-                            bool isFirstCongViecForNhanSu = true;
-
-                            @foreach (var congViecEntry in listCongViec.OrderBy(cv => cv.Key)) // Order by CongViec name
-                            {
-                                var tenCongViec = congViecEntry.Key;
-                                var chamCongByDate = congViecEntry.Value;
-
-                                <tr>
-                                    @if (isFirstCongViecForNhanSu)
-                                    {
-                                        <td class="" style="vertical-align: middle; text-align: center; min-width: 50px" rowspan="@rowSpanForNhanSu">@idNhanSu</td>
-                                        <td class="" style="vertical-align: middle; text-align: center;  min-width: 200px;" rowspan="@rowSpanForNhanSu">@nhanSuData.name</td>
-                                    }
-                                    @if (isFirstCongViecForNhanSu)
-                                    {
-                                        <td class="" style="min-width: 50px; background-color: lightcyan">@tenCongViec</td>
-                                    }
-                                    else
-                                    {
-                                        <td class="" style="min-width: 50px">@tenCongViec</td>
-
-                                    }
-                                    @foreach (var date in uniqueDates)
-                                    {
-                                        var chamcongsForDate = chamCongByDate.GetValueOrDefault(date, new List<Chamcong>());
-
-                                        if (chamcongsForDate.Any())
-                                        {
-                                            var firstChamcong = chamcongsForDate.First();
-                                            if (isFirstCongViecForNhanSu)
-                                            {
-                                                <td style="min-width: 100px; height: 50px; background-color: lightcyan">@firstChamcong.ThoiGian</td>
-                                                <td class="tableTrang"></td>
-                                            }
-                                            else
-                                            {
-                                                <td style="min-width: 100px; height: 50px">@firstChamcong.ThoiGian</td>
-                                                <td class="tableTrang"></td>
-                                            }
-
-                                        }
-                                        else
-                                        {
-                                            if (isFirstCongViecForNhanSu)
-                                            {
-                                                <td style="min-width: 100px; height: 50px; background-color: lightcyan"></td>
-                                                <td class="tableTrang"></td>
-                                            }
-                                            else
-                                            {
-                                                <td style="min-width: 100px; height: 50px"></td>
-                                                <td class="tableTrang"></td>
-                                            }
-
-                                        }
-                                    }
-                                </tr>
-                                isFirstCongViecForNhanSu = false;
-
-                            }
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="@(3 + uniqueDates.Count * 4)">No productivity data available.</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const table = document.getElementById("tableShow");
+    if (!table) {
+        console.error("Không tìm thấy bảng với class 'mt-3'.");
+        return;
+    }
+
+    const tbody = table.querySelector('tbody');
+    const thead = table.querySelector('thead');
+
+    if (!tbody || !thead) {
+        console.error("Bảng không có tbody hoặc thead.");
+        return;
+    }
+
+    // Lấy các ngày từ hàng tiêu đề đầu tiên
+    const headerRowDays = thead.querySelectorAll('tr:first-child .dayOfWeek');
+    const dates = Array.from(headerRowDays).map(td => td.textContent);
+
+    // Dữ liệu đã được gộp và tính tổng
+    const mergedData = {};
+
+    // Duyệt qua từng hàng trong tbody
+    Array.from(tbody.children).forEach(row => {
+        const id = row.children[0].textContent.trim(); // Cột ID
+        const fullName = row.children[1].textContent.trim(); // Cột Họ Tên
+
+        // Khởi tạo nếu ID chưa tồn tại trong mergedData
+        if (!mergedData[id]) {
+            mergedData[id] = {
+                fullName: fullName,
+                days: {}
+            };
+        }
+
+        // Duyệt qua các cột dữ liệu theo ngày
+        // Bắt đầu từ cột thứ 3 (index 3) vì 0:ID, 1:Họ Tên, 2:CV
+        // Và mỗi ngày có 2 cột (data và tableTrang)
+        for (let i = 3; i < row.children.length; i += 2) {
+            const dayIndex = (i - 3) / 2;
+            const date = dates[dayIndex];
+            const value = parseFloat(row.children[i].textContent.replace(',', '.').trim()) || 0; // Chuyển đổi sang số, xử lý dấu phẩy và rỗng
+
+            if (!mergedData[id].days[date]) {
+                mergedData[id].days[date] = 0;
+            }
+            mergedData[id].days[date] += value;
+        }
+    });
+
+    // Xóa nội dung tbody hiện tại
+    tbody.innerHTML = '';
+
+    // Tạo các hàng mới với dữ liệu đã gộp
+    for (const id in mergedData) {
+        const data = mergedData[id];
+        const newRow = document.createElement('tr');
+
+        // Cột ID
+        const tdId = document.createElement('td');
+        tdId.textContent = id;
+        tdId.style.verticalAlign = 'middle';
+        tdId.style.textAlign = 'center';
+        tdId.style.minWidth = '50px';
+        newRow.appendChild(tdId);
+
+        // Cột Họ Tên
+        const tdFullName = document.createElement('td');
+        tdFullName.textContent = data.fullName;
+        tdFullName.style.verticalAlign = 'middle';
+        tdFullName.style.textAlign = 'center';
+        tdFullName.style.minWidth = '200px';
+        newRow.appendChild(tdFullName);
+
+        // Cột CV (có thể để trống hoặc ghi chú, tùy theo yêu cầu của bạn)
+        const tdCV = document.createElement('td');
+        tdCV.textContent = ''; // Để trống vì đã gộp các CV lại
+        tdCV.style.minWidth = '50px';
+        newRow.appendChild(tdCV);
+
+        // Các cột ngày đã tính tổng
+        dates.forEach(date => {
+            const tdDayValue = document.createElement('td');
+            const totalValue = data.days[date] !== undefined ? data.days[date] : 0; // Lấy giá trị tổng
+
+            if (totalValue === 0) {
+                tdDayValue.textContent = '-'; // Hiển thị "-"
+                tdDayValue.style.backgroundColor = 'orange'; // Đặt màu nền là orange
+            } else {
+                tdDayValue.textContent = totalValue.toFixed(1).replace('.', ','); // Định dạng lại số thập phân và dấu phẩy
+            }
+
+            tdDayValue.style.minWidth = '100px';
+            tdDayValue.style.height = '50px';
+            tdDayValue.style.textAlign = 'center'; // Căn giữa nội dung
+            newRow.appendChild(tdDayValue);
+
+            // Cột tableTrang trống
+            const tdBlank = document.createElement('td');
+            tdBlank.classList.add('tableTrang');
+            newRow.appendChild(tdBlank);
+        });
+
+        tbody.appendChild(newRow);
+    }
+});
+</script>
