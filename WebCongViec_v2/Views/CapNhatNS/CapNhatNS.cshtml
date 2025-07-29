@@ -7,7 +7,8 @@
     </div>
 
     <div>
-        <form id="uploadForm" enctype="multipart/form-data" method="post" style="display: flex; justify-content: center">
+        <form id="uploadForm" enctype="multipart/form-data" method="post" style="display: flex; justify-content: center; gap: 5px">
+            <a href="@Url.Action("DownloadNSTempExcel", "CapNhatNS")" class="btn btn-outline-warning">Tải mẫu 📥</a>
             <input type="file" style="width: 100px;" class="form-control" placeholder="FileData" name="fileData">
             <button class="btn btn-outline-primary">Cập nhật 🔄</button>
 
