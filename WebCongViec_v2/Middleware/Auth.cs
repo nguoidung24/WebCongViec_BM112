@@ -19,8 +19,11 @@
 
         public bool Ok()
         {
-
-            if (this.isLogin != null && this.isLogin.Equals("1"))
+            if(this.nextPath != null && this.nextPath.Equals(WebCongViec_v2.Services.ProjectService.GetProjectName() + "exportusers"))
+            {
+                return true;
+            }
+            else if (this.isLogin != null && this.isLogin.Equals("1"))
             {
                 return this.HandleLoginSuccess();
             }
@@ -119,7 +122,10 @@
         }
         List<string> GetUsersRoles()
         {
-            return new List<string> { WebCongViec_v2.Services.ProjectService.GetProjectName() + "homeusers", WebCongViec_v2.Services.ProjectService.GetProjectName() + "userscontroller/chamcong", WebCongViec_v2.Services.ProjectService.GetProjectName() + "userinfo" };
+            return new List<string> {
+                WebCongViec_v2.Services.ProjectService.GetProjectName() + "homeusers",
+                WebCongViec_v2.Services.ProjectService.GetProjectName() + "userscontroller/chamcong",
+                WebCongViec_v2.Services.ProjectService.GetProjectName() + "userinfo" };
         }
     }
 }

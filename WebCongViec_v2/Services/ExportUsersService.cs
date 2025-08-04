@@ -4,10 +4,12 @@ namespace WebCongViec_v2.Services
 {
     public class ExportUsersService : BaseService
     {
-        public List<int> getAllUsers()
+        public Dictionary<string, List<int>> getAllUsers()
         {
-            return this.DbContext.Nhansus
-                                 .Select(ns => ns.IdNhanSu).ToList();
+            var result = new Dictionary<string, List<int>>();
+            result.Add("data", this.DbContext.Nhansus
+                                 .Select(ns => ns.IdNhanSu).ToList());
+            return result;
         }
     }
 }
