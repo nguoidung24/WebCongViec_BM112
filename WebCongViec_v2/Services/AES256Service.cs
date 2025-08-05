@@ -1,83 +1,63 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 
-namespace WebCongViec_v2.Services
+public class AES256Service
 {
-    public class AES256Service
+    //static void Main()
+    //{
+    //    string plainText = "1";
+    //    string keyText = "tdssohoa"; // key người dùng nhập
+
+    //    // Mã hóa
+    //    string encrypted = Encrypt(plainText, keyText);
+    //    Console.WriteLine("Đã mã hóa: " + encrypted);
+
+    //    // Giải mã
+    //    string decrypted = Decrypt(encrypted, keyText);
+    //    Console.WriteLine("Đã giải mã: " + decrypted);
+    //}
+
+    public  string Encrypt(string plainText, string password)
     {
-        private static byte[] CreateKey(string password)
+        byte[] key = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(password)); // 32 bytes
+        byte[] iv = Encoding.UTF8.GetBytes("1234567890abcdef"); // 16 bytes IV cố định
+
+        using (Aes aes = Aes.Create())
         {
-            using (SHA256 sha = SHA256.Create())
-            {
-                return sha.ComputeHash(Encoding.UTF8.GetBytes(password));
-            }
+            aes.Key = key;
+            aes.IV = iv;
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+
+            using var encryptor = aes.CreateEncryptor();
+            byte[] inputBytes = Encoding.UTF8.GetBytes(plainText);
+            byte[] encryptedBytes = encryptor.TransformFinalBlock(inputBytes, 0, inputBytes.Length);
+            return Convert.ToBase64String(encryptedBytes);
         }
+    }
 
-        public static string Encrypt(string plainText, string password)
+    public  string Decrypt(string cipherText, string password)
+    {
+        if (string.IsNullOrEmpty(cipherText) || string.IsNullOrEmpty(password))
         {
-            byte[] key = CreateKey(password);
-            byte[] iv = new byte[16]; 
-
-            using (Aes aesAlg = Aes.Create())
-            {
-                aesAlg.KeySize = 256;
-                aesAlg.BlockSize = 128;
-                aesAlg.Key = key;
-                aesAlg.IV = iv;
-                /*=================== MODE ============================*/
-                aesAlg.Mode = CipherMode.CBC;
-                aesAlg.Padding = PaddingMode.PKCS7;
-
-                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
-
-                using (MemoryStream ms = new MemoryStream())
-                using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
-                using (StreamWriter sw = new StreamWriter(cs))
-                {
-                    sw.Write(plainText);
-                    sw.Close();
-                    return Convert.ToBase64String(ms.ToArray());
-                }
-            }
+            return "";
         }
+        byte[] key = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(password));
+        byte[] iv = Encoding.UTF8.GetBytes("1234567890abcdef");
 
-        public static string Decrypt(string cipherText, string password)
+        using (Aes aes = Aes.Create())
         {
-            byte[] key = CreateKey(password);
-            byte[] iv = new byte[16]; 
+            aes.Key = key;
+            aes.IV = iv;
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
 
-            using (Aes aesAlg = Aes.Create())
-            {
-                aesAlg.KeySize = 256;
-                aesAlg.BlockSize = 128;
-                aesAlg.Key = key;
-                aesAlg.IV = iv;
-                aesAlg.Mode = CipherMode.CBC;
-                aesAlg.Padding = PaddingMode.PKCS7;
-
-                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-
-                byte[] buffer = Convert.FromBase64String(cipherText);
-
-                using (MemoryStream ms = new MemoryStream(buffer))
-                using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
-                using (StreamReader sr = new StreamReader(cs))
-                {
-                    return sr.ReadToEnd();
-                }
-            }
-        }
-
-        static void Main()
-        {
-            string original = "Nội dung cần mã hóa";
-            string password = "matkhaubimat123";
-
-            string encrypted = Encrypt(original, password);
-            Console.WriteLine("Đã mã hóa: " + encrypted);
-
-            string decrypted = Decrypt(encrypted, password);
-            Console.WriteLine("Đã giải mã: " + decrypted);
+            using var decryptor = aes.CreateDecryptor();
+            byte[] cipherBytes = Convert.FromBase64String(cipherText);
+            byte[] decryptedBytes = decryptor.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);
+            return Encoding.UTF8.GetString(decryptedBytes);
         }
     }
 }
