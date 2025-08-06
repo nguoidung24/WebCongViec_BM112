@@ -37,10 +37,10 @@ namespace WebCongViec_v2.Controllers
 
         [Microsoft.AspNetCore.Mvc.Route("/login")]
         [HttpGet]
-        public IActionResult Index(string? _username, string? _endDate)
+        public IActionResult Index(string? username, string? expired)
         {
-            string endDate = this._aes256Service.Decrypt(_endDate, "tdssohoa");
-            string username = this._aes256Service.Decrypt(_username, "tdssohoa");
+            string endDate = "06/08/2025"/*this._aes256Service.Decrypt(expired, "tdssohoa")*/;
+            /*username = this._aes256Service.Decrypt(username, "tdssohoa");*/
             string _format = "dd/MM/yyyy";
 
             if(endDate == null)
