@@ -14,10 +14,10 @@ namespace WebCongViec_v2.Controllers
                     HttpContext.Session.Clear();
                     return RedirectToAction("Index", "Login");
                 }
-                else if(logout.Equals("axe"))
+                else if(logout.Equals("outside"))
                 {
                     HttpContext.Session.Clear();
-                    return Json(new { status = "200" });
+                    return Json(new { status = "200" , isLogout = "1" });
                 }
             }
             return Json(new { status = "500" });

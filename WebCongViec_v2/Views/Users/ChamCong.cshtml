@@ -23,6 +23,16 @@
     </div>
     <p class="text-center fw-bold fs-3 mt-2 mb-3 text-uppercase">Chấm Công</p>
     <p class="text-center fw-bold fs-6 mt-2 mb-3">Chấm Công ngày: <span class="text-danger">@ViewBag.DisplayToDay</span></p>
+    <div style="display: none">
+        <div style="display: flex; gap: 10px; justify-content: center">
+            <p class="text-center fw-bold fs-6 mt-2 mb-3">Năng suất scan: <span id="ns-4" class="text-danger">@ViewBag.NSScan</span></p>
+            <p class="text-center fw-bold fs-6 mt-2 mb-3">Năng suất nhập liệu: <span id="ns-1" class="text-danger">@ViewBag.NSNhapLieu</span></p>
+            <p class="text-center fw-bold fs-6 mt-2 mb-3">Năng suất kiểm tra nhập liệu: <span id="ns-2" class="text-danger">@ViewBag.NSCheckNhapLieu</span></p>
+
+        </div>
+    </div>
+
+
     <div>
         <div class="px-3">
             <form onsubmit="confirmSubmit(event)" method="post">
@@ -60,7 +70,7 @@
                                     <select @ViewBag.Req name="@count.ToString()IdLoaiCongViec" class="form-select">
                                         @foreach (var loaiCongViec in ViewBag.DanhSachLoaiCongViec)
                                         {
-                                            <option value="@loaiCongViec.IdLoaiCongViec">@(loaiCongViec.ValueLoaiCongViec.Equals("") ? "-- Chọn loại --" : loaiCongViec.ValueLoaiCongViec)</option>
+                                            <option value="@loaiCongViec.IdLoaiCongViec">@(loaiCongViec.ValueLoaiCongViec.Equals("") ? "-- Không chọn --" : loaiCongViec.ValueLoaiCongViec)</option>
                                         }
                                     </select>
                                 </div>
@@ -69,7 +79,7 @@
                                     <select @ViewBag.Req name="@count.ToString()IdNoiDungCongViec" class="form-select">
                                         @foreach (var ndcv in ViewBag.DanhSachNoiDung)
                                         {
-                                            <option value="@ndcv.IdNoiDungCongViec">@(ndcv.ValueNoiDungCongViec.Equals("") ? "-- Chọn nội dung --" : ndcv.ValueNoiDungCongViec)</option>
+                                            <option selected = "@(ndcv.ValueNoiDungCongViec.Equals(""))" value="@ndcv.IdNoiDungCongViec">@(ndcv.ValueNoiDungCongViec.Equals("") ? "-- Không chọn --" : ndcv.ValueNoiDungCongViec)</option>
                                         }
                                     </select>
                                 </div>
@@ -181,5 +191,40 @@
             });
         </script>
     }
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            for (let i = 1; i <= 4; i++) {
+                const selectName = i + "IdNoiDungCongViec";
+                const inputName = i + "KhoiLuong";
+
+                const select = document.getElementsByName(selectName)[0];
+                const input = document.getElementsByName(inputName)[0];
+                if (select && input) {
+                    select.addEventListener("change", function () {
+                        input.value = "";
+                        const selectedValue = parseFloat(select.value);
+                        const spanId = `ns${selectedValue}`;
+                        console.log(`Selected value for ${selectName}:`, selectedValue);
+                        console.log(`Input element for ${inputName}:`, input);
+                        console.log(`Span element with ID ${spanId}:`, document.getElementById(spanId));
+                        if (!isNaN(selectedValue) && selectedValue < 0) {
+                            const span = document.getElementById(spanId);
+                            input.value = span ? span.textContent.trim() : "";
+                            input.readOnly = true;
+                        } else {
+                            input.readOnly = false;
+                        }
+                    });
+
+                    // Gọi sự kiện change khi trang load để cập nhật ban đầu nếu cần
+                    select.dispatchEvent(new Event('change'));
+                }
+            }
+        });
+    </script>
+
+
 </div>
 

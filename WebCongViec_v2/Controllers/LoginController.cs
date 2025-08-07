@@ -12,10 +12,12 @@ namespace WebCongViec_v2.Controllers
     {
         protected Bm112Context _context;
         protected AES256Service _aes256Service;
+        protected AXAService _axaService;
         public LoginController()
         {
             this._context = new Bm112Context();
             this._aes256Service = new AES256Service();
+            this._axaService = new AXAService();
         }
 
 /*        [Microsoft.AspNetCore.Mvc.Route("/login")]
@@ -39,7 +41,7 @@ namespace WebCongViec_v2.Controllers
         [HttpGet]
         public IActionResult Index(string? username, string? expired)
         {
-            string endDate = "06/08/2025"/*this._aes256Service.Decrypt(expired, "tdssohoa")*/;
+            string endDate = "07/08/2025"/*this._aes256Service.Decrypt(expired, "tdssohoa")*/;
             /*username = this._aes256Service.Decrypt(username, "tdssohoa");*/
             string _format = "dd/MM/yyyy";
 
@@ -122,6 +124,7 @@ namespace WebCongViec_v2.Controllers
                         HttpContext.Session.SetString("userrole", check.Role.ToString());
                         HttpContext.Session.SetString("HasInfo", check.Status.ToString());
                         HttpContext.Session.SetString("role", "0");
+                        HttpContext.Session.SetString("t", this._axaService.GetTokenAsync().Result);
                         return RedirectToAction("Index", "HomeUsers");
                     }
                 }

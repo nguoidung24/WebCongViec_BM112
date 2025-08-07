@@ -1,20 +1,24 @@
 ﻿using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using WebCongViec_v2.Models;
+using WebCongViec_v2.Services;
 
 namespace WebCongViec_v2.Controllers.User
 {
     public class UsersController : Controller
     {
         private Bm112Context _context;
+        private AXAService _axaService;
         public UsersController()
         {
             _context = new Bm112Context();
+            _axaService = new AXAService();
         }
 
         [Route("/UsersController/ChamCong")]
-        public IActionResult ChamCong(string? isChamCong)
+        public async Task<IActionResult> ChamCong(string? isChamCong)
         {
 
             
@@ -57,7 +61,10 @@ namespace WebCongViec_v2.Controllers.User
                     && !row.ValueNoiDungCongViec.Equals("support")
                 ).ToList();
             }
-
+            
+            ViewBag.NSScan = await _axaService.LayNSAsync(_axaService.GetInfo("-4"), ID, "DaQuet");
+            ViewBag.NSNhapLieu = await _axaService.LayNSAsync(_axaService.GetInfo("-1"), ID, "DaNhap");
+            ViewBag.NSCheckNhapLieu = await _axaService.LayNSAsync(_axaService.GetInfo("-2"), ID, "DaKiemTra");
             return View();
         }
 
