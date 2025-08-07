@@ -41,8 +41,8 @@ namespace WebCongViec_v2.Controllers
         [HttpGet]
         public IActionResult Index(string? username, string? expired)
         {
-            string endDate = "07/08/2025"/*this._aes256Service.Decrypt(expired, "tdssohoa")*/;
-            /*username = this._aes256Service.Decrypt(username, "tdssohoa");*/
+            string endDate = this._aes256Service.Decrypt(expired, "tdssohoa");
+            username = this._aes256Service.Decrypt(username, "tdssohoa");
             string _format = "dd/MM/yyyy";
 
             if(endDate == null)

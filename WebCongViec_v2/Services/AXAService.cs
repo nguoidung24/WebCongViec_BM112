@@ -75,7 +75,7 @@ namespace WebCongViec_v2.Services
                 // Gửi các form field
                 content.Add(new StringContent(token), "Token");
                 content.Add(new StringContent("[\""+ID+"\"]"), "Username");
-                string today = DateTime.Now.ToString("dd/MM/yyyy");
+                string today = DateTime.Now.ToString("dd-MM-yyyy");
                 content.Add(new StringContent(today), "StartDate");
                 content.Add(new StringContent(today), "EndDate");
 
@@ -101,12 +101,19 @@ namespace WebCongViec_v2.Services
                         dataArray.ValueKind == JsonValueKind.Array &&
                         dataArray.GetArrayLength() > 0)
                     {
-                        var firstItem = dataArray[0];
-                        if (firstItem.TryGetProperty(GetOf, out JsonElement daQuetElement))
+
+                    foreach (var item in dataArray.EnumerateArray())
+                    {
+                        if (item.TryGetProperty("Username", out JsonElement usernameElement) &&
+                            usernameElement.GetString() == ID)
                         {
-                            return daQuetElement.GetRawText();
+                            if (item.TryGetProperty(GetOf, out JsonElement resultElement))
+                            {
+                                return resultElement.GetRawText(); // hoặc .GetString() nếu chắc chắn là string
+                            }
                         }
                     }
+                }
 
                     return null; // Không có dữ liệu phù hợp
                 }
