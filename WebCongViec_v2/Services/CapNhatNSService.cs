@@ -99,10 +99,12 @@ namespace WebCongViec_v2.Services
                                 if(!row.Cell(1).GetFormattedString().Equals("ID") && !row.Cell(1).GetFormattedString().Equals("") && !row.Cell(1).GetFormattedString().Equals("-"))
                                 {
                                     DateOnly.TryParseExact(row.Cell(3).GetFormattedString(), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly parsedDate);
-                                    string thoiGianString = row.Cell(5).GetFormattedString().Replace(",",".").Trim().Equals("") ? "0" : row.Cell(5).GetFormattedString().Replace(",", ".").Trim();
+                                    string thoiGianString = row.Cell(5).GetFormattedString().Replace(",", ".").Trim().Equals("") ? "0" : row.Cell(5).GetFormattedString().Replace(",", ".").Trim();
                                     string khoiLuongString = row.Cell(8).GetFormattedString().Replace(",", ".").Trim().Equals("") ? "0" : row.Cell(8).GetFormattedString().Replace(",", ".").Trim();
+                                    //string thoiGianString = row.Cell(5).GetFormattedString().Trim().Equals("") ? "0" : row.Cell(5).GetFormattedString().Trim();
+                                    //string khoiLuongString = row.Cell(8).GetFormattedString().Trim().Equals("") ? "0" : row.Cell(8).GetFormattedString().Trim();
 
-                                    if (double.Parse(thoiGianString) <= 8)
+                                    if (double.Parse(thoiGianString) <= 8 && !thoiGianString.Equals("") && !khoiLuongString.Equals(""))
                                     {
                                         string thoiGianDouble = thoiGianString.Equals("0") ? "" : double.Parse(thoiGianString).ToString();
                                         string khoiLuongDouble = khoiLuongString.Equals("0") ? "" : double.Parse(khoiLuongString).ToString();
@@ -122,7 +124,7 @@ namespace WebCongViec_v2.Services
                                     }
                                     else
                                     {
-                                        throw new Exception(" thời gian không hợp lệ. (" + countR.ToString() + ")");
+                                        throw new Exception(" thời gian hoặc khối lượng không hợp lệ. (" + countR.ToString() + ")");
                                     }
                                 }
                                 countR++;
@@ -141,24 +143,33 @@ namespace WebCongViec_v2.Services
                             countInsertSuccess++;
 
                         }
-                        else if(this.DbContext.Chamcongs.Where(c => c.NgayThiCong == item.NgayThiCong && c.IdNhanSu == item.IdNhanSu && c.IdCongViec == 1).FirstOrDefault() != null)
+                        else
                         {
-                            Chamcong? checkChamCong = new Chamcong();
                             for (int i = 1; i <= 4; i++)
                             {
-                                checkChamCong = this.DbContext.Chamcongs.Where(c => c.NgayThiCong == item.NgayThiCong && c.IdNhanSu == item.IdNhanSu && c.IdCongViec == i).FirstOrDefault();
+                                var checkChamCong = this.DbContext.Chamcongs
+                                    .FirstOrDefault(c => c.NgayThiCong == item.NgayThiCong
+                                                      && c.IdNhanSu == item.IdNhanSu
+                                                      && c.IdCongViec == item.IdCongViec);
+
                                 if (checkChamCong == null)
                                 {
                                     continue;
                                 }
-                                checkChamCong.IdLoaiCongViec = item.IdLoaiCongViec;
-                                checkChamCong.IdNoiDungCongViec = item.IdNoiDungCongViec;
-                                checkChamCong.ThoiGian = item.ThoiGian;
-                                checkChamCong.KhoiLuong = item.KhoiLuong;
-                                checkChamCong.Status = item.Status;
-                                this.DbContext.Chamcongs.Update(checkChamCong);
-                                this.DbContext.SaveChanges();
+                                else
+                                {
+                                    checkChamCong.IdLoaiCongViec = item.IdLoaiCongViec;
+                                    checkChamCong.IdNoiDungCongViec = item.IdNoiDungCongViec;
+                                    checkChamCong.ThoiGian = item.ThoiGian;
+                                    checkChamCong.KhoiLuong = item.KhoiLuong;
+                                    checkChamCong.Status = item.Status;
+                                    countUpdateSuccess++;
+                                }
+
                             }
+
+                            this.DbContext.SaveChanges();
+
 
                             countUpdateSuccess++;
                         }
