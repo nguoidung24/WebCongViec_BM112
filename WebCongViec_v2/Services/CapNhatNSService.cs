@@ -99,8 +99,8 @@ namespace WebCongViec_v2.Services
                                 if(!row.Cell(1).GetFormattedString().Equals("ID") && !row.Cell(1).GetFormattedString().Equals("") && !row.Cell(1).GetFormattedString().Equals("-"))
                                 {
                                     DateOnly.TryParseExact(row.Cell(3).GetFormattedString(), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly parsedDate);
-                                    string thoiGianString = row.Cell(5).GetFormattedString().Trim().Equals("") ? "0" : row.Cell(5).GetFormattedString().Trim();
-                                    string khoiLuongString = row.Cell(8).GetFormattedString().Trim().Equals("") ? "0" : row.Cell(8).GetFormattedString().Trim();
+                                    string thoiGianString = row.Cell(5).GetFormattedString().Replace(",",".").Trim().Equals("") ? "0" : row.Cell(5).GetFormattedString().Replace(",", ".").Trim();
+                                    string khoiLuongString = row.Cell(8).GetFormattedString().Replace(",", ".").Trim().Equals("") ? "0" : row.Cell(8).GetFormattedString().Replace(",", ".").Trim();
 
                                     if (double.Parse(thoiGianString) <= 8)
                                     {
