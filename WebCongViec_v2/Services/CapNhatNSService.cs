@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -98,8 +99,8 @@ namespace WebCongViec_v2.Services
                                 if(!row.Cell(1).GetFormattedString().Equals("ID") && !row.Cell(1).GetFormattedString().Equals("") && !row.Cell(1).GetFormattedString().Equals("-"))
                                 {
                                     DateOnly.TryParseExact(row.Cell(3).GetFormattedString(), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly parsedDate);
-                                    string thoiGianString = row.Cell(5).GetFormattedString().Trim().Replace(",",".").Equals("") ? "0" : row.Cell(5).GetFormattedString().Replace(",", ".").Trim();
-                                    string khoiLuongString = row.Cell(8).GetFormattedString().Trim().Replace(",", ".").Equals("") ? "0" : row.Cell(8).GetFormattedString().Replace(",", ".").Trim();
+                                    string thoiGianString = row.Cell(5).GetFormattedString().Trim().Equals("") ? "0" : row.Cell(5).GetFormattedString().Trim();
+                                    string khoiLuongString = row.Cell(8).GetFormattedString().Trim().Equals("") ? "0" : row.Cell(8).GetFormattedString().Trim();
 
                                     if (double.Parse(thoiGianString) <= 8)
                                     {
@@ -131,6 +132,7 @@ namespace WebCongViec_v2.Services
 
                     ExcelData = excelData;
                     int countInsertSuccess = 0;
+                    int countUpdateSuccess = 0;
                     foreach (var item in excelData)
                     {
                         if (!this.DbContext.Chamcongs.Any(c => c.NgayThiCong == item.NgayThiCong && c.IdNhanSu == item.IdNhanSu))
@@ -139,10 +141,31 @@ namespace WebCongViec_v2.Services
                             countInsertSuccess++;
 
                         }
+                        else if(this.DbContext.Chamcongs.Where(c => c.NgayThiCong == item.NgayThiCong && c.IdNhanSu == item.IdNhanSu && c.IdCongViec == 1).FirstOrDefault() != null)
+                        {
+                            Chamcong? checkChamCong = new Chamcong();
+                            for (int i = 1; i <= 4; i++)
+                            {
+                                checkChamCong = this.DbContext.Chamcongs.Where(c => c.NgayThiCong == item.NgayThiCong && c.IdNhanSu == item.IdNhanSu && c.IdCongViec == i).FirstOrDefault();
+                                if (checkChamCong == null)
+                                {
+                                    continue;
+                                }
+                                checkChamCong.IdLoaiCongViec = item.IdLoaiCongViec;
+                                checkChamCong.IdNoiDungCongViec = item.IdNoiDungCongViec;
+                                checkChamCong.ThoiGian = item.ThoiGian;
+                                checkChamCong.KhoiLuong = item.KhoiLuong;
+                                checkChamCong.Status = item.Status;
+                                this.DbContext.Chamcongs.Update(checkChamCong);
+                                this.DbContext.SaveChanges();
+                            }
+
+                            countUpdateSuccess++;
+                        }
                     }
                     this.DbContext.SaveChanges();
 
-                    SuccessMessage = $"Đã đọc được {excelData.Count} hàng từ file, thêm được: ({countInsertSuccess}) hàng vào bảng NS";
+                    SuccessMessage = $"Đã đọc được {excelData.Count} hàng từ file, thêm được: ({countInsertSuccess}) hàng vào bảng NS, cập nhật được ({countUpdateSuccess}) và bảng NS";
                 }
                 catch (Exception ex)
                 {
