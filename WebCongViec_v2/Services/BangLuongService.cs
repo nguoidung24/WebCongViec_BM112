@@ -121,7 +121,7 @@ namespace WebCongViec_v2.Services
                             // Nếu công việc có năng suất
                             if (nhansuchamcong.IdNoiDungCongViecNavigation.DinhMuc8h != 0)
                             {
-               
+
                                 luong_co_ban_so_nc += float.Parse(nhansuchamcong.ThoiGian);
                             }
                             // Nếu công việc 0 có năng suất
@@ -189,22 +189,23 @@ namespace WebCongViec_v2.Services
 
                 d.luong_co_ban_so_nc = Math.Round((luong_co_ban_so_nc / 8), 1, MidpointRounding.AwayFromZero).ToString();
                 d.luong_co_ban_so_nc_quy_doi = Math.Round((luong_co_ban_so_nc_quy_doi / 8), 1, MidpointRounding.AwayFromZero).ToString();
-                d.luong_co_ban_thanh_tien_1 = (luong_co_ban_so_nc/8 * c[0].IdNhanSuNavigation.MucLuongCoBan8h).ToString("N0");
-                d.luong_co_ban_thanh_tien_2 = (luong_co_ban_so_nc_quy_doi/8 * c[0].IdNhanSuNavigation.MucLuongCoBan8h).ToString("N0");
+                d.luong_co_ban_thanh_tien_1 = (Math.Round((luong_co_ban_so_nc / 8), 1, MidpointRounding.AwayFromZero) * c[0].IdNhanSuNavigation.MucLuongCoBan8h).ToString("N0");
+                d.luong_co_ban_thanh_tien_2 = (Math.Round((luong_co_ban_so_nc_quy_doi / 8), 1, MidpointRounding.AwayFromZero) * c[0].IdNhanSuNavigation.MucLuongCoBan8h).ToString("N0");
                 d.luong_du_an_ns = luong_du_an_ns.ToString("N0");
                 d.luong_du_an_cc = luong_du_an_cc.ToString("N0");
 
                 d.luong_du_an_nsot = luong_du_an_nsot.ToString("N0");
                 d.luong_du_an_ccot = luong_du_an_ccot.ToString("N0");
-                d.tong_cong_kps = ((luong_co_ban_so_nc / 8 * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
-                    + (luong_co_ban_so_nc_quy_doi / 8 * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
+
+                d.tong_cong_kps = ((Math.Round((luong_co_ban_so_nc / 8), 1, MidpointRounding.AwayFromZero) * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
+                    + (Math.Round((luong_co_ban_so_nc_quy_doi / 8), 1, MidpointRounding.AwayFromZero) * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
                     + luong_du_an_ns
                     + luong_du_an_cc
                     + luong_du_an_nsot
                     + luong_du_an_ccot).ToString("N0");
 
 
-                var dsPhatSinh= layPhatSinh(startDate, endDate);
+                var dsPhatSinh = layPhatSinh(startDate, endDate);
                 double PHATSINHTANG = 0;
                 double PHATSINHGIAM = 0;
 
@@ -247,10 +248,10 @@ namespace WebCongViec_v2.Services
                         }
                     }
                 }
-                
 
-                d.tong_cong = ((luong_co_ban_so_nc / 8 * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
-                    + (luong_co_ban_so_nc_quy_doi / 8 * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
+
+                d.tong_cong = ((Math.Round((luong_co_ban_so_nc / 8), 1, MidpointRounding.AwayFromZero) * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
+                    + (Math.Round((luong_co_ban_so_nc_quy_doi / 8), 1, MidpointRounding.AwayFromZero) * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
                     + luong_du_an_ns
                     + luong_du_an_cc
                     + luong_du_an_nsot
@@ -267,8 +268,8 @@ namespace WebCongViec_v2.Services
 
                 d.ma_so_cccd = " " + (DSTKNganHang.ContainsKey(int.Parse(d.id)) ? DSTKNganHang[int.Parse(d.id)]["ma_so_cccd"] : "");
 
-                TongCongLuong += ((luong_co_ban_so_nc / 8 * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
-                    + (luong_co_ban_so_nc_quy_doi / 8 * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
+                TongCongLuong += ((Math.Round((luong_co_ban_so_nc / 8), 1, MidpointRounding.AwayFromZero) * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
+                    + (Math.Round((luong_co_ban_so_nc_quy_doi / 8), 1, MidpointRounding.AwayFromZero) * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
                     + luong_du_an_ns
                     + luong_du_an_cc
                     + luong_du_an_nsot
@@ -303,7 +304,7 @@ namespace WebCongViec_v2.Services
                         { "ma_so_thue", fields.ContainsKey("Mã số thuế theo CCCD") ? fields["Mã số thuế theo CCCD"] : "" },
                         { "ma_so_cccd", fields.ContainsKey("CCCD") ? fields["CCCD"] : "" }
                     };
-                        }
+            }
 
             return result;
         }
@@ -345,7 +346,7 @@ namespace WebCongViec_v2.Services
                 .Where(p => p.NgayTinhPhatSinh >= startDate && p.NgayTinhPhatSinh <= endDate)
                 .ToList();
 
-            foreach(var phatSinh in dsPhatSinh)
+            foreach (var phatSinh in dsPhatSinh)
             {
                 if (!result.ContainsKey(phatSinh.IdNhanSu))
                 {
@@ -372,6 +373,7 @@ namespace WebCongViec_v2.Services
         {
             var result = this.DbContext.Chamcongs
                 .Where(c => c.NgayThiCong >= startDate && c.NgayThiCong <= endDate)
+                .Where(c=>c.IdNoiDungCongViec!=0&&c.IdLoaiCongViec!=0)
                 .GroupBy(c => c.IdNhanSu)
                 .Select(g => new
                 {
@@ -442,7 +444,7 @@ namespace WebCongViec_v2.Services
                 }
                 else
                 {
-                    R.Add(item.IdNhanSu.ToString(), new List<object>(){ item});
+                    R.Add(item.IdNhanSu.ToString(), new List<object>() { item });
                 }
             }
 

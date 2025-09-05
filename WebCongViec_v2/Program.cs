@@ -18,9 +18,12 @@ builder.Services.AddSession(options =>
 
 });
 
+/*TangDungLuongFormPOST*/
 builder.Services.Configure<FormOptions>(options =>
 {
-    options.MultipartBodyLengthLimit = 104857600; // Upload file up to 100MB
+    options.ValueLengthLimit = int.MaxValue;
+    options.MultipartBodyLengthLimit = long.MaxValue; 
+    options.MemoryBufferThreshold = int.MaxValue;
 });
 
 builder.Services.AddSession(options =>

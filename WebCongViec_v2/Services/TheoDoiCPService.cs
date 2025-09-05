@@ -28,166 +28,10 @@ namespace WebCongViec_v2.Services
         public decimal TongLuongDuAn()
         {
             decimal ResultTongLuongDuAn = 0;
-            var result = new List<DataBangLuong>();
-            var luongDB = _layDanhSachNhanSu();
-            var TongSoNgayCong = layTongSoNgayCong();
-            var dsPhatSinh = layPhatSinh();
 
-            foreach (var c in luongDB.Values)
-            {
-                double luong_co_ban_so_nc = 0;
-                double luong_co_ban_so_nc_quy_doi = 0;
-
-                double luong_du_an_ns = 0;
-                double luong_du_an_cc = 0;
-                double luong_du_an_nsot = 0;
-                double luong_du_an_ccot = 0;
-                double PHATSINHTANG = 0;
-                double PHATSINHGIAM = 0;
-                foreach (var nhansuchamcong in c)
-                {
-                    // Tính lương cơ bản 
-                    {
-                        float _luong_co_ban_so_nc_quy_doi = 0;
-                        if (nhansuchamcong.IdLoaiCongViecNavigation.ValueLoaiCongViec.EndsWith(".OT"))
-                        {
-                            if (nhansuchamcong.IdLoaiCongViecNavigation.ValueLoaiCongViec.StartsWith("NS"))
-                            {
-                                if (nhansuchamcong.IdNoiDungCongViecNavigation.DinhMuc8h != 0)
-                                {
-                                    _luong_co_ban_so_nc_quy_doi += ((float.Parse(nhansuchamcong.KhoiLuong) / nhansuchamcong.IdNoiDungCongViecNavigation.DinhMuc8h) * 8);
-                                }
-                            }
-                            else
-                            {
-                                _luong_co_ban_so_nc_quy_doi += float.Parse(nhansuchamcong.ThoiGian);
-                            }
-
-                            _luong_co_ban_so_nc_quy_doi *=
-                                nhansuchamcong.NgayThiCong.DayOfWeek == DayOfWeek.Sunday
-                                ? nhansuchamcong.IdNhanSuNavigation.HeSoCn
-                                : nhansuchamcong.IdNhanSuNavigation.HeSoOtThuong;
-
-                            luong_co_ban_so_nc_quy_doi += _luong_co_ban_so_nc_quy_doi;
-                        }
-                        else
-                        {
-                            // Nếu công việc có năng suất
-                            if (nhansuchamcong.IdNoiDungCongViecNavigation.DinhMuc8h != 0)
-                            {
-
-                                luong_co_ban_so_nc += float.Parse(nhansuchamcong.ThoiGian);
-                            }
-                            // Nếu công việc 0 có năng suất
-                            else
-                            {
-                                if (nhansuchamcong.IdLoaiCongViecNavigation.ValueLoaiCongViec.StartsWith("CC"))
-                                {
-                                    luong_co_ban_so_nc += float.Parse(nhansuchamcong.ThoiGian);
-                                }
-                            }
-
-                        }
-                    }
-                    // Tính lương dự án
-                    {
-                        double _luong_du_an_nsot = 0;
-                        double _luong_du_an_ccot = 0;
-
-                        if (nhansuchamcong.IdLoaiCongViecNavigation.ValueLoaiCongViec.EndsWith(".OT"))
-                        {
-                            if (nhansuchamcong.IdLoaiCongViecNavigation.ValueLoaiCongViec.StartsWith("NS"))
-                            {
-                                if (nhansuchamcong.IdNoiDungCongViecNavigation.DinhMuc8h != 0)
-                                {
-                                    _luong_du_an_nsot = double.Parse(nhansuchamcong.KhoiLuong) * Math.Round(nhansuchamcong.IdNhanSuNavigation.MucLuongDuAn8h / nhansuchamcong.IdNoiDungCongViecNavigation.DinhMuc8h, 5);
-                                }
-                            }
-                            else if (nhansuchamcong.IdLoaiCongViecNavigation.ValueLoaiCongViec.StartsWith("CC"))
-                            {
-                                _luong_du_an_ccot = double.Parse(nhansuchamcong.ThoiGian) / 8 * nhansuchamcong.IdNhanSuNavigation.MucLuongDuAn8h;
-                            }
-
-                            _luong_du_an_nsot *=
-                                    nhansuchamcong.NgayThiCong.DayOfWeek == DayOfWeek.Sunday
-                                    ? nhansuchamcong.IdNhanSuNavigation.HeSoCn
-                                    : nhansuchamcong.IdNhanSuNavigation.HeSoOtThuong;
-
-                            _luong_du_an_ccot *=
-                                    nhansuchamcong.NgayThiCong.DayOfWeek == DayOfWeek.Sunday
-                                    ? nhansuchamcong.IdNhanSuNavigation.HeSoCn
-                                    : nhansuchamcong.IdNhanSuNavigation.HeSoOtThuong;
-
-
-                            luong_du_an_nsot += _luong_du_an_nsot;
-                            luong_du_an_ccot += _luong_du_an_ccot;
-
-                        }
-                        else
-                        {
-                            if (nhansuchamcong.IdLoaiCongViecNavigation.ValueLoaiCongViec.StartsWith("NS"))
-                            {
-                                if (nhansuchamcong.IdNoiDungCongViecNavigation.DinhMuc8h != 0)
-                                {
-                                    luong_du_an_ns += double.Parse(nhansuchamcong.KhoiLuong) * Math.Round(nhansuchamcong.IdNhanSuNavigation.MucLuongDuAn8h / nhansuchamcong.IdNoiDungCongViecNavigation.DinhMuc8h, 5);
-                                }
-                            }
-                            else if (nhansuchamcong.IdLoaiCongViecNavigation.ValueLoaiCongViec.StartsWith("CC"))
-                            {
-                                luong_du_an_cc += double.Parse(nhansuchamcong.ThoiGian) / 8 * nhansuchamcong.IdNhanSuNavigation.MucLuongDuAn8h;
-                            }
-                        }
-                    }
-
-                    
-
-                }
-
-
-
-                if (dsPhatSinh.ContainsKey(int.Parse(c[0].IdNhanSu.ToString())))
-                {
-                    foreach (var ps in dsPhatSinh[int.Parse(c[0].IdNhanSu.ToString())])
-                    {
-                        if (ps.LoaiPhatSinh == 1)
-                        {
-                            if (ps.KieuPhatSinh == 1)
-                            {
-                                PHATSINHTANG += ps.GiaTriPhatSinh;
-
-                            }
-                            else
-                            {
-                                PHATSINHTANG += (ps.GiaTriPhatSinh * TongSoNgayCong[int.Parse(c[0].IdNhanSu.ToString())]);
-                            }
-
-                        }
-                        else
-                        {
-                            if (ps.KieuPhatSinh == 1)
-                            {
-                                PHATSINHGIAM += ps.GiaTriPhatSinh;
-                            }
-                            else
-                            {
-                                PHATSINHGIAM += (ps.GiaTriPhatSinh * TongSoNgayCong[int.Parse(c[0].IdNhanSu.ToString())]);
-                            }
-
-                        }
-                    }
-                }
-
-                ResultTongLuongDuAn += decimal.Parse((
-                    (luong_co_ban_so_nc / 8 * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
-                    + (luong_co_ban_so_nc_quy_doi / 8 * c[0].IdNhanSuNavigation.MucLuongCoBan8h)
-                    + luong_du_an_ns
-                    + luong_du_an_cc
-                    + luong_du_an_nsot
-                    + PHATSINHTANG
-                    - PHATSINHGIAM
-                    + luong_du_an_ccot).ToString("N2"));
-            }
-
+            BangLuongService bangLuongService = new BangLuongService();
+            bangLuongService.tinhLuong(DateOnly.MinValue, DateOnly.MaxValue);
+            ResultTongLuongDuAn = decimal.Parse( bangLuongService.TONGLUONG.ToString());
             return  ResultTongLuongDuAn;
         }
         public Dictionary<int, List<Phatsinh>> layPhatSinh()
@@ -210,6 +54,7 @@ namespace WebCongViec_v2.Services
         public Dictionary<int, int> layTongSoNgayCong()
         {
             var result = this.DbContext.Chamcongs
+                .Where(c => c.IdNoiDungCongViec != 0 && c.IdLoaiCongViec != 0)
                 .GroupBy(c => c.IdNhanSu)
                 .Select(g => new
                 {

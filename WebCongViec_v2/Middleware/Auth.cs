@@ -70,6 +70,15 @@
             var userrole =  this.context.Session.GetString("userrole");
             if (this.nextPath != null)
             {
+                if (this.role != null && this.role.Equals("2"))
+                {
+                    if (this.GetUsersRoles().Contains(this.nextPath) ||
+                        !this.GetViewRoles().Contains(this.nextPath))
+                    {
+                        this.context.Response.Redirect(WebCongViec_v2.Services.ProjectService.GetProjectName() + "?messageType=warning&message="+ Uri.EscapeDataString("Bạn không có quyền truy cập 🚫"));
+                    }
+                }
+
                 if (this.role != null && this.role.Equals("1"))
                 {
                     if (this.GetUsersRoles().Contains(this.nextPath))
@@ -126,6 +135,15 @@
                 WebCongViec_v2.Services.ProjectService.GetProjectName() + "homeusers",
                 WebCongViec_v2.Services.ProjectService.GetProjectName() + "userscontroller/chamcong",
                 WebCongViec_v2.Services.ProjectService.GetProjectName() + "userinfo" };
+        }
+        List<string> GetViewRoles()
+        {
+            return new List<string> {
+                WebCongViec_v2.Services.ProjectService.GetProjectName() + "",
+                WebCongViec_v2.Services.ProjectService.GetProjectName() + "nangsuat",
+                WebCongViec_v2.Services.ProjectService.GetProjectName() + "nhansu",
+                WebCongViec_v2.Services.ProjectService.GetProjectName() + "theodoicp",
+                WebCongViec_v2.Services.ProjectService.GetProjectName() + "bangluong" };
         }
     }
 }

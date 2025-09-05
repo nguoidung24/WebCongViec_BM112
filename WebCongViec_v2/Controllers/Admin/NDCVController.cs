@@ -22,9 +22,15 @@ namespace WebCongViec_v2.Controllers.Admin
                 if(!delete.Equals(""))
                 {
                     int id = int.Parse(delete);
-                    if(this.ndcvService.DeleteNDCV(id))
-                        return RedirectToAction("NDCV", "NDCV", new { message = "Xóa thành công!", messageType = "success" });
-                    return RedirectToAction("NDCV", "NDCV", new { message = "Nội dung CV có thể đang được sử dụng - không thể xóa", messageType = "warning" });
+                    if (id > 0) { 
+                        if(this.ndcvService.DeleteNDCV(id))
+                            return RedirectToAction("NDCV", "NDCV", new { message = "Xóa thành công!", messageType = "success" });
+                        return RedirectToAction("NDCV", "NDCV", new { message = "Nội dung CV có thể đang được sử dụng - không thể xóa", messageType = "warning" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("NDCV", "NDCV", new { message = "Không thể xóa nội dung này", messageType = "warning" });
+                    }
                 }
             }
             catch (Exception e)

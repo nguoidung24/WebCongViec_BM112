@@ -62,9 +62,9 @@ namespace WebCongViec_v2.Controllers.User
                 ).ToList();
             }
             
-            ViewBag.NSScan = await _axaService.LayNSAsync(_axaService.GetInfo("-4"), ID, "DaQuet");
-            ViewBag.NSNhapLieu = await _axaService.LayNSAsync(_axaService.GetInfo("-1"), ID, "DaNhap");
-            ViewBag.NSCheckNhapLieu = await _axaService.LayNSAsync(_axaService.GetInfo("-2"), ID, "DaKiemTra");
+            //ViewBag.NSScan = await _axaService.LayNSAsync(_axaService.GetInfo("-4"), ID, "DaQuet");
+            //ViewBag.NSNhapLieu = await _axaService.LayNSAsync(_axaService.GetInfo("-1"), ID, "DaNhap");
+            //ViewBag.NSCheckNhapLieu = await _axaService.LayNSAsync(_axaService.GetInfo("-2"), ID, "DaKiemTra");
             return View();
         }
 
